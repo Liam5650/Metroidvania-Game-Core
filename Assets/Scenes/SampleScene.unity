@@ -2098,7 +2098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552990152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.35, y: -0.5, z: 0}
+  m_LocalPosition: {x: 1.18, y: -0.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2381,8 +2381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6530ce49dbf4e746a4ca194641eb2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotVelocity: 30
-  shotCooldown: 0.2
-  shotLife: 5
-  shot: {fileID: 4069171765786443374, guid: 59bea73d10b178641b6c7eb9653df26f, type: 3}
-  shotPoint: {fileID: 1552990153}
+  shootCooldown: 0
+  beam: {fileID: 4100550931908797171, guid: 1039d4d10cbd5da48a5bc05755a4f63c, type: 3}
+  shootPoint: {fileID: 1552990153}
