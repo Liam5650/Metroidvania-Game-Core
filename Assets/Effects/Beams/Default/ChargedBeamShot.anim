@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shot
+  m_Name: ChargedBeamShot
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 160221813, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
-    - time: 0.016666668
-      value: {fileID: -1730545183, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
-    - time: 0.033333335
       value: {fileID: -2135998125, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
+    - time: 0.016666668
+      value: {fileID: -428069823, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
+    - time: 0.033333335
+      value: {fileID: 167338620, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,9 +44,9 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 160221813, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
-    - {fileID: -1730545183, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
     - {fileID: -2135998125, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
+    - {fileID: -428069823, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
+    - {fileID: 167338620, guid: 0f13a96e0ef90b540b9909519bb78361, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
