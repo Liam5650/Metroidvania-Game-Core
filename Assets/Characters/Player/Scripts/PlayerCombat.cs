@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] GameObject beam;
     [SerializeField] GameObject chargedBeam;
+    [SerializeField] GameObject chargedEffect;
     [SerializeField] Transform shootPoint;
     [SerializeField] float chargeTime;
     private float timeCharged;
@@ -16,6 +17,8 @@ public class PlayerCombat : MonoBehaviour
     {
         timeCharged = 0f;
         charging = false;
+        chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
+        chargedEffect.transform.parent = shootPoint.transform;
     }
 
     void Update()
@@ -35,11 +38,16 @@ public class PlayerCombat : MonoBehaviour
             }
             timeCharged = 0f;
             charging = false;
+            chargedEffect.gameObject.SetActive(false);
         }
 
         if(charging)
         {
             timeCharged += Time.deltaTime;
+            if (timeCharged >= 0.35f)
+            {
+                chargedEffect.gameObject.SetActive(true);
+            }
         }
     }
 }
