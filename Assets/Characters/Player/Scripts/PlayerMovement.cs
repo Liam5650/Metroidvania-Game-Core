@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator launch()
     {
         canMove = false;
+        rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(transform.localScale.x*-1, 1)* hitForce, ForceMode2D.Impulse); 
         yield return new WaitForSeconds(hitstun);
         rb.velocity = new Vector2(0f,0f);

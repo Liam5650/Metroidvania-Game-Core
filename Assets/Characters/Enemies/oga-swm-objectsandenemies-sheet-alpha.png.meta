@@ -165,7 +165,7 @@ TextureImporter:
       name: walker_walk_1
       rect:
         serializedVersion: 2
-        x: 19
+        x: 73
         y: 491
         width: 16
         height: 14
@@ -186,7 +186,7 @@ TextureImporter:
       name: walker_walk_2
       rect:
         serializedVersion: 2
-        x: 37
+        x: 91
         y: 491
         width: 16
         height: 14
@@ -207,7 +207,7 @@ TextureImporter:
       name: walker_walk_3
       rect:
         serializedVersion: 2
-        x: 55
+        x: 109
         y: 491
         width: 16
         height: 14
