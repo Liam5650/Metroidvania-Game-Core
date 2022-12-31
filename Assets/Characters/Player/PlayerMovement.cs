@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
                 anim.SetBool("isGrounded", false);
             }
 
+            // Handle case where animation can be set early if jumping over a platform grazes the edge
             else if (isGrounded && rb.velocity.y < 0.1f)
             {
                 anim.SetBool("isGrounded", true);

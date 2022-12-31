@@ -158,6 +158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beamVelocity: 25
-  beamLifetime: 5
+  beamLifetime: 3
   beamDamage: 1
   hitEffect: {fileID: 980189696626939703, guid: af29cf3e9cd73df469004455fef3f9d1, type: 3}

@@ -19,4 +19,12 @@ public class DamagePlayer : MonoBehaviour
             player.DamagePlayer(damageAmount);
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            player.DamagePlayer(damageAmount);
+        }
+    }
 }
