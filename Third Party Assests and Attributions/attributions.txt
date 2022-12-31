@@ -5,3 +5,8 @@ All gameplay funtionality and scripting created by Liam Iles. Any third party as
 
 Space War Man by Emcee Flesher on opengameart.org, licensed under OGA-BY 3.0
 https://opengameart.org/content/space-war-man-platform-shmup-set
+
+----- Sound Effects -----
+
+512 Sound Effects 8 Bit Style by SubspaceAudio on opengameart.org, licensed under CC0
+https://opengameart.org/content/512-sound-effects-8-bit-style
