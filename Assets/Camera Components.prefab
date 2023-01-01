@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8518333020619869422}
   m_Layer: 0
   m_Name: Camera Components
-  m_TagString: Untagged
+  m_TagString: Camera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 1934950090185581337}
   - component: {fileID: 1934950090185581336}
   - component: {fileID: 1934950090185581343}
+  - component: {fileID: 1865750886233698826}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -508,3 +509,15 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 1934950090177463686}
   m_Damping: 0
   m_MaxWindowSize: -1
+--- !u!114 &1865750886233698826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934950090185581339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791cf910a8f74a04b983ffe2b4c2c72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
