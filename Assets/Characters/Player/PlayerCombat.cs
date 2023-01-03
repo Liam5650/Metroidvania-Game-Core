@@ -52,5 +52,15 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
         }
+        else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
+        {
+            if (timeCharged > chargeTime)
+            {
+                DontDestroyOnLoad(Instantiate(chargedBeam, shootPoint.position, Quaternion.identity));
+            }
+            timeCharged = 0f;
+            charging = false;
+            chargedEffect.gameObject.SetActive(false);
+        }
     }
 }
