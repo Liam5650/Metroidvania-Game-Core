@@ -23,30 +23,33 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if (Time.timeScale > 0f)
         {
-            Instantiate(beam, shootPoint.position, Quaternion.identity);
-            charging = true;
-        }
-
-        if(Input.GetButtonUp("Fire1"))
-        {
-            if(timeCharged >= chargeTime)
+            if (Input.GetButtonDown("Fire1"))
             {
-                Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
-
+                Instantiate(beam, shootPoint.position, Quaternion.identity);
+                charging = true;
             }
-            timeCharged = 0f;
-            charging = false;
-            chargedEffect.gameObject.SetActive(false);
-        }
 
-        if(charging)
-        {
-            timeCharged += Time.deltaTime;
-            if (timeCharged >= 0.35f)
+            if (Input.GetButtonUp("Fire1"))
             {
-                chargedEffect.gameObject.SetActive(true);
+                if (timeCharged >= chargeTime)
+                {
+                    Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
+
+                }
+                timeCharged = 0f;
+                charging = false;
+                chargedEffect.gameObject.SetActive(false);
+            }
+
+            if (charging)
+            {
+                timeCharged += Time.deltaTime;
+                if (timeCharged >= 0.35f)
+                {
+                    chargedEffect.gameObject.SetActive(true);
+                }
             }
         }
     }

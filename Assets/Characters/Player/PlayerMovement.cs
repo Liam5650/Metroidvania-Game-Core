@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
+        if (canMove && Time.timeScale > 0f)
         {
             // Handle horizontal movement
 

@@ -49,7 +49,8 @@ public class WalkerBehaviour : MonoBehaviour
             {
                 transform.localScale = Vector3.one;
             }
-            else
+            // Make sure we are at the point and havent been blocked by something or if Time.timescale has been set to 0
+            else if (newX == walkPoints[targetIndex].x)
             {
                 transform.localScale = Vector3.one;
                 walking = false;

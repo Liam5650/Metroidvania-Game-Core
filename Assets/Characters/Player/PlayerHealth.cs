@@ -17,51 +17,56 @@ public class PlayerHealth : MonoBehaviour
     private Material defaultMaterial;
     private Coroutine flashRoutine;
     private PlayerMovement player;
+    private HUDController HUD;
 
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
         player = FindObjectOfType<PlayerMovement>();
+        HUD = FindObjectOfType<HUDController>();
+        HUD.UpdateHealth(health);
     }
 
     public void DamagePlayer(float damageAmount)
     {
         if (!invincible)
         {
-            player.launchPlayer();
-            invincible = true;
             health -= damageAmount;
-            if (flashRoutine == null)
+            if (health > 0 && flashRoutine == null)
             {
                 flashRoutine = StartCoroutine(flashCoroutine());
+            }
+            else if (health <= 0)
+            {
+                if (deathEffect!= null)
+                {
+                    Instantiate(deathEffect, transform.position, Quaternion.identity);
+                }
+                HUD.UpdateHealth(0f);
+                gameObject.SetActive(false);
             }
         }
     }
 
     private IEnumerator flashCoroutine()
     {
+        HUD.UpdateHealth(health);
+        invincible = true;
+        player.launchPlayer();
         spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(flashDuration);
-        if (health <= 0)
+        spriteRenderer.material = defaultMaterial;
+        float numInvincibleFlashes = invincibileTime / (invincibleFlashDuration * 2);
+        for (int i = 0; i < (int)numInvincibleFlashes; i++)
         {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-        else
-        {   
-            spriteRenderer.material = defaultMaterial;
+            spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 0.75f);
             yield return new WaitForSeconds(invincibleFlashDuration);
-            float numInvincibleFlashes = invincibileTime / (invincibleFlashDuration * 2);
-            for (int i = 0; i < (int)numInvincibleFlashes; i++)
-            {
-                spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 0f);
-                yield return new WaitForSeconds(invincibleFlashDuration);
-                spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1f);
-                yield return new WaitForSeconds(invincibleFlashDuration);
-            }
-            invincible = false;
-            flashRoutine = null;
+            spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 0.25f);
+            yield return new WaitForSeconds(invincibleFlashDuration);
         }
+        spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1f);
+        invincible = false;
+        flashRoutine = null;
     }
 }

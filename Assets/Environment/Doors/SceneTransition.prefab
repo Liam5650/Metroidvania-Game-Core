@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8322385137872973092}
   - component: {fileID: 8322385137872973095}
   - component: {fileID: 8322385137872973094}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SceneTransition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
