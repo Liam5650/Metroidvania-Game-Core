@@ -5,26 +5,20 @@ using UnityEngine;
 public class DamagePlayer : MonoBehaviour
 {
     [SerializeField] float damageAmount;
-    private PlayerHealth player;
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = FindObjectOfType<PlayerHealth>();
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            player.DamagePlayer(damageAmount);
+            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount);
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            player.DamagePlayer(damageAmount);
+            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount);
         }
     }
 }

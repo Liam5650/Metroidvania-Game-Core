@@ -8,7 +8,7 @@ public class DrifterBehaviour : MonoBehaviour
     private PlayerMovement player;
 
     // Start is called before the first frame update
-    void Start()
+    void start()
     {
         player = FindObjectOfType<PlayerMovement>();
     }
@@ -16,7 +16,14 @@ public class DrifterBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float step = moveSpeed * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position, player.gameObject.transform.position, step);
+        if (player == null)
+        {
+            player = FindObjectOfType<PlayerMovement>();
+        }
+        else
+        {
+            float step = moveSpeed * Time.deltaTime;
+            transform.position = Vector2.MoveTowards(transform.position, player.gameObject.transform.position, step);
+        }
     }
 }

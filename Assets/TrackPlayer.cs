@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class TrackPlayer : MonoBehaviour
 {
-    // Start is called before the first frame update
     private void Awake()
-    {
-        GetComponent<CinemachineVirtualCamera>().Follow = GameObject.FindGameObjectWithTag("Player").transform;
+    { 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+        }
     }
 }

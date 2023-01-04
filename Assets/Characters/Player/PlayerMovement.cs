@@ -84,4 +84,9 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(0f,0f);
         canMove = true;
     }
+
+    private void OnDisable()
+    {
+        canMove = true;
+    }
 }

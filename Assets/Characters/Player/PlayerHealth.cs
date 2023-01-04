@@ -69,4 +69,12 @@ public class PlayerHealth : MonoBehaviour
         invincible = false;
         flashRoutine = null;
     }
+
+    private void OnDisable()
+    {
+        spriteRenderer.material = defaultMaterial;
+        spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1);
+        invincible = false;
+        flashRoutine = null;
+    }
 }
