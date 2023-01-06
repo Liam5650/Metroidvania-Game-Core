@@ -12,5 +12,15 @@ public class TrackPlayer : MonoBehaviour
         {
             GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         }
+        GetBounds();
+    }
+
+    public void GetBounds()
+    {
+        GameObject cameraBounds = GameObject.FindGameObjectWithTag("CameraBounds");
+        if (cameraBounds != null)
+        {
+            GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = cameraBounds.GetComponent<PolygonCollider2D>(); ;
+        }
     }
 }

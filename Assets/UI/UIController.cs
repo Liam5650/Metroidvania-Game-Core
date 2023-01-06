@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Image fadeScreen;
     [SerializeField] float fadeTime;
     [SerializeField] float fadeHoldTime;
+    [SerializeField] float transitionDamping;
     [SerializeField] Button continueButton;
     private bool isPaused;
     private bool inTransition;
@@ -41,7 +43,6 @@ public class UIController : MonoBehaviour
         {
             continueButton.interactable = false;
         }
-
     }
 
     void Update()
@@ -66,6 +67,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    // Public getter as UI controller persists through scene loads
     public void SceneTransition (string sceneName)
     {
         StartCoroutine(LoadLevel(sceneName, fadeTime, fadeHoldTime));
@@ -80,8 +82,15 @@ public class UIController : MonoBehaviour
         // Reference the scene we are moving from to disable later
         string oldScene = SceneManager.GetActiveScene().name;
 
-        // Reference active camera to disable when both levels are briefly active simultaneously
-        GameObject camera = GameObject.FindGameObjectWithTag("Camera");
+        // Make the player appear above the ui blackscreen for room transitions
+        if (sceneName != "MainMenu" && oldScene != "MainMenu")
+        {
+            player.GetComponent<SpriteRenderer>().sortingOrder = 10000;
+        }
+        else
+        {
+            player.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        }
 
         // Fade in black screen
         float timeWaited = 0f;
@@ -97,8 +106,8 @@ public class UIController : MonoBehaviour
         {
             player.SetActive(false);
             pauseScreen.SetActive(false);
-            mainMenuScreen.SetActive(true);
             hud.SetActive(false);
+            mainMenuScreen.SetActive(true);
             GameObject[] shots = GameObject.FindGameObjectsWithTag("Shot");
             foreach (GameObject shot in shots)
                 GameObject.Destroy(shot);
@@ -111,13 +120,14 @@ public class UIController : MonoBehaviour
         }
 
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-
-        // Disable the camera of the scene we are moving from
-        camera.SetActive(false);
-
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
         yield return SceneManager.UnloadSceneAsync(oldScene);
+
+        // Update the camera with the new bounds and move it to the new position using the damping
+        FindObjectOfType<TrackPlayer>().GetBounds();
+        GameObject.FindObjectOfType<CinemachineConfiner2D>().m_Damping = transitionDamping;
         yield return new WaitForSecondsRealtime(fadeHoldTime);
+        GameObject.FindObjectOfType<CinemachineConfiner2D>().m_Damping = 0f;
 
         // Fade out the black screen
         timeWaited = 0f;
@@ -127,6 +137,9 @@ public class UIController : MonoBehaviour
             fadeScreen.color = new Color(0f, 0f, 0f, 1f - (timeWaited / fadeTime));
             yield return null; // Wait for new frame
         }
+
+        //Reset the player sorting order so he doesnt appear above pause menu etc
+        player.GetComponent<SpriteRenderer>().sortingOrder = 10;
 
         inTransition = false;
         fadeScreen.gameObject.SetActive(false);

@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Use a public getter attached to this script so the coroutine is run on the player object and persists through loads
     public void launchPlayer()
     {
         StartCoroutine(launch());
