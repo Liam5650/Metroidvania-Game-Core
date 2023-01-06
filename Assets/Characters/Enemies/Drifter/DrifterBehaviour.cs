@@ -7,15 +7,14 @@ public class DrifterBehaviour : MonoBehaviour
     [SerializeField] float moveSpeed;
     private PlayerMovement player;
 
-    // Start is called before the first frame update
     void start()
     {
         player = FindObjectOfType<PlayerMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Track and move towards player if they have been found
         if (player == null)
         {
             player = FindObjectOfType<PlayerMovement>();

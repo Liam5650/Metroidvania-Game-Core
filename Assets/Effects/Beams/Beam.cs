@@ -10,16 +10,14 @@ public class Beam : MonoBehaviour
     [SerializeField] float beamDamage;
     [SerializeField] GameObject hitEffect;
     private Rigidbody2D rb;
-    private PlayerMovement player;
 
-    void Start()
+    public void Fire(float direction)
     {
-        player = FindObjectOfType<PlayerMovement>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(beamVelocity * player.transform.localScale.x, 0f);
+        rb.velocity = new Vector2(beamVelocity * direction, 0f);
         Destroy(gameObject, beamLifetime);
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Enemy")

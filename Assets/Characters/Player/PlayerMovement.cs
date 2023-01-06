@@ -86,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
     }
 
+    // Reset some values when we load the menu/respawn
     private void OnDisable()
     {
         canMove = true;

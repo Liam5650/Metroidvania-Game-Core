@@ -16,14 +16,12 @@ public class PlayerHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
     private Coroutine flashRoutine;
-    private PlayerMovement player;
     private HUDController HUD;
 
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
-        player = FindObjectOfType<PlayerMovement>();
         HUD = FindObjectOfType<HUDController>();
         HUD.UpdateHealth(health);
     }
@@ -53,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
     {
         HUD.UpdateHealth(health);
         invincible = true;
-        player.launchPlayer();
+        gameObject.GetComponent<PlayerMovement>().launchPlayer();
         spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.material = defaultMaterial;
@@ -70,6 +68,7 @@ public class PlayerHealth : MonoBehaviour
         flashRoutine = null;
     }
 
+    // Reset some values when we load the menu/respawn
     private void OnDisable()
     {
         spriteRenderer.material = defaultMaterial;

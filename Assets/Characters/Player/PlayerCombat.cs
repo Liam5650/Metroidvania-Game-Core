@@ -27,7 +27,9 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                Instantiate(beam, shootPoint.position, Quaternion.identity);
+                GameObject shot = Instantiate(beam, shootPoint.position, Quaternion.identity);
+                shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
+                DontDestroyOnLoad(shot);
                 charging = true;
             }
 
@@ -35,8 +37,9 @@ public class PlayerCombat : MonoBehaviour
             {
                 if (timeCharged >= chargeTime)
                 {
-                    Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
-
+                    GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
+                    shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
+                    DontDestroyOnLoad(shot);
                 }
                 timeCharged = 0f;
                 charging = false;
@@ -56,7 +59,9 @@ public class PlayerCombat : MonoBehaviour
         {
             if (timeCharged > chargeTime)
             {
-                DontDestroyOnLoad(Instantiate(chargedBeam, shootPoint.position, Quaternion.identity));
+                GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
+                shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
+                DontDestroyOnLoad(shot);
             }
             timeCharged = 0f;
             charging = false;
