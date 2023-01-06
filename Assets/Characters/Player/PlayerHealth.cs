@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] float maxHealth;
     [SerializeField] float health;
     [SerializeField] Material flashMaterial;
     [SerializeField] float flashDuration;
@@ -20,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        health = maxHealth;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
         HUD = FindObjectOfType<HUDController>();
@@ -66,6 +68,16 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1f);
         invincible = false;
         flashRoutine = null;
+    }
+
+    public void HealPlayer(float healAmount)
+    {
+        health += healAmount;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        HUD.UpdateHealth(health);
     }
 
     // Reset some values when we load the menu/respawn
