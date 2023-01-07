@@ -206,6 +206,9 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: 32e08a73d8943474eabc3ba52c1c8c73, type: 2}
   flashDuration: 0.1
   deathEffect: {fileID: 844951972179533775, guid: 9179353b8654b364bad8377bedd34a6b, type: 3}
+  pickups:
+  - {fileID: 869518567620239122, guid: a9187c67d624a4a4cb50e875e22f2714, type: 3}
+  dropChance: 20
 --- !u!114 &6429076769621697486
 MonoBehaviour:
   m_ObjectHideFlags: 0

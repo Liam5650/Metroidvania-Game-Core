@@ -224,6 +224,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: oga-swm-objectsandenemies-sheet-alpha_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 129
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84bd55eb6e0218441ac7696dae63bb64
+      internalID: 1720100353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: oga-swm-objectsandenemies-sheet-alpha_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 118
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ec0b602dc8e4f649a226d67fadb0ca0
+      internalID: 732090830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: oga-swm-objectsandenemies-sheet-alpha_2
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 129
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 763343fc0f252864e9e09d7f58a97a8a
+      internalID: -919147586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -235,6 +298,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      oga-swm-objectsandenemies-sheet-alpha_0: 1720100353
       oga-swm-objectsandenemies-sheet-alpha_4: -1957779117
       oga-swm-objectsandenemies-sheet-alpha_1: 732090830
       oga-swm-objectsandenemies-sheet-alpha_3: 1285466322

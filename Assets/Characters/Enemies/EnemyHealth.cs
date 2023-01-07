@@ -12,6 +12,8 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
     private Coroutine flashRoutine;
+    [SerializeField] List<GameObject> pickups = new List<GameObject>();
+    [SerializeField] int dropChance;
 
     void Start()
     {
@@ -35,12 +37,23 @@ public class EnemyHealth : MonoBehaviour
         if (health <= 0)
         {
             Instantiate(deathEffect, transform.position, Quaternion.identity);
+            DropPickup();
             Destroy(gameObject);
         }
         else
         {
             spriteRenderer.material = defaultMaterial;
             flashRoutine = null;
+        }
+    }
+
+    private void DropPickup()
+    {
+        int numPickups = pickups.Count;
+        if (numPickups > 0 && Random.Range(1, 100) > (100 - dropChance))
+        {
+            // Drop pickup at random index
+            Instantiate(pickups[Random.Range(0, numPickups - 1)], transform.position, Quaternion.identity);
         }
     }
 }
