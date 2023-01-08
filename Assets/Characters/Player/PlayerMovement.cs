@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -21,10 +22,16 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canDoubleJump;
 
+    [SerializeField] RuntimeAnimatorController ballAnimController;
+    [SerializeField] BoxCollider2D ballCollider, standingCollider;
+    private RuntimeAnimatorController standingAnimController;
+    [SerializeField] GameObject ballGroundBoxCheck, ballCeilingBoxCheck;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
+        standingAnimController = anim.runtimeAnimatorController;
         canMove = true;
     }
 
@@ -32,39 +39,81 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove && Time.timeScale > 0f)
         {
-            // Handle horizontal movement
-            float horizontalVector = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(horizontalVector * movementSpeed, rb.velocity.y);
-            if (Mathf.Abs(horizontalVector) > 0.01)
+            // Control standing/ball state
+            float verticalVector = Input.GetAxisRaw("Vertical");
+            if (verticalVector < 0)
             {
-                anim.SetBool("isRunning", true);
-                gameObject.transform.localScale = new Vector3(1f * horizontalVector, 1f, 1f);
+                anim.runtimeAnimatorController = ballAnimController;
+                standingCollider.enabled = false;
+                ballCollider.enabled = true;
+
             }
-            else
+            else if (verticalVector > 0 && !(Physics2D.OverlapBox(ballCeilingBoxCheck.transform.position, ballCeilingBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer)))
             {
-                anim.SetBool("isRunning", false);
+                anim.runtimeAnimatorController = standingAnimController;
+                ballCollider.enabled = false;
+                standingCollider.enabled = true;
             }
 
-            // Handle vertical movement
-            isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
-            if (isGrounded && rb.velocity.y < 0.01f)
+            // Handle standing state movement
+            if (standingCollider.enabled == true)
             {
-                anim.SetBool("isGrounded", true);
-                canDoubleJump = true;
-                if (Input.GetButtonDown("Jump"))
+                // Handle horizontal component
+                float horizontalVector = Input.GetAxisRaw("Horizontal");
+                rb.velocity = new Vector2(horizontalVector * movementSpeed, rb.velocity.y);
+                if (Mathf.Abs(horizontalVector) > 0.01)
+                {
+                    anim.SetBool("isRunning", true);
+                    gameObject.transform.localScale = new Vector3(1f * horizontalVector, 1f, 1f);
+                }
+                else
+                {
+                    anim.SetBool("isRunning", false);
+                }
+
+                // Handle vertical movement
+                isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
+                if (isGrounded && rb.velocity.y < 0.01f)
+                {
+                    anim.SetBool("isGrounded", true);
+                    canDoubleJump = true;
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    }
+                }
+                else
+                {
+                    anim.SetBool("isGrounded", false);
+                    if (Input.GetButtonDown("Jump") && canDoubleJump)
+                    {
+                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        canDoubleJump = false;
+                    }
+                }
+            }
+            // Handle ball state movement
+            {
+                // Handle horizontal component
+                float horizontalVector = Input.GetAxisRaw("Horizontal");
+                rb.velocity = new Vector2(horizontalVector * movementSpeed, rb.velocity.y);
+                if (Mathf.Abs(horizontalVector) > 0.01)
+                {
+                    anim.SetBool("isRunning", true);
+                    gameObject.transform.localScale = new Vector3(1f * horizontalVector, 1f, 1f);
+                }
+                else
+                {
+                    anim.SetBool("isRunning", false);
+                }
+
+                // Handle vertical movement
+                isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
+                if (isGrounded && rb.velocity.y < 0.01f && Input.GetButtonDown("Jump"))
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 }
             }
-            else
-            {
-                anim.SetBool("isGrounded", false);
-                if (Input.GetButtonDown("Jump") && canDoubleJump)
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    canDoubleJump = false;
-                }
-            }            
         }
     }
 
@@ -88,5 +137,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         canMove = true;
+    }
+
+    // Return player state
+    public bool IsStanding()
+    {
+        return standingCollider.enabled;
     }
 }

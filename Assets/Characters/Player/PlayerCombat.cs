@@ -23,19 +23,44 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale > 0f)
+        // Handle standing state behaviour
+        if (gameObject.GetComponent<PlayerMovement>().IsStanding())
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Time.timeScale > 0f)
             {
-                GameObject shot = Instantiate(beam, shootPoint.position, Quaternion.identity);
-                shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                DontDestroyOnLoad(shot);
-                charging = true;
-            }
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    GameObject shot = Instantiate(beam, shootPoint.position, Quaternion.identity);
+                    shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
+                    DontDestroyOnLoad(shot);
+                    charging = true;
+                }
 
-            if (Input.GetButtonUp("Fire1"))
+                if (Input.GetButtonUp("Fire1"))
+                {
+                    if (timeCharged >= chargeTime)
+                    {
+                        GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
+                        shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
+                        DontDestroyOnLoad(shot);
+                    }
+                    timeCharged = 0f;
+                    charging = false;
+                    chargedEffect.gameObject.SetActive(false);
+                }
+
+                if (charging)
+                {
+                    timeCharged += Time.deltaTime;
+                    if (timeCharged >= 0.35f)
+                    {
+                        chargedEffect.gameObject.SetActive(true);
+                    }
+                }
+            }
+            else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
             {
-                if (timeCharged >= chargeTime)
+                if (timeCharged > chargeTime)
                 {
                     GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
                     shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
@@ -45,19 +70,12 @@ public class PlayerCombat : MonoBehaviour
                 charging = false;
                 chargedEffect.gameObject.SetActive(false);
             }
-
-            if (charging)
-            {
-                timeCharged += Time.deltaTime;
-                if (timeCharged >= 0.35f)
-                {
-                    chargedEffect.gameObject.SetActive(true);
-                }
-            }
         }
-        else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
+        // Handle ball state behaviour
+        else
         {
-            if (timeCharged > chargeTime)
+            // Fire off a shot if it is charged
+            if (timeCharged >= chargeTime)
             {
                 GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
                 shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
