@@ -16,6 +16,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] GameObject bomb;
     [SerializeField] Transform bombDropPoint;
 
+    [SerializeField] GameObject missile;
+    [SerializeField] int maxMissiles, currMissiles;
+
     void Start()
     {
         timeCharged = 0f;
@@ -60,6 +63,13 @@ public class PlayerCombat : MonoBehaviour
                         chargedEffect.gameObject.SetActive(true);
                     }
                 }
+                else if (Input.GetButtonDown("Fire2") && currMissiles > 0)
+                {
+                    GameObject shot = Instantiate(missile, shootPoint.position, Quaternion.identity);
+                    shot.GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
+                    DontDestroyOnLoad(shot);
+                    currMissiles -= 1;
+                }
             }
             else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
             {
@@ -93,5 +103,15 @@ public class PlayerCombat : MonoBehaviour
                 Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
             }
         }
+    }
+    public void RechargeAmmo(int rechargeAmount)
+    {
+        currMissiles += rechargeAmount;
+        if (currMissiles > maxMissiles)
+        {
+            currMissiles = maxMissiles;
+        }
+
+        //HUD.UpdateAmmo(currMissiles);
     }
 }

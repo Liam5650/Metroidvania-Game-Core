@@ -464,6 +464,9 @@ MonoBehaviour:
   chargeTime: 0.5
   bomb: {fileID: 1783322375429304210, guid: ab6098fefa6bdd547997b17dd088fa46, type: 3}
   bombDropPoint: {fileID: 173950344}
+  missile: {fileID: 3236678564300346026, guid: 29aade8922036124088bb417082da129, type: 3}
+  maxMissiles: 10
+  currMissiles: 10
 --- !u!114 &8005282019074200554
 MonoBehaviour:
   m_ObjectHideFlags: 0
