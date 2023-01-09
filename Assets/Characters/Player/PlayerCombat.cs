@@ -13,6 +13,9 @@ public class PlayerCombat : MonoBehaviour
     private float timeCharged;
     private bool charging;
 
+    [SerializeField] GameObject bomb;
+    [SerializeField] Transform bombDropPoint;
+
     void Start()
     {
         timeCharged = 0f;
@@ -84,6 +87,11 @@ public class PlayerCombat : MonoBehaviour
             timeCharged = 0f;
             charging = false;
             chargedEffect.gameObject.SetActive(false);
+
+            if (Time.timeScale > 0f && Input.GetButtonDown("Fire1"))
+            {
+                Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
+            }
         }
     }
 }

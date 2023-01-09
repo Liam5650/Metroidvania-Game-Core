@@ -287,6 +287,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: bomb
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 162
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e5df8302209e534e938f51e70878185
+      internalID: -564263605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -298,10 +319,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      bomb: 1285466322
       oga-swm-objectsandenemies-sheet-alpha_0: 1720100353
       oga-swm-objectsandenemies-sheet-alpha_4: -1957779117
       oga-swm-objectsandenemies-sheet-alpha_1: 732090830
-      oga-swm-objectsandenemies-sheet-alpha_3: 1285466322
       walker_walk_2: -2006801636
       walker_walk_1: -129757615
       walker_walk_3: -869464682

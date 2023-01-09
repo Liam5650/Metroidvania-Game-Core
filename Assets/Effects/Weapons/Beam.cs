@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Beam : MonoBehaviour
 {
-
     [SerializeField] float beamVelocity;
     [SerializeField] float beamLifetime;
     [SerializeField] float beamDamage;
