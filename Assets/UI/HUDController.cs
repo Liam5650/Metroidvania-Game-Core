@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class HUDController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI healthText;
+    [SerializeField] TextMeshProUGUI healthNumber, ammoNumber;
 
     public void UpdateHealth(float value)
     {
-        healthText.text = value.ToString();
+        healthNumber.text = value.ToString();
+    }
+
+    public void UpdateAmmo(int value)
+    {
+        ammoNumber.text = value.ToString();
     }
 }

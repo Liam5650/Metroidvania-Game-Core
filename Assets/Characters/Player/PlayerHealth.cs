@@ -80,6 +80,13 @@ public class PlayerHealth : MonoBehaviour
         HUD.UpdateHealth(health);
     }
 
+    public void UpgradeHealth()
+    {
+        maxHealth += 100;
+        health = maxHealth;
+        HUD.UpdateHealth(health);
+    }
+
     // Reset some values when we load the menu/respawn
     private void OnDisable()
     {

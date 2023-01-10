@@ -296,7 +296,7 @@ TextureImporter:
         width: 8
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -304,6 +304,69 @@ TextureImporter:
       bones: []
       spriteID: 8e5df8302209e534e938f51e70878185
       internalID: -564263605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: e-tank
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 91
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b4161e89420fd64e9b37f091d852aac
+      internalID: 44659685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: missile-tank
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 46
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aadc66d6608426441af42a1a3a9e29d1
+      internalID: 1404348754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: upgrade
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 14
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc84bc2f96ad55f42a4a888347e5ef80
+      internalID: -1244875826
       vertices: []
       indices: 
       edges: []
@@ -321,11 +384,14 @@ TextureImporter:
     nameFileIdTable:
       bomb: 1285466322
       oga-swm-objectsandenemies-sheet-alpha_0: 1720100353
+      missile-tank: 1404348754
       oga-swm-objectsandenemies-sheet-alpha_4: -1957779117
       oga-swm-objectsandenemies-sheet-alpha_1: 732090830
+      e-tank: 44659685
       walker_walk_2: -2006801636
       walker_walk_1: -129757615
       walker_walk_3: -869464682
+      upgrade: -1244875826
       walker_idle: 884257433
       oga-swm-objectsandenemies-sheet-alpha_2: -919147586
   spritePackingTag: 

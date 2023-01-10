@@ -18,6 +18,8 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] GameObject missile;
     [SerializeField] int maxMissiles, currMissiles;
+    private HUDController HUD;
+    private Unlocks unlocked;
 
     void Start()
     {
@@ -25,6 +27,9 @@ public class PlayerCombat : MonoBehaviour
         charging = false;
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
         chargedEffect.transform.parent = shootPoint.transform;
+        HUD = FindObjectOfType<HUDController>();
+        HUD.UpdateAmmo(currMissiles);
+        unlocked = GetComponent<Unlocks>();
     }
 
     void Update()
@@ -39,7 +44,10 @@ public class PlayerCombat : MonoBehaviour
                     GameObject shot = Instantiate(beam, shootPoint.position, Quaternion.identity);
                     shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
                     DontDestroyOnLoad(shot);
-                    charging = true;
+                    if (unlocked.ChargeBeam())
+                    {
+                        charging = true;
+                    }
                 }
 
                 if (Input.GetButtonUp("Fire1"))
@@ -63,12 +71,13 @@ public class PlayerCombat : MonoBehaviour
                         chargedEffect.gameObject.SetActive(true);
                     }
                 }
-                else if (Input.GetButtonDown("Fire2") && currMissiles > 0)
+                else if (Input.GetButtonDown("Fire2") && currMissiles > 0 && unlocked.Missile())
                 {
                     GameObject shot = Instantiate(missile, shootPoint.position, Quaternion.identity);
                     shot.GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
                     DontDestroyOnLoad(shot);
                     currMissiles -= 1;
+                    HUD.UpdateAmmo(currMissiles);
                 }
             }
             else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
@@ -98,7 +107,7 @@ public class PlayerCombat : MonoBehaviour
             charging = false;
             chargedEffect.gameObject.SetActive(false);
 
-            if (Time.timeScale > 0f && Input.GetButtonDown("Fire1"))
+            if (Time.timeScale > 0f && Input.GetButtonDown("Fire1") && unlocked.BallBomb())
             {
                 Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
             }
@@ -111,7 +120,13 @@ public class PlayerCombat : MonoBehaviour
         {
             currMissiles = maxMissiles;
         }
+        HUD.UpdateAmmo(currMissiles);
+    }
 
-        //HUD.UpdateAmmo(currMissiles);
+    public void UpgradeMissiles()
+    {
+        maxMissiles += 5;
+        currMissiles = maxMissiles;
+        HUD.UpdateAmmo(currMissiles);
     }
 }

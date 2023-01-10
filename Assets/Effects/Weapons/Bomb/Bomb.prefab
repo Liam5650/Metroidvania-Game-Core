@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee70f7133be5c74d8407dd313829747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detonateTime: 1.5
+  detonateTime: 1
   damage: 5
   explodeRadius: 1.4
   explodeEffect: {fileID: 3052230418221272683, guid: 26ee0eeb077ea12488c23987a792a559, type: 3}

@@ -53,7 +53,8 @@ public class EnemyHealth : MonoBehaviour
         if (numPickups > 0 && Random.Range(1, 100) > (100 - dropChance))
         {
             // Drop pickup at random index
-            Instantiate(pickups[Random.Range(0, numPickups - 1)], transform.position, Quaternion.identity);
+            int index = Random.Range(0, numPickups);
+            Instantiate(pickups[index], transform.position, Quaternion.identity);
         }
     }
 }
