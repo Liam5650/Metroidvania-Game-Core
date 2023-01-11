@@ -1,6 +1,8 @@
 using Cinemachine;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,6 +24,10 @@ public class UIController : MonoBehaviour
     private bool isPaused;
     private bool inTransition;
 
+    [SerializeField] GameObject upgradeScreen;
+    [SerializeField] TextMeshProUGUI upgradeText;
+    [SerializeField] float upgradeScreenTime;
+
     private void Awake()
     {
         // Set up continue button if we have save data
@@ -39,7 +45,7 @@ public class UIController : MonoBehaviour
     {
 
         // Only allow input if we are not in a transition or the main menu
-        if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu")
+        if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !upgradeScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -225,5 +231,21 @@ public class UIController : MonoBehaviour
     {
         yield return StartCoroutine(MenuTransition(roomToDebug, menuFadeTime, menuFadeHoldTime));
         player.transform.position = new Vector3(hud.transform.position.x, hud.transform.position.y, 0);
+    }
+
+
+    public void UpgradeMessage(string message)
+    {
+        StartCoroutine(DisplayUpgradeScreen(message));
+    }
+
+    private IEnumerator DisplayUpgradeScreen(string message)
+    {
+        Time.timeScale = 0f;
+        upgradeText.text = message;
+        upgradeScreen.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(upgradeScreenTime);
+        upgradeScreen.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

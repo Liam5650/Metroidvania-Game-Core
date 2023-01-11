@@ -9,6 +9,7 @@ public class MissileUpgrade : MonoBehaviour
         if (other.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerCombat>().UpgradeMissiles();
+            FindObjectOfType<UIController>().UpgradeMessage("Missile capacity upgraded.");
             Destroy(gameObject);
         }
     }

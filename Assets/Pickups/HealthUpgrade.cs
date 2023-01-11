@@ -9,6 +9,7 @@ public class HealthUpgrade : MonoBehaviour
         if (other.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerHealth>().UpgradeHealth();
+            FindObjectOfType<UIController>().UpgradeMessage("Health capacity upgraded.");
             Destroy(gameObject);
         }
     }
