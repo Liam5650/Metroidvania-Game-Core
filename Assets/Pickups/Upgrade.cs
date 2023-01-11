@@ -23,6 +23,7 @@ public class Upgrade : MonoBehaviour
             if (missile)
             {
                 unlocked.UnlockMissile();
+                other.gameObject.GetComponent<PlayerCombat>().UpgradeMissiles();
             }
             if (ballBomb)
             {

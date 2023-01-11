@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4371555335397529912
 RectTransform:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7746656658159766502
 RectTransform:
   m_ObjectHideFlags: 0
@@ -538,7 +538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6001377876605059551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4498882832182131166
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2662,8 +2662,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057d28487c48ab24c962c3fe6c731c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthText: {fileID: 3631216978209069974}
-  ammoText: {fileID: 5243396340152305343}
+  healthNumber: {fileID: 3631216978209069974}
+  ammoNumber: {fileID: 5243396340152305343}
+  energyTanks:
+  - {fileID: 1944672595693392915}
+  - {fileID: 6783853591779026475}
+  - {fileID: 406939592895908586}
+  - {fileID: 6488679037161138723}
+  - {fileID: 8460926387655266508}
+  ammoObjects:
+  - {fileID: 1373814203737953337}
+  - {fileID: 3153617645664653366}
 --- !u!1 &3631216979011410510
 GameObject:
   m_ObjectHideFlags: 0
@@ -3404,7 +3413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2401650072259795808
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3480,7 +3489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &331180532896454906
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3556,7 +3565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5154247929483828696
 RectTransform:
   m_ObjectHideFlags: 0

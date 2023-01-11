@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a578597e7efe674dbd22b5670123cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 99
+  maxHealth: 299
   health: 99
   flashMaterial: {fileID: 2100000, guid: bac2811f20ca6ad4589b03beeeaf6e74, type: 2}
   flashDuration: 0.1

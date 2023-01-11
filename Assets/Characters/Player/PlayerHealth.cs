@@ -25,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
         HUD = FindObjectOfType<HUDController>();
-        HUD.UpdateHealth(health);
+        HUD.UpdateHealth(health, maxHealth);
     }
 
     public void DamagePlayer(float damageAmount)
@@ -84,7 +84,7 @@ public class PlayerHealth : MonoBehaviour
     {
         maxHealth += 100;
         health = maxHealth;
-        HUD.UpdateHealth(health);
+        HUD.UpdateHealth(health, maxHealth);
     }
 
     // Reset some values when we load the menu/respawn

@@ -28,7 +28,7 @@ public class PlayerCombat : MonoBehaviour
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
         chargedEffect.transform.parent = shootPoint.transform;
         HUD = FindObjectOfType<HUDController>();
-        HUD.UpdateAmmo(currMissiles);
+        HUD.UpdateAmmo(currMissiles, maxMissiles);
         unlocked = GetComponent<Unlocks>();
     }
 
@@ -127,6 +127,6 @@ public class PlayerCombat : MonoBehaviour
     {
         maxMissiles += 5;
         currMissiles = maxMissiles;
-        HUD.UpdateAmmo(currMissiles);
+        HUD.UpdateAmmo(currMissiles, maxMissiles);
     }
 }
