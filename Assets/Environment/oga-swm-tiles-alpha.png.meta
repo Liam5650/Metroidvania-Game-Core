@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 948a8b0886f1e3847a159c03e15d2b56
+guid: c2836a2a8106ef14ba1101644fc7be9b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -139,70 +139,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: missile
-      rect:
-        serializedVersion: 2
-        x: 254
-        y: 67
-        width: 9
-        height: 3
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e8723fcaebac804bb57bb6732f3cb66
-      internalID: 520758211
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: save base
-      rect:
-        serializedVersion: 2
-        x: 280
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: be79d13b8876ec8429ff2ebc46a29b93
-      internalID: -22154895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: save platform
-      rect:
-        serializedVersion: 2
-        x: 280
-        y: 40
-        width: 16
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d1961781349fb647bc9edd44004c08f
-      internalID: 1595654430
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -214,9 +151,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      save platform: 1595654430
-      missile: 520758211
-      save base: -22154895
+      oga-swm-tiles-alpha_0: 1844113035
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

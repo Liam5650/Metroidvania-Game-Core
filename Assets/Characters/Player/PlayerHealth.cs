@@ -95,4 +95,14 @@ public class PlayerHealth : MonoBehaviour
         invincible = false;
         flashRoutine = null;
     }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

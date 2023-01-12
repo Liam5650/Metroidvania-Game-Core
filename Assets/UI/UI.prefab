@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8871909273675708285}
   m_Layer: 5
-  m_Name: Upgrade Screen
+  m_Name: Message Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2089,7 +2089,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 3631216978138408223}
   m_OnClick:
     m_PersistentCalls:
@@ -2972,6 +2972,8 @@ MonoBehaviour:
   menuFadeHoldTime: 0.75
   continueButton: {fileID: 3631216978138408222}
   roomToDebug: Room2
+  messageScreen: {fileID: 649713157495532278}
+  messageText: {fileID: 3887802176042182014}
 --- !u!1 &3631216979118190649
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,9 +24,8 @@ public class UIController : MonoBehaviour
     private bool isPaused;
     private bool inTransition;
 
-    [SerializeField] GameObject upgradeScreen;
-    [SerializeField] TextMeshProUGUI upgradeText;
-    [SerializeField] float upgradeScreenTime;
+    [SerializeField] GameObject messageScreen;
+    [SerializeField] TextMeshProUGUI messageText;
 
     private void Awake()
     {
@@ -45,7 +44,7 @@ public class UIController : MonoBehaviour
     {
 
         // Only allow input if we are not in a transition or the main menu
-        if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !upgradeScreen.activeSelf)
+        if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !messageScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -192,12 +191,17 @@ public class UIController : MonoBehaviour
 
     public void LoadMenu()
     {
+        // Set up continue button if we have save data
+        if (PlayerPrefs.HasKey("Room"))
+        {
+            continueButton.interactable = true;
+        }
+        else
+        {
+            continueButton.interactable = false;
+        }
         StartCoroutine(MenuTransition("MainMenu", menuFadeTime, menuFadeHoldTime));
-        PlayerPrefs.SetFloat("Xpos", player.transform.position.x);
-        PlayerPrefs.SetFloat("Ypos", player.transform.position.y);
-        PlayerPrefs.SetString("Room", SceneManager.GetActiveScene().name);
         isPaused = false;
-        continueButton.interactable = true;
     }
 
     public void QuitGame()
@@ -234,18 +238,18 @@ public class UIController : MonoBehaviour
     }
 
 
-    public void UpgradeMessage(string message)
+    public void DisplayMessage(string message, float displayTime = 2)
     {
-        StartCoroutine(DisplayUpgradeScreen(message));
+        StartCoroutine(DisplayMessageCoroutine(message, displayTime));
     }
 
-    private IEnumerator DisplayUpgradeScreen(string message)
+    private IEnumerator DisplayMessageCoroutine(string message, float displayTime = 2)
     {
         Time.timeScale = 0f;
-        upgradeText.text = message;
-        upgradeScreen.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(upgradeScreenTime);
-        upgradeScreen.gameObject.SetActive(false);
+        messageText.text = message;
+        messageScreen.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(displayTime);
+        messageScreen.gameObject.SetActive(false);
         Time.timeScale = 1f;
     }
 }

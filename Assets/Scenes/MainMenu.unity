@@ -135,30 +135,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3631216977905658831, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1328778117}
-    - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-      propertyPath: upgradeText
-      value: 
-      objectReference: {fileID: 670900136}
-    - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-      propertyPath: upgradeSceen
-      value: 
-      objectReference: {fileID: 670900137}
-    - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-      propertyPath: upgradeScreen
-      value: 
-      objectReference: {fileID: 670900137}
-    - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-      propertyPath: upgradeScreenTime
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3631216979104074646, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
       propertyPath: m_Camera
       value: 
@@ -253,22 +233,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
---- !u!114 &670900136 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3887802176042182014, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-  m_PrefabInstance: {fileID: 670900135}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &670900137 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 649713157495532278, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
-  m_PrefabInstance: {fileID: 670900135}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1328778116
 PrefabInstance:
   m_ObjectHideFlags: 0

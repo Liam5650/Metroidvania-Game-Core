@@ -129,4 +129,14 @@ public class PlayerCombat : MonoBehaviour
         currMissiles = maxMissiles;
         HUD.UpdateAmmo(currMissiles, maxMissiles);
     }
+
+    public int GetMissiles()
+    { 
+        return currMissiles; 
+    }
+
+    public int GetMaxMissiles()
+    {
+        return maxMissiles;
+    }
 }

@@ -22,7 +22,7 @@ public class Upgrade : MonoBehaviour
             }
             if (missile)
             {
-                FindObjectOfType<UIController>().UpgradeMessage("Missiles unlocked. Press Fire2 to fire.");
+                FindObjectOfType<UIController>().DisplayMessage("Missiles unlocked. Press Fire2 to fire.");
                 unlocked.UnlockMissile();
                 other.gameObject.GetComponent<PlayerCombat>().UpgradeMissiles();
             }
