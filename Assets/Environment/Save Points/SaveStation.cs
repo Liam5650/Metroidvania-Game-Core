@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -93,14 +94,19 @@ public class SaveStation : MonoBehaviour
 
     private void SaveGame()
     {
-        FindObjectOfType<UIController>().DisplayMessage("The game data has been saved.");
+        GameObject UI = FindObjectOfType<UIController>().gameObject;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        PlayerPrefs.SetFloat("Xpos", player.transform.position.x);
-        PlayerPrefs.SetFloat("Ypos", player.transform.position.y);
-        PlayerPrefs.SetString("Room", SceneManager.GetActiveScene().name);
-        PlayerPrefs.SetFloat("Health", player.GetComponent<PlayerHealth>().GetHealth());
-        PlayerPrefs.SetFloat("MaxHealth", player.GetComponent<PlayerHealth>().GetMaxHealth());
-        PlayerPrefs.SetInt("Missiles", player.GetComponent<PlayerCombat>().GetMissiles());
-        PlayerPrefs.SetInt("MaxMissiles", player.GetComponent<PlayerCombat>().GetMaxMissiles());
+        SaveController gameSave = UI.GetComponent<SaveController>();
+
+        UI.GetComponent<UIController>().DisplayMessage("The game data has been saved.");
+
+        gameSave.playerData.playerPosition = player.transform.position;
+        gameSave.playerData.roomName = SceneManager.GetActiveScene().name;
+        gameSave.playerData.currHealth = player.GetComponent<PlayerHealth>().GetHealth();
+        gameSave.playerData.maxHealth = player.GetComponent<PlayerHealth>().GetMaxHealth();
+        gameSave.playerData.currMissiles = player.GetComponent<PlayerCombat>().GetMissiles();
+        gameSave.playerData.maxMissiles = player.GetComponent<PlayerCombat>().GetMaxMissiles();
+
+        gameSave.SaveData();
     }
 }

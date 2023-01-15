@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class UIController : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         // Set up continue button if we have save data
-        if (PlayerPrefs.HasKey("Room"))
+        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
         {
             continueButton.interactable = true;
         }
@@ -192,7 +193,7 @@ public class UIController : MonoBehaviour
     public void LoadMenu()
     {
         // Set up continue button if we have save data
-        if (PlayerPrefs.HasKey("Room"))
+        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
         {
             continueButton.interactable = true;
         }
@@ -212,15 +213,18 @@ public class UIController : MonoBehaviour
 
     public void NewGame(string levelName)
     {
-        PlayerPrefs.DeleteAll();
+        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
+        {
+            System.IO.File.Delete(Application.dataPath + "/saveFile.json");
+        }
         player.transform.position = Vector3.zero;
         StartCoroutine(MenuTransition("Room1", menuFadeTime, menuFadeHoldTime));
     }
 
     public void Continue()
     {
-        player.transform.position = new Vector3(PlayerPrefs.GetFloat("Xpos"), PlayerPrefs.GetFloat("Ypos"), 0);
-        StartCoroutine(MenuTransition(PlayerPrefs.GetString("Room"), menuFadeTime, menuFadeHoldTime));
+        player.transform.position = gameObject.GetComponent<SaveController>().playerData.playerPosition;
+        StartCoroutine(MenuTransition(gameObject.GetComponent<SaveController>().playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
     public void DebugRoom()
