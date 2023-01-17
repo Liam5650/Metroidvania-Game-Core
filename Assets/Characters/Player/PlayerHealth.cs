@@ -17,15 +17,20 @@ public class PlayerHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
     private Coroutine flashRoutine;
-    private HUDController HUD;
+    [SerializeField] HUDController HUD;
+    [SerializeField] SaveController saveController;
 
     void Start()
     {
-        health = maxHealth;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
-        HUD = FindObjectOfType<HUDController>();
-        HUD.UpdateHealth(health, maxHealth);
+
+        if (saveController.HasSave())
+        {
+            health = saveController.playerData.currHealth;
+            maxHealth= saveController.playerData.maxHealth;
+        }
+        HUD.UpdateHealth(health, maxHealth);       
     }
 
     public void DamagePlayer(float damageAmount)
@@ -43,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
                 {
                     Instantiate(deathEffect, transform.position, Quaternion.identity);
                 }
-                HUD.UpdateHealth(0f);
+                HUD.UpdateHealth(0f, maxHealth);
                 gameObject.SetActive(false);
             }
         }
@@ -51,7 +56,7 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator flashCoroutine()
     {
-        HUD.UpdateHealth(health);
+        HUD.UpdateHealth(health, maxHealth);
         invincible = true;
         gameObject.GetComponent<PlayerMovement>().launchPlayer();
         spriteRenderer.material = flashMaterial;
@@ -77,7 +82,7 @@ public class PlayerHealth : MonoBehaviour
         {
             health = maxHealth;
         }
-        HUD.UpdateHealth(health);
+        HUD.UpdateHealth(health, maxHealth);
     }
 
     public void UpgradeHealth()
@@ -85,15 +90,6 @@ public class PlayerHealth : MonoBehaviour
         maxHealth += 100;
         health = maxHealth;
         HUD.UpdateHealth(health, maxHealth);
-    }
-
-    // Reset some values when we load the menu/respawn
-    private void OnDisable()
-    {
-        spriteRenderer.material = defaultMaterial;
-        spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1);
-        invincible = false;
-        flashRoutine = null;
     }
 
     public float GetHealth()
@@ -104,5 +100,22 @@ public class PlayerHealth : MonoBehaviour
     public float GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    // Reset some values when we load the menu/respawn
+    private void OnDisable()
+    {
+        spriteRenderer.material = defaultMaterial;
+        spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1);
+        invincible = false;
+        flashRoutine = null;
+
+        // Revert changes since last save
+        if (saveController.HasSave())
+        {
+            health = saveController.playerData.currHealth;
+            maxHealth = saveController.playerData.maxHealth;
+            HUD.UpdateHealth(health, maxHealth);
+        }
     }
 }

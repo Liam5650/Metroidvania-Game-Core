@@ -28,10 +28,14 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject messageScreen;
     [SerializeField] TextMeshProUGUI messageText;
 
+    private SaveController saveController;
+
     private void Awake()
     {
+        saveController = gameObject.GetComponent<SaveController>();
+
         // Set up continue button if we have save data
-        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
+        if (saveController.HasSave())
         {
             continueButton.interactable = true;
         }
@@ -193,7 +197,7 @@ public class UIController : MonoBehaviour
     public void LoadMenu()
     {
         // Set up continue button if we have save data
-        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
+        if (saveController.HasSave())
         {
             continueButton.interactable = true;
         }
@@ -213,18 +217,16 @@ public class UIController : MonoBehaviour
 
     public void NewGame(string levelName)
     {
-        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
-        {
-            System.IO.File.Delete(Application.dataPath + "/saveFile.json");
-        }
-        player.transform.position = Vector3.zero;
-        StartCoroutine(MenuTransition("Room1", menuFadeTime, menuFadeHoldTime));
+        saveController.ClearSave();
+        saveController.SaveData();
+        player.transform.position = saveController.playerData.playerPosition;
+        StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
     public void Continue()
     {
-        player.transform.position = gameObject.GetComponent<SaveController>().playerData.playerPosition;
-        StartCoroutine(MenuTransition(gameObject.GetComponent<SaveController>().playerData.roomName, menuFadeTime, menuFadeHoldTime));
+        player.transform.position = saveController.playerData.playerPosition;
+        StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
     public void DebugRoom()

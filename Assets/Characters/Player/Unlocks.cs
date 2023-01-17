@@ -5,6 +5,20 @@ using UnityEngine;
 public class Unlocks : MonoBehaviour
 {
     [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;
+    private SaveController saveController;
+
+    private void Start()
+    {
+        saveController = FindObjectOfType<SaveController>();
+        if (saveController.HasSave())
+        {
+            doubleJump = saveController.playerData.doubleJump;
+            ball = saveController.playerData.ball;
+            ballBomb = saveController.playerData.ballBomb;
+            chargeBeam= saveController.playerData.chargeBeam;
+            missile = saveController.playerData.missile;
+        }
+    }
 
     public bool DoubleJump()
     {
@@ -54,5 +68,18 @@ public class Unlocks : MonoBehaviour
     public void UnlockMissile()
     {
         missile = true;
+    }
+
+    private void OnDisable()
+    {
+        // Reset upgrades since last save
+        if (saveController.HasSave())
+        {
+            doubleJump = saveController.playerData.doubleJump;
+            ball = saveController.playerData.ball;
+            ballBomb = saveController.playerData.ballBomb;
+            chargeBeam = saveController.playerData.chargeBeam;
+            missile = saveController.playerData.missile;
+        }
     }
 }

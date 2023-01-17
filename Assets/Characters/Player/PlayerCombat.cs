@@ -18,8 +18,10 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] GameObject missile;
     [SerializeField] int maxMissiles, currMissiles;
-    private HUDController HUD;
+    [SerializeField] HUDController HUD;
     private Unlocks unlocked;
+
+    [SerializeField] SaveController saveController;
 
     void Start()
     {
@@ -27,7 +29,12 @@ public class PlayerCombat : MonoBehaviour
         charging = false;
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
         chargedEffect.transform.parent = shootPoint.transform;
-        HUD = FindObjectOfType<HUDController>();
+
+        if (saveController.HasSave())
+        {
+            currMissiles = saveController.playerData.currMissiles;
+            maxMissiles = saveController.playerData.maxMissiles;
+        }
         HUD.UpdateAmmo(currMissiles, maxMissiles);
         unlocked = GetComponent<Unlocks>();
     }
@@ -77,7 +84,7 @@ public class PlayerCombat : MonoBehaviour
                     shot.GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
                     DontDestroyOnLoad(shot);
                     currMissiles -= 1;
-                    HUD.UpdateAmmo(currMissiles);
+                    HUD.UpdateAmmo(currMissiles, maxMissiles);
                 }
             }
             else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
@@ -120,7 +127,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currMissiles = maxMissiles;
         }
-        HUD.UpdateAmmo(currMissiles);
+        HUD.UpdateAmmo(currMissiles, maxMissiles);
     }
 
     public void UpgradeMissiles()
@@ -138,5 +145,16 @@ public class PlayerCombat : MonoBehaviour
     public int GetMaxMissiles()
     {
         return maxMissiles;
+    }
+
+    private void OnDisable()
+    {
+        // Revert changes since last save
+        if (saveController.HasSave())
+        {
+            currMissiles = saveController.playerData.currMissiles;
+            maxMissiles = saveController.playerData.maxMissiles;
+            HUD.UpdateAmmo(currMissiles, maxMissiles);
+        }
     }
 }

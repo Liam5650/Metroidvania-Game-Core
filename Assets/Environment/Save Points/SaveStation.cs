@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -106,7 +107,11 @@ public class SaveStation : MonoBehaviour
         gameSave.playerData.maxHealth = player.GetComponent<PlayerHealth>().GetMaxHealth();
         gameSave.playerData.currMissiles = player.GetComponent<PlayerCombat>().GetMissiles();
         gameSave.playerData.maxMissiles = player.GetComponent<PlayerCombat>().GetMaxMissiles();
-
+        gameSave.playerData.doubleJump = player.GetComponent<Unlocks>().DoubleJump();
+        gameSave.playerData.ball = player.GetComponent<Unlocks>().Ball();
+        gameSave.playerData.ballBomb = player.GetComponent<Unlocks>().BallBomb();
+        gameSave.playerData.chargeBeam = player.GetComponent<Unlocks>().ChargeBeam();
+        gameSave.playerData.missile = player.GetComponent<Unlocks>().Missile();
         gameSave.SaveData();
     }
 }
