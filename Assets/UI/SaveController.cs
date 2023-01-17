@@ -28,7 +28,7 @@ public class SaveController : MonoBehaviour
         public float currHealth = 99f, maxHealth = 99f;
         public int currMissiles = 0, maxMissiles = 0;
         public bool doubleJump = false, ball = false, ballBomb = false, chargeBeam = false, missile = false;
-        //public int[] roomsVisited;
+        public Vector3Int[] roomsVisited;
     }
 
     public void SaveData()

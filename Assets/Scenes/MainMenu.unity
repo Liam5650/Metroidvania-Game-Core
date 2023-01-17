@@ -345,10 +345,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 730607679139310639, guid: 5e73e547fc40848499c118c1a53684e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 730607679186858811, guid: 5e73e547fc40848499c118c1a53684e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 730607679186858812, guid: 5e73e547fc40848499c118c1a53684e9, type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1328778127}
+    - target: {fileID: 730607679805016904, guid: 5e73e547fc40848499c118c1a53684e9, type: 3}
+      propertyPath: m_TrackedObjectOffset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1837650256618425692, guid: 5e73e547fc40848499c118c1a53684e9, type: 3}
       propertyPath: m_Name
       value: Camera Components
