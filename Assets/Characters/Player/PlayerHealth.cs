@@ -115,7 +115,10 @@ public class PlayerHealth : MonoBehaviour
         {
             health = saveController.playerData.currHealth;
             maxHealth = saveController.playerData.maxHealth;
-            HUD.UpdateHealth(health, maxHealth);
+            if (HUD!= null)
+            {
+                HUD.UpdateHealth(health, maxHealth);
+            }
         }
     }
 }

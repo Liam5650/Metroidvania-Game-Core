@@ -23,7 +23,7 @@ public class SaveController : MonoBehaviour
 
     public class PlayerData
     {
-        public Vector3 playerPosition = Vector3.zero;
+        public Vector3 playerPosition = new Vector3(20f, 10f, 0f);
         public string roomName = "Room1";
         public float currHealth = 99f, maxHealth = 99f;
         public int currMissiles = 0, maxMissiles = 0;

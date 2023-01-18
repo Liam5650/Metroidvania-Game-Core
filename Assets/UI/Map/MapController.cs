@@ -11,6 +11,9 @@ public class MapController : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     private Vector3Int currLocationInGrid;
     private List<Vector3Int> visitedRooms = new List<Vector3Int>();
+    [SerializeField] private Transform miniMapCamera;
+    [SerializeField] private Transform fullMapCamera;
+    [SerializeField] private Transform roomIndicator;
 
     void Start()
     {
@@ -32,7 +35,13 @@ public class MapController : MonoBehaviour
         }
 
         currLocationInGrid = new Vector3Int((int)xLoc, (int)yLoc, 0);
-        Debug.Log(currLocationInGrid);
+
+        // Move the cameras
+        miniMapCamera.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, miniMapCamera.position.z);
+        fullMapCamera.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, fullMapCamera.position.z);
+        roomIndicator.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, roomIndicator.position.z);
+
+        // Set the tile
         if (roomGrid.GetTile(currLocationInGrid) == null)
         {
             roomGrid.SetTile(currLocationInGrid, visitedRoomTile);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -154,7 +155,11 @@ public class PlayerCombat : MonoBehaviour
         {
             currMissiles = saveController.playerData.currMissiles;
             maxMissiles = saveController.playerData.maxMissiles;
-            HUD.UpdateAmmo(currMissiles, maxMissiles);
+            // Fix editor error when stopping game manually
+            if (HUD != null)
+            {
+                HUD.UpdateAmmo(currMissiles, maxMissiles);
+            }
         }
     }
 }

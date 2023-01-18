@@ -9,6 +9,7 @@ TagManager:
   - UI
   - Shot
   - CameraBounds
+  - Map
   layers:
   - Default
   - TransparentFX
