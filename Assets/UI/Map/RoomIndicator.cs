@@ -9,11 +9,13 @@ public class RoomIndicator : MonoBehaviour
     private SpriteRenderer sprite;
     private float alpha;
     private bool fading;
+    private bool ignorePause;
 
     void Start()
     {
         sprite = gameObject.GetComponent<SpriteRenderer>();
         fading = true;
+        ignorePause= false;
     }
 
     void Update()
@@ -22,7 +24,14 @@ public class RoomIndicator : MonoBehaviour
 
         if (fading)
         {
-            sprite.color = new Color(1f, 1f, 1f, alpha - (fadeSpeed * Time.deltaTime));
+            if (!ignorePause)
+            {
+                sprite.color = new Color(1f, 1f, 1f, alpha - (fadeSpeed * Time.deltaTime));
+            }
+            else
+            {
+                sprite.color = new Color(1f, 1f, 1f, alpha - (fadeSpeed * Time.unscaledDeltaTime));
+            }
             if (alpha < 1f - fadeAmount)
             {
                 fading = false;
@@ -30,11 +39,23 @@ public class RoomIndicator : MonoBehaviour
         }
         else
         {
-            sprite.color = new Color(1f, 1f, 1f, alpha + (fadeSpeed * Time.deltaTime));
+            if (!ignorePause)
+            {
+                sprite.color = new Color(1f, 1f, 1f, alpha + (fadeSpeed * Time.deltaTime));
+            }
+            else
+            {
+                sprite.color = new Color(1f, 1f, 1f, alpha + (fadeSpeed * Time.unscaledDeltaTime));
+            }
             if (alpha > 1f)
             {
                 fading = true;
             }
         }
+    }
+
+    public void IgnorePause(bool value )
+    {
+        ignorePause = value;
     }
 }

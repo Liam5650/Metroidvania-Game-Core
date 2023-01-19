@@ -30,6 +30,10 @@ public class UIController : MonoBehaviour
 
     private SaveController saveController;
 
+    [SerializeField] private GameObject mapScreen;
+    private bool viewingMap;
+    [SerializeField] private MapController mapController;
+
     private void Awake()
     {
         saveController = gameObject.GetComponent<SaveController>();
@@ -51,7 +55,7 @@ public class UIController : MonoBehaviour
         // Only allow input if we are not in a transition or the main menu
         if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !messageScreen.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (!viewingMap && Input.GetKeyDown(KeyCode.Escape))
             {
                 if (!isPaused)
                 {
@@ -64,6 +68,23 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1f;
                     isPaused = false;
                     pauseScreen.SetActive(false);
+                }
+            }
+            if (!isPaused && Input.GetKeyDown(KeyCode.M))
+            {
+                if (!viewingMap)
+                {
+                    Time.timeScale = 0f;
+                    viewingMap = true;
+                    mapScreen.SetActive(true);
+                    mapController.ViewingMap(true);
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                    viewingMap = false;
+                    mapScreen.SetActive(false);
+                    mapController.ViewingMap(false);
                 }
             }
         }
@@ -141,6 +162,8 @@ public class UIController : MonoBehaviour
 
         // Update the camera with the new bounds, wait for delay, then fade out and resume play
         FindObjectOfType<TrackPlayer>().GetBounds();
+        player.transform.position = saveController.playerData.playerPosition;
+        mapController.LoadMap(saveController.playerData.roomsVisited);
         yield return new WaitForSecondsRealtime(fadeHoldTime);
         yield return (StartCoroutine(FadeTransition("out", fadeTime)));
         MarkTransition(false);
@@ -219,13 +242,11 @@ public class UIController : MonoBehaviour
     {
         saveController.ClearSave();
         saveController.SaveData();
-        player.transform.position = saveController.playerData.playerPosition;
         StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
     public void Continue()
     {
-        player.transform.position = saveController.playerData.playerPosition;
         StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 

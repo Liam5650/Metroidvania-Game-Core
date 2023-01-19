@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.UI.Image;
 
 public class MapController : MonoBehaviour
 {
@@ -15,41 +18,57 @@ public class MapController : MonoBehaviour
     [SerializeField] private Transform fullMapCamera;
     [SerializeField] private Transform roomIndicator;
 
+    private bool viewingMap;
+    [SerializeField] private float mapPanSpeed;
+    [SerializeField] float maxXOffset, maxYOffset;
+
     void Start()
     {
- 
+        viewingMap= false;
     }
 
     void Update()
     {
-        float xLoc = cameraTransform.position.x / roomSize.x;
-        if (xLoc<0)
+        if (!viewingMap)
         {
-            xLoc -= 1;
+            float xLoc = cameraTransform.position.x / roomSize.x;
+            if (xLoc < 0)
+            {
+                xLoc -= 1;
+            }
+
+            float yLoc = cameraTransform.position.y / roomSize.y;
+            if (yLoc < 0)
+            {
+                yLoc -= 1;
+            }
+
+            currLocationInGrid = new Vector3Int((int)xLoc, (int)yLoc, 0);
+
+            // Move the cameras
+            miniMapCamera.localPosition = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, miniMapCamera.localPosition.z);
+            fullMapCamera.localPosition = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, fullMapCamera.localPosition.z);
+            roomIndicator.localPosition = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, roomIndicator.localPosition.z);
+
+            // Set the tile
+            if (roomGrid.GetTile(currLocationInGrid) == null)
+            {
+                roomGrid.SetTile(currLocationInGrid, visitedRoomTile);
+            }
+        }
+        else
+        {
+            float xNewPos = fullMapCamera.localPosition.x + (mapPanSpeed * Input.GetAxisRaw("Horizontal") * Time.unscaledDeltaTime);
+            if (Mathf.Abs(xNewPos) > maxXOffset) xNewPos = maxXOffset*Mathf.Sign(xNewPos);
+            float yNewPos = fullMapCamera.localPosition.y + (mapPanSpeed * Input.GetAxisRaw("Vertical") * Time.unscaledDeltaTime);
+            if (Mathf.Abs(yNewPos) > maxYOffset) yNewPos = maxYOffset * Mathf.Sign(yNewPos);
+            fullMapCamera.localPosition = new Vector3(xNewPos, yNewPos, fullMapCamera.localPosition.z);
         }
 
-        float yLoc = cameraTransform.position.y / roomSize.y;
-        if (yLoc<0)
-        {
-            yLoc -= 1;
-        }
-
-        currLocationInGrid = new Vector3Int((int)xLoc, (int)yLoc, 0);
-
-        // Move the cameras
-        miniMapCamera.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, miniMapCamera.position.z);
-        fullMapCamera.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, fullMapCamera.position.z);
-        roomIndicator.position = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, roomIndicator.position.z);
-
-        // Set the tile
-        if (roomGrid.GetTile(currLocationInGrid) == null)
-        {
-            roomGrid.SetTile(currLocationInGrid, visitedRoomTile);
-        }
     }
 
 
-    public List<Vector3Int> SaveMap()
+    public Vector3Int[] SaveMap()
     {
         roomGrid.CompressBounds();
         var bounds = roomGrid.cellBounds;
@@ -65,14 +84,29 @@ public class MapController : MonoBehaviour
                 }
             }
         }
-        return visitedRooms;
+        return visitedRooms.ToArray();
     }
 
-    public void LoadMap(List<Vector3Int> visitedRooms)
+    public void LoadMap(Vector3Int[] rooms)
     {
-        foreach (Vector3Int coord in visitedRooms)
+        // If there is save data, set the tiles to visited
+        if (rooms != null)
         {
-            roomGrid.SetTile(coord, visitedRoomTile);
+            foreach (Vector3Int coord in rooms)
+            {
+                roomGrid.SetTile(coord, visitedRoomTile);
+            }
         }
+        // If there is no save data, make sure the tiles have been reset
+        else
+        {
+            roomGrid.ClearAllTiles();
+        }
+    }
+
+    public void ViewingMap(bool value)
+    {
+        viewingMap = value;
+        roomIndicator.gameObject.GetComponent<RoomIndicator>().IgnorePause(value);
     }
 }

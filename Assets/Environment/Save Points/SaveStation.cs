@@ -99,7 +99,7 @@ public class SaveStation : MonoBehaviour
         GameObject UI = FindObjectOfType<UIController>().gameObject;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         SaveController gameSave = UI.GetComponent<SaveController>();
-        //MapController mapController = 
+        MapController mapController = FindObjectOfType<MapController>();
 
         UI.GetComponent<UIController>().DisplayMessage("The game data has been saved.");
 
@@ -114,6 +114,7 @@ public class SaveStation : MonoBehaviour
         gameSave.playerData.ballBomb = player.GetComponent<Unlocks>().BallBomb();
         gameSave.playerData.chargeBeam = player.GetComponent<Unlocks>().ChargeBeam();
         gameSave.playerData.missile = player.GetComponent<Unlocks>().Missile();
+        gameSave.playerData.roomsVisited = mapController.SaveMap();
         gameSave.SaveData();
     }
 }
