@@ -9,7 +9,7 @@ public class Unlocks : MonoBehaviour
 
     private void Start()
     {
-        saveController = FindObjectOfType<SaveController>();
+        saveController = SaveController.instance;
         if (saveController.HasSave())
         {
             doubleJump = saveController.playerData.doubleJump;

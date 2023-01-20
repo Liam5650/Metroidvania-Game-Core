@@ -10,28 +10,32 @@ public class Upgrade : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Unlocks unlocked = FindObjectOfType<Unlocks>(); 
+            Unlocks unlocked = other.gameObject.GetComponent<Unlocks>();
 
             if (doubleJump)
             {
+                UIController.instance.DisplayMessage("Double Jump unlocked. Press jump in the air to perform an extra jump.", 3f);
                 unlocked.UnlockDoubleJump();
             }
             if (ball)
             {
+                UIController.instance.DisplayMessage("Ball unlocked. Press down to transform to ball, and up to transform back.", 3f);
                 unlocked.UnlockBall();
             }
             if (missile)
             {
-                FindObjectOfType<UIController>().DisplayMessage("Missiles unlocked. Press Fire2 to fire.");
+                UIController.instance.DisplayMessage("Missiles unlocked. Press Fire2 to fire.", 3f);
                 unlocked.UnlockMissile();
                 other.gameObject.GetComponent<PlayerCombat>().UpgradeMissiles();
             }
             if (ballBomb)
             {
+                UIController.instance.DisplayMessage("Bombs unlocked. Press Fire1 as a ball to drop a bomb.", 3f);
                 unlocked.UnlockBallBomb();
             }
             if (chargeBeam)
             {
+                UIController.instance.DisplayMessage("Charge Beam unlocked. Hold Fire1 shortly and then release to fire a more powerful shot.", 3f);
                 unlocked.UnlockChargeBeam();
             }
             Destroy(gameObject);

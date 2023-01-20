@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,6 +22,18 @@ public class MapController : MonoBehaviour
     private bool viewingMap;
     [SerializeField] private float mapPanSpeed;
     [SerializeField] float maxXOffset, maxYOffset;
+
+    public static MapController instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     void Start()
     {

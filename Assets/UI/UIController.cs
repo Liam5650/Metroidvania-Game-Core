@@ -34,8 +34,18 @@ public class UIController : MonoBehaviour
     private bool viewingMap;
     [SerializeField] private MapController mapController;
 
+    // Public getter for messages etc
+    public static UIController instance;
+
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+
         saveController = gameObject.GetComponent<SaveController>();
 
         // Set up continue button if we have save data
@@ -51,8 +61,7 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-
-        // Only allow input if we are not in a transition or the main menu
+        // Disable input under certain conditions
         if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !messageScreen.activeSelf)
         {
             if (!viewingMap && Input.GetKeyDown(KeyCode.Escape))

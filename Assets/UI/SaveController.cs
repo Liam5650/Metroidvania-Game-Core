@@ -2,11 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Security.Cryptography;
 
 public class SaveController : MonoBehaviour
 {
     public PlayerData playerData;
     private string json;
+    public static SaveController instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     void Start()
     {

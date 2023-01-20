@@ -9,6 +9,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] TextMeshProUGUI healthNumber, ammoNumber;
     [SerializeField] GameObject[] energyTanks;
     [SerializeField] GameObject[] ammoObjects;
+    [SerializeField] SaveController saveController;
 
     public void UpdateHealth(float health, float maxHealth)
     {
@@ -60,6 +61,15 @@ public class HUDController : MonoBehaviour
             {
                 ammoObject.SetActive(false);
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (saveController.HasSave())
+        {
+            UpdateHealth(saveController.playerData.currHealth, saveController.playerData.maxHealth);
+            UpdateAmmo(saveController.playerData.currMissiles, saveController.playerData.maxMissiles);
         }
     }
 }

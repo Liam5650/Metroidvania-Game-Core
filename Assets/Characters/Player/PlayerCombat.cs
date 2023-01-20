@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -49,9 +50,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    GameObject shot = Instantiate(beam, shootPoint.position, Quaternion.identity);
-                    shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                    DontDestroyOnLoad(shot);
+                    Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
                     if (unlocked.ChargeBeam())
                     {
                         charging = true;
@@ -62,9 +61,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     if (timeCharged >= chargeTime)
                     {
-                        GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
-                        shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                        DontDestroyOnLoad(shot);
+                        Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
                     }
                     timeCharged = 0f;
                     charging = false;
@@ -76,14 +73,15 @@ public class PlayerCombat : MonoBehaviour
                     timeCharged += Time.deltaTime;
                     if (timeCharged >= 0.35f)
                     {
+                        if (timeCharged > chargeTime) timeCharged = chargeTime;
                         chargedEffect.gameObject.SetActive(true);
+                        float chargePercent = (timeCharged-0.35f)/(chargeTime - 0.35f);
+                        chargedEffect.gameObject.transform.localScale = new Vector3(1f * chargePercent, 1f * chargePercent, 1f);
                     }
                 }
                 else if (Input.GetButtonDown("Fire2") && currMissiles > 0 && unlocked.Missile())
                 {
-                    GameObject shot = Instantiate(missile, shootPoint.position, Quaternion.identity);
-                    shot.GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
-                    DontDestroyOnLoad(shot);
+                    Instantiate(missile, shootPoint.position, Quaternion.identity).GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
                     currMissiles -= 1;
                     HUD.UpdateAmmo(currMissiles, maxMissiles);
                 }
@@ -107,9 +105,7 @@ public class PlayerCombat : MonoBehaviour
             // Fire off a shot if it is charged
             if (timeCharged >= chargeTime)
             {
-                GameObject shot = Instantiate(chargedBeam, shootPoint.position, Quaternion.identity);
-                shot.GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                DontDestroyOnLoad(shot);
+                Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
             }
             timeCharged = 0f;
             charging = false;
@@ -155,11 +151,6 @@ public class PlayerCombat : MonoBehaviour
         {
             currMissiles = saveController.playerData.currMissiles;
             maxMissiles = saveController.playerData.maxMissiles;
-            // Fix editor error when stopping game manually
-            if (HUD != null)
-            {
-                HUD.UpdateAmmo(currMissiles, maxMissiles);
-            }
         }
     }
 }

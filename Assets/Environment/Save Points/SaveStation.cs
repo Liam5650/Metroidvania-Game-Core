@@ -14,6 +14,7 @@ public class SaveStation : MonoBehaviour
     private Vector3 startPos;
     private float sinTimer;
     private bool hasIdled;
+    private GameObject player;
 
     void Start()
     {
@@ -83,6 +84,10 @@ public class SaveStation : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             stationState = "depress";
+            if (player == null)
+            {
+                player = other.gameObject;
+            }
         }
     }
 
@@ -96,25 +101,20 @@ public class SaveStation : MonoBehaviour
 
     private void SaveGame()
     {
-        GameObject UI = FindObjectOfType<UIController>().gameObject;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        SaveController gameSave = UI.GetComponent<SaveController>();
-        MapController mapController = FindObjectOfType<MapController>();
+        SaveController.instance.playerData.playerPosition = player.transform.position;
+        SaveController.instance.playerData.roomName = SceneManager.GetActiveScene().name;
+        SaveController.instance.playerData.currHealth = player.GetComponent<PlayerHealth>().GetHealth();
+        SaveController.instance.playerData.maxHealth = player.GetComponent<PlayerHealth>().GetMaxHealth();
+        SaveController.instance.playerData.currMissiles = player.GetComponent<PlayerCombat>().GetMissiles();
+        SaveController.instance.playerData.maxMissiles = player.GetComponent<PlayerCombat>().GetMaxMissiles();
+        SaveController.instance.playerData.doubleJump = player.GetComponent<Unlocks>().DoubleJump();
+        SaveController.instance.playerData.ball = player.GetComponent<Unlocks>().Ball();
+        SaveController.instance.playerData.ballBomb = player.GetComponent<Unlocks>().BallBomb();
+        SaveController.instance.playerData.chargeBeam = player.GetComponent<Unlocks>().ChargeBeam();
+        SaveController.instance.playerData.missile = player.GetComponent<Unlocks>().Missile();
+        SaveController.instance.playerData.roomsVisited = MapController.instance.SaveMap();
+        SaveController.instance.SaveData();
 
-        UI.GetComponent<UIController>().DisplayMessage("The game data has been saved.");
-
-        gameSave.playerData.playerPosition = player.transform.position;
-        gameSave.playerData.roomName = SceneManager.GetActiveScene().name;
-        gameSave.playerData.currHealth = player.GetComponent<PlayerHealth>().GetHealth();
-        gameSave.playerData.maxHealth = player.GetComponent<PlayerHealth>().GetMaxHealth();
-        gameSave.playerData.currMissiles = player.GetComponent<PlayerCombat>().GetMissiles();
-        gameSave.playerData.maxMissiles = player.GetComponent<PlayerCombat>().GetMaxMissiles();
-        gameSave.playerData.doubleJump = player.GetComponent<Unlocks>().DoubleJump();
-        gameSave.playerData.ball = player.GetComponent<Unlocks>().Ball();
-        gameSave.playerData.ballBomb = player.GetComponent<Unlocks>().BallBomb();
-        gameSave.playerData.chargeBeam = player.GetComponent<Unlocks>().ChargeBeam();
-        gameSave.playerData.missile = player.GetComponent<Unlocks>().Missile();
-        gameSave.playerData.roomsVisited = mapController.SaveMap();
-        gameSave.SaveData();
+        UIController.instance.DisplayMessage("The game data has been saved.");
     }
 }
