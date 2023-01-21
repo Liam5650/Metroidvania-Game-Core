@@ -162,6 +162,7 @@ MonoBehaviour:
   beamLifetime: 3
   beamDamage: 5
   hitEffect: {fileID: 6136305092957468729, guid: 89d76aad73547364396ed0f9479277e8, type: 3}
+  sfxIndex: 3
 --- !u!1001 &5720386094957433533
 PrefabInstance:
   m_ObjectHideFlags: 0

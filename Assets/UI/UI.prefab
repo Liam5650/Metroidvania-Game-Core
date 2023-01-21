@@ -2861,6 +2861,7 @@ MonoBehaviour:
   ammoObjects:
   - {fileID: 1373814203737953337}
   - {fileID: 3153617645664653366}
+  saveController: {fileID: 2088986856}
 --- !u!1 &3631216979011410510
 GameObject:
   m_ObjectHideFlags: 0
