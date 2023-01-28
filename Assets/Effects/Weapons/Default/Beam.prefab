@@ -161,4 +161,4 @@ MonoBehaviour:
   beamLifetime: 3
   beamDamage: 1
   hitEffect: {fileID: 980189696626939703, guid: af29cf3e9cd73df469004455fef3f9d1, type: 3}
-  sfxIndex: 4
+  sfx: {fileID: 8300000, guid: b5169444784cc0348b210f41849e13be, type: 3}

@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Unlocks unlocked;
 
+    private bool impactPlayed;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -46,18 +48,20 @@ public class PlayerMovement : MonoBehaviour
             if (unlocked.Ball())
             {
                 float verticalVector = Input.GetAxisRaw("Vertical");
-                if (verticalVector < 0)
+                if (verticalVector < 0 && standingCollider.enabled == true)
                 {
                     anim.runtimeAnimatorController = ballAnimController;
                     standingCollider.enabled = false;
                     ballCollider.enabled = true;
+                    AudioManager.instance.PlaySFX("PlayerMovement", 4);
 
                 }
-                else if (verticalVector > 0 && !(Physics2D.OverlapBox(ballCeilingBoxCheck.transform.position, ballCeilingBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer)))
+                else if (verticalVector > 0 && standingCollider.enabled == false && !(Physics2D.OverlapBox(ballCeilingBoxCheck.transform.position, ballCeilingBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer)))
                 {
                     anim.runtimeAnimatorController = standingAnimController;
                     ballCollider.enabled = false;
                     standingCollider.enabled = true;
+                    AudioManager.instance.PlaySFX("PlayerMovement", 5);
                 }
             }
             // Handle standing state movement
@@ -80,19 +84,27 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
                 if (isGrounded && rb.velocity.y < 0.01f)
                 {
+                    if (!impactPlayed)
+                    {
+                        AudioManager.instance.PlaySFX("PlayerMovement", 3); 
+                        impactPlayed = true;
+                    }
                     anim.SetBool("isGrounded", true);
                     canDoubleJump = true;
                     if (Input.GetButtonDown("Jump"))
                     {
                         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        AudioManager.instance.PlaySFX("PlayerMovement", 1);
                     }
                 }
                 else
                 {
+                    impactPlayed = false;
                     anim.SetBool("isGrounded", false);
                     if (Input.GetButtonDown("Jump") && canDoubleJump && unlocked.DoubleJump())
                     {
                         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        AudioManager.instance.PlaySFX("PlayerMovement", 2);
                         canDoubleJump = false;
                     }
                 }
@@ -118,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isGrounded && rb.velocity.y < 0.01f && Input.GetButtonDown("Jump"))
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    AudioManager.instance.PlaySFX("PlayerMovement", 1);
                 }
             }
         }

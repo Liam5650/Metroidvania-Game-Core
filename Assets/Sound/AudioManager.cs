@@ -5,8 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    [SerializeField] private AudioSource musicSource, sfxSource;
-    [SerializeField] private AudioClip[] music, weaponSFX;
+    [SerializeField] private AudioSource[] playerMovement; 
 
     private void Awake()
     {
@@ -19,12 +18,13 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void PlaySFX(int index)
+    public void PlaySFX(string source, int index)
     {
-        sfxSource.PlayOneShot(weaponSFX[index]);
+        if (source == "PlayerMovement") playerMovement[index].Play();
     }
+
     public void PlayMusic(int index)
     {
-        musicSource.PlayOneShot(music[index]);
+        //
     }
 }

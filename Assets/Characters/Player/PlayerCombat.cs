@@ -58,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
                     if (cooldown> 0.2f)
                     {
                         Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                        AudioManager.instance.PlaySFX(0);
+                        //AudioManager.instance.PlaySFX(sfx[0]);
                     }
                     if (unlocked.ChargeBeam())
                     {
@@ -72,7 +72,7 @@ public class PlayerCombat : MonoBehaviour
                     if (timeCharged >= chargeTime)
                     {
                         Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                        AudioManager.instance.PlaySFX(1);
+                        //AudioManager.instance.PlaySFX(sfx[1]);
                         cooldown = 0f;
                     }
                     timeCharged = 0f;
@@ -85,7 +85,7 @@ public class PlayerCombat : MonoBehaviour
                     timeCharged += Time.deltaTime;
                     if (timeCharged >= 0.35f)
                     {
-                        if (!chargeSFXPlayed) AudioManager.instance.PlaySFX(2); chargeSFXPlayed=true;
+                        //if (!chargeSFXPlayed) AudioManager.instance.PlaySFX(sfx[2]); chargeSFXPlayed=true;
                         if (timeCharged > chargeTime) timeCharged = chargeTime;
                         chargedEffect.gameObject.SetActive(true);
                         float chargePercent = (timeCharged-0.35f)/(chargeTime - 0.35f);
@@ -120,7 +120,7 @@ public class PlayerCombat : MonoBehaviour
             if (timeCharged >= chargeTime)
             {
                 Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                AudioManager.instance.PlaySFX(1);
+                //AudioManager.instance.PlaySFX(sfx[1]);
             }
             timeCharged = 0f;
             charging = false;
