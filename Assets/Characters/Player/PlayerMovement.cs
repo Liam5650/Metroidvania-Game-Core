@@ -127,6 +127,15 @@ public class PlayerMovement : MonoBehaviour
 
                 // Handle vertical movement
                 isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
+                if (isGrounded && !impactPlayed)
+                {
+                    AudioManager.instance.PlaySFX("PlayerMovement", 3);
+                    impactPlayed = true;
+                }
+                else if (!isGrounded)
+                {
+                    impactPlayed= false;
+                }
                 if (isGrounded && rb.velocity.y < 0.01f && Input.GetButtonDown("Jump"))
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -162,5 +171,10 @@ public class PlayerMovement : MonoBehaviour
     public bool IsStanding()
     {
         return standingCollider.enabled;
+    }
+
+    private void PlayFootstepAudio()
+    {
+        AudioManager.instance.PlayAdjustedSFX("PlayerMovement", 0, 0.1f);
     }
 }

@@ -57,4 +57,9 @@ public class EnemyHealth : MonoBehaviour
             Instantiate(pickups[index], transform.position, Quaternion.identity);
         }
     }
+
+    public float GetHealth()
+    {
+        return health;
+    }
 }

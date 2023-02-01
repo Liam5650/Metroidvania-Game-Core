@@ -58,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
                     if (cooldown> 0.2f)
                     {
                         Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                        //AudioManager.instance.PlaySFX(sfx[0]);
+                        AudioManager.instance.PlaySFX("PlayerCombat", 0);
                     }
                     if (unlocked.ChargeBeam())
                     {
@@ -72,7 +72,7 @@ public class PlayerCombat : MonoBehaviour
                     if (timeCharged >= chargeTime)
                     {
                         Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                        //AudioManager.instance.PlaySFX(sfx[1]);
+                        AudioManager.instance.PlaySFX("PlayerCombat", 2);
                         cooldown = 0f;
                     }
                     timeCharged = 0f;
@@ -85,7 +85,7 @@ public class PlayerCombat : MonoBehaviour
                     timeCharged += Time.deltaTime;
                     if (timeCharged >= 0.35f)
                     {
-                        //if (!chargeSFXPlayed) AudioManager.instance.PlaySFX(sfx[2]); chargeSFXPlayed=true;
+                        if (!chargeSFXPlayed) AudioManager.instance.PlaySFX("PlayerCombat", 4); chargeSFXPlayed=true;
                         if (timeCharged > chargeTime) timeCharged = chargeTime;
                         chargedEffect.gameObject.SetActive(true);
                         float chargePercent = (timeCharged-0.35f)/(chargeTime - 0.35f);
@@ -94,6 +94,7 @@ public class PlayerCombat : MonoBehaviour
                 }
                 else if (Input.GetButtonDown("Fire2") && currMissiles > 0 && unlocked.Missile())
                 {
+                    AudioManager.instance.PlaySFX("PlayerCombat", 5);
                     Instantiate(missile, shootPoint.position, Quaternion.identity).GetComponent<Missile>().Fire(gameObject.transform.localScale.x);
                     currMissiles -= 1;
                     HUD.UpdateAmmo(currMissiles, maxMissiles);
@@ -120,7 +121,7 @@ public class PlayerCombat : MonoBehaviour
             if (timeCharged >= chargeTime)
             {
                 Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
-                //AudioManager.instance.PlaySFX(sfx[1]);
+                AudioManager.instance.PlaySFX("PlayerCombat", 2);
             }
             timeCharged = 0f;
             charging = false;
@@ -129,6 +130,7 @@ public class PlayerCombat : MonoBehaviour
             if (Time.timeScale > 0f && Input.GetButtonDown("Fire1") && unlocked.BallBomb())
             {
                 Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
+                AudioManager.instance.PlaySFX("PlayerCombat", 8);
             }
         }
     }

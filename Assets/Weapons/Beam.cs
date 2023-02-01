@@ -9,7 +9,7 @@ public class Beam : MonoBehaviour
     [SerializeField] float beamDamage;
     [SerializeField] GameObject hitEffect;
     private Rigidbody2D rb;
-    [SerializeField] AudioClip sfx;
+    [SerializeField] private int hitSFXIndex;
 
     public void Fire(float direction)
     {
@@ -25,7 +25,7 @@ public class Beam : MonoBehaviour
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(beamDamage);
         }
         Instantiate(hitEffect, transform.position, Quaternion.identity);
-        //AudioManager.instance.PlaySFX(sfx);
+        AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);
         Destroy(gameObject);
     }
 }

@@ -48,6 +48,7 @@ public class Missile : MonoBehaviour
         {
             Instantiate(hitEffect, transform.position, Quaternion.identity);
         }
+        AudioManager.instance.PlayAdjustedSFX("PlayerCombat", 6, 0.05f);
         Destroy(gameObject);
     }
 }

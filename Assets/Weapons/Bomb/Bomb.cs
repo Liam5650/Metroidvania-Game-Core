@@ -25,6 +25,7 @@ public class Bomb : MonoBehaviour
 
     private void OnDestroy()
     {
+        AudioManager.instance.PlaySFX("PlayerCombat", 9);
         if (explodeEffect!= null)
         {
             Instantiate(explodeEffect, transform.position, Quaternion.identity);
