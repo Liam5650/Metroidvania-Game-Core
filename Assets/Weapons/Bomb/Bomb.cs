@@ -18,7 +18,6 @@ public class Bomb : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
             Destroy(gameObject);
         }
     }

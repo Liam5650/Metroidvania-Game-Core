@@ -23,9 +23,9 @@ TagManager:
   - Player
   - SceneTransition
   - Pickup
-  - 
-  - 
-  - 
+  - Enemy
+  - Trigger
+  - Enemy Weaponry
   - 
   - 
   - 
