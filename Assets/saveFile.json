@@ -1,1 +1,1 @@
-{"playerPosition":{"x":33.279991149902347,"y":7.233460903167725,"z":0.0},"roomName":"Room1","currHealth":999.0,"maxHealth":999.0,"currMissiles":555,"maxMissiles":555,"doubleJump":true,"ball":true,"ballBomb":true,"chargeBeam":true,"missile":true,"roomsVisited":[{"x":0,"y":0,"z":0}]}
+{"playerPosition":{"x":20.0,"y":10.0,"z":0.0},"roomName":"Room1","currHealth":99.0,"maxHealth":99.0,"currMissiles":0,"maxMissiles":0,"doubleJump":false,"ball":false,"ballBomb":false,"chargeBeam":false,"missile":false,"roomsVisited":[]}

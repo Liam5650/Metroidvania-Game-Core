@@ -1,4 +1,4 @@
-All gameplay funtionality and scripting created by Liam Iles. Any third party assets used are attributed below. 
+All gameplay funtionality and scripting created by Liam5650. Any third party assets used are attributed below. 
 
 
 ----- Sprites -----
@@ -10,3 +10,11 @@ https://opengameart.org/content/space-war-man-platform-shmup-set
 
 512 Sound Effects 8 Bit Style by SubspaceAudio on opengameart.org, licensed under CC0
 https://opengameart.org/content/512-sound-effects-8-bit-style
+
+----- Music -----
+
+5 Chiptunes (Action) by SubspaceAudio on opengameart.org, licensed under CC0
+https://opengameart.org/content/5-chiptunes-action
+
+JRPG Pack 1 Exploration by SubspaceAudio on opengameart.org, licensed under CC0
+https://opengameart.org/content/jrpg-pack-1-exploration

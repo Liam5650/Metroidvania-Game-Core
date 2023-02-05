@@ -48,19 +48,26 @@ public class BossGunner : MonoBehaviour
     private IEnumerator FadeIn()
     {
         inState= true;
+        AudioManager.instance.FadeOutMusic(1.5f);
+        yield return new WaitForSeconds(2f);
+
         while (spriteRenderer.color.a < 1f)
         {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a + fadeInSpeed * Time.deltaTime);
             yield return null;
         }
+
+        AudioManager.instance.PlaySFX("Boss", 3);
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.PlayMusic(2);
+        AudioManager.instance.SetMusicVolume(0.75f);
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
         inState= false;
     }
 
     private IEnumerator Shoot()
     {
         inState= true;
-
-
 
         float multiplier;
         if (damagePercent >= 0.66f) multiplier = 1f;
@@ -88,41 +95,41 @@ public class BossGunner : MonoBehaviour
         // Boss sub states
         if (damagePercent >= 0.66f)
         {
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
             yield return new WaitForSeconds(0.2f);
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
             yield return new WaitForSeconds(0.2f);
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
         }
         else if (damagePercent < 0.66f && damagePercent >= 0.33f)
         {
             chargedEffect.SetActive(true);
-            AudioManager.instance.PlaySFX("PlayerCombat", 4);
+            AudioManager.instance.PlaySFX("Boss", 2);
             yield return new WaitForSeconds(1f);
             chargedEffect.SetActive(false);
-            AudioManager.instance.PlaySFX("PlayerCombat", 2);
+            AudioManager.instance.PlaySFX("Boss", 1);
             Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
 
         }
         else if (damagePercent < 0.33f)
         {
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
             yield return new WaitForSeconds(0.1f);
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
             yield return new WaitForSeconds(0.1f);
-            AudioManager.instance.PlaySFX("PlayerCombat", 0);
+            AudioManager.instance.PlaySFX("Boss", 0);
             Instantiate(beam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
             yield return new WaitForSeconds(0.5f);
             chargedEffect.SetActive(true);
-            AudioManager.instance.PlaySFX("PlayerCombat", 4);
+            AudioManager.instance.PlaySFX("Boss", 2);
             yield return new WaitForSeconds(0.5f);
             chargedEffect.SetActive(false);
-            AudioManager.instance.PlaySFX("PlayerCombat", 2);
+            AudioManager.instance.PlaySFX("Boss", 1);
             Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
         }
 

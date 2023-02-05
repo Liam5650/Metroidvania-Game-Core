@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1375402930285192880, guid: 69e0edee98a918d43a28d0162515951f, type: 3}
+      propertyPath: fadeInSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3351391947294857514, guid: 69e0edee98a918d43a28d0162515951f, type: 3}
       propertyPath: m_Name
       value: Boss Gunner

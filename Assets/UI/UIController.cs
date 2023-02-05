@@ -24,21 +24,17 @@ public class UIController : MonoBehaviour
     [SerializeField] string roomToDebug;
     private bool isPaused;
     private bool inTransition;
-
     [SerializeField] GameObject messageScreen;
     [SerializeField] TextMeshProUGUI messageText;
-
     private SaveController saveController;
-
     [SerializeField] private GameObject mapScreen;
     private bool viewingMap;
     [SerializeField] private MapController mapController;
-
-    // Public getter for messages etc
     public static UIController instance;
 
     private void Awake()
     {
+        // Set up instance
         if (instance != null)
         {
             Destroy(this.gameObject);
@@ -48,15 +44,11 @@ public class UIController : MonoBehaviour
 
         saveController = gameObject.GetComponent<SaveController>();
 
-        // Set up continue button if we have save data
-        if (saveController.HasSave())
-        {
-            continueButton.interactable = true;
-        }
-        else
-        {
-            continueButton.interactable = false;
-        }
+        // Enable continue button if we have save data
+        if (saveController.HasSave()) continueButton.interactable = true;
+        else continueButton.interactable = false;
+
+        AudioManager.instance.PlayMusic(0);
     }
 
     void Update()
@@ -64,6 +56,7 @@ public class UIController : MonoBehaviour
         // Disable input under certain conditions
         if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !messageScreen.activeSelf)
         {
+            // Pause Menu input handling
             if (!viewingMap && Input.GetKeyDown(KeyCode.Escape))
             {
                 if (!isPaused)
@@ -79,6 +72,7 @@ public class UIController : MonoBehaviour
                     pauseScreen.SetActive(false);
                 }
             }
+            // Map Menu input handling
             if (!isPaused && Input.GetKeyDown(KeyCode.M))
             {
                 if (!viewingMap)
@@ -137,36 +131,34 @@ public class UIController : MonoBehaviour
 
     }
 
-    private IEnumerator MenuTransition(string sceneName, float fadeTime = 0f, float fadeHoldTime = 0f)
+    public void LoadMenu()
+    {
+        StartCoroutine(TransitionToMenu(menuFadeTime, menuFadeHoldTime));
+        isPaused = false;
+    }
+
+    private IEnumerator TransitionToMenu(float fadeTime = 0f, float fadeHoldTime = 0f)
     {
         // Suspend play and fade in 
         MarkTransition(true);
+        AudioManager.instance.FadeOutMusic(fadeTime);
         yield return (StartCoroutine(FadeTransition("in", fadeTime)));
 
         // Reference the scene we are moving from to disable later
         string oldScene = SceneManager.GetActiveScene().name;
 
-        // Do required actions based on if we are loading into a level or the menu
-        if (sceneName == "MainMenu")
-        {
-            player.SetActive(false);
-            pauseScreen.SetActive(false);
-            hud.SetActive(false);
-            mainMenuScreen.SetActive(true);
-            GameObject[] shots = GameObject.FindGameObjectsWithTag("Shot");
-            foreach (GameObject shot in shots)
-                GameObject.Destroy(shot);
-        }
-        else if (oldScene == "MainMenu")
-        {
-            hud.SetActive(true);
-            player.SetActive(true);
-            mainMenuScreen.SetActive(false);
-        }
+        // Do required cleanup based on loading into menu
+        player.SetActive(false);
+        pauseScreen.SetActive(false);
+        hud.SetActive(false);
+        mainMenuScreen.SetActive(true);
+        GameObject[] shots = GameObject.FindGameObjectsWithTag("Shot");
+        foreach (GameObject shot in shots)
+            GameObject.Destroy(shot);
 
         // Complete the scene transition
-        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        yield return SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainMenu"));
         yield return SceneManager.UnloadSceneAsync(oldScene);
 
         // Update the camera with the new bounds, wait for delay, then fade out and resume play
@@ -174,6 +166,47 @@ public class UIController : MonoBehaviour
         player.transform.position = saveController.playerData.playerPosition;
         mapController.LoadMap(saveController.playerData.roomsVisited);
         yield return new WaitForSecondsRealtime(fadeHoldTime);
+        AudioManager.instance.PlayMusic(0);
+        yield return (StartCoroutine(FadeTransition("out", fadeTime)));
+        MarkTransition(false);
+    }
+
+    public void NewGame()
+    {
+        saveController.ClearSave();
+        saveController.SaveData();
+        StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
+    }
+
+    public void Continue()
+    {
+        StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
+    }
+
+    private IEnumerator TransitionFromMenu(string sceneName, float fadeTime = 0f, float fadeHoldTime = 0f)
+    {
+        // Suspend play and fade in 
+        MarkTransition(true);
+        AudioManager.instance.FadeOutMusic(fadeTime);
+        yield return (StartCoroutine(FadeTransition("in", fadeTime)));
+        if (saveController.HasSave()) continueButton.interactable = true;
+
+        // Set up player
+        hud.SetActive(true);
+        player.SetActive(true);
+        mainMenuScreen.SetActive(false);
+
+        // Complete the scene transition
+        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        yield return SceneManager.UnloadSceneAsync("MainMenu");
+
+        // Update the camera with the new bounds, wait for delay, then fade out and resume play
+        FindObjectOfType<TrackPlayer>().GetBounds();
+        player.transform.position = saveController.playerData.playerPosition;
+        mapController.LoadMap(saveController.playerData.roomsVisited);
+        yield return new WaitForSecondsRealtime(fadeHoldTime);
+        AudioManager.instance.PlayMusic(1);
         yield return (StartCoroutine(FadeTransition("out", fadeTime)));
         MarkTransition(false);
     }
@@ -226,37 +259,10 @@ public class UIController : MonoBehaviour
         pauseScreen.SetActive(false);
     }
 
-    public void LoadMenu()
-    {
-        // Set up continue button if we have save data
-        if (saveController.HasSave())
-        {
-            continueButton.interactable = true;
-        }
-        else
-        {
-            continueButton.interactable = false;
-        }
-        StartCoroutine(MenuTransition("MainMenu", menuFadeTime, menuFadeHoldTime));
-        isPaused = false;
-    }
-
     public void QuitGame()
     {
         Debug.Log("Application Quit");
         Application.Quit();
-    }
-
-    public void NewGame(string levelName)
-    {
-        saveController.ClearSave();
-        saveController.SaveData();
-        StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
-    }
-
-    public void Continue()
-    {
-        StartCoroutine(MenuTransition(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
     public void DebugRoom()
@@ -269,7 +275,7 @@ public class UIController : MonoBehaviour
 
     private IEnumerator DebugTransition()
     {
-        yield return StartCoroutine(MenuTransition(roomToDebug, menuFadeTime, menuFadeHoldTime));
+        yield return StartCoroutine(TransitionFromMenu(roomToDebug, menuFadeTime, menuFadeHoldTime));
         player.transform.position = new Vector3(hud.transform.position.x, hud.transform.position.y, 0);
     }
 

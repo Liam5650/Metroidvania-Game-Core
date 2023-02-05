@@ -16,8 +16,10 @@ public class BossTrigger : MonoBehaviour
     {
         if (boss == null && !inRoutine)
         {
+            AudioManager.instance.PlaySFX("Boss", 4);
             inRoutine = true;
             StartCoroutine(SpawnUpgrade());
+            AudioManager.instance.FadeOutMusic(2f);
         }
     }
 
@@ -56,5 +58,8 @@ public class BossTrigger : MonoBehaviour
             yield return null;
         }
         foreach (Barrier barrier in barriers) barrier.Retract();
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.PlayMusic(1, 0f);
+        AudioManager.instance.FadeInMusic(3f);
     }
 }
