@@ -41,6 +41,9 @@ public class SaveController : MonoBehaviour
         public int currMissiles = 0, maxMissiles = 0;
         public bool doubleJump = false, ball = false, ballBomb = false, chargeBeam = false, missile = false;
         public Vector3Int[] roomsVisited;
+
+        // Implement this ----------------------------------> event list for missile/health upgrade spawns, ability upgrade spawns, and boss triggers
+        public List<int> events = new List<int>();
     }
 
     public void SaveData()

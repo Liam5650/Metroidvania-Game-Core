@@ -146,16 +146,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Use a public getter attached to this script so the coroutine is run on the player object and persists through loads
-    public void launchPlayer()
+    public void launchPlayer(Vector3 hitPosition)
     {
-        StartCoroutine(launch());
+        StartCoroutine(Launch(hitPosition));
     }
 
-    private IEnumerator launch()
+    private IEnumerator Launch(Vector3 hitPoition)
     {
         canMove = false;
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(transform.localScale.x*-1, 1)* hitForce, ForceMode2D.Impulse); 
+        rb.AddForce(new Vector2(Mathf.Sign(transform.position.x - hitPoition.x), 1)* hitForce, ForceMode2D.Impulse); 
         yield return new WaitForSeconds(hitstun);
         rb.velocity = new Vector2(0f,0f);
         canMove = true;

@@ -8,8 +8,9 @@ public class MissileUpgrade : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            AudioManager.instance.PlaySFX("Pickup", 1);
             other.gameObject.GetComponent<PlayerCombat>().UpgradeMissiles();
-            FindObjectOfType<UIController>().DisplayMessage("Missile capacity upgraded.");
+            FindObjectOfType<UIController>().DisplayMessage("Missile capacity upgraded by 5.");
             Destroy(gameObject);
         }
     }

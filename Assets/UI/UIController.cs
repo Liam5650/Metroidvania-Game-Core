@@ -64,12 +64,16 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 0f;
                     isPaused = true;
                     pauseScreen.SetActive(true);
+                    AudioManager.instance.SetMusicVolume(0.5f);
+                    AudioManager.instance.PlaySFX("UI", 1);
                 }
                 else
                 {
                     Time.timeScale = 1f;
                     isPaused = false;
                     pauseScreen.SetActive(false);
+                    AudioManager.instance.SetMusicVolume(1f);
+                    AudioManager.instance.PlaySFX("UI", 2);
                 }
             }
             // Map Menu input handling
@@ -81,6 +85,8 @@ public class UIController : MonoBehaviour
                     viewingMap = true;
                     mapScreen.SetActive(true);
                     mapController.ViewingMap(true);
+                    AudioManager.instance.SetMusicVolume(0.5f);
+                    AudioManager.instance.PlaySFX("UI", 1);
                 }
                 else
                 {
@@ -88,6 +94,8 @@ public class UIController : MonoBehaviour
                     viewingMap = false;
                     mapScreen.SetActive(false);
                     mapController.ViewingMap(false);
+                    AudioManager.instance.SetMusicVolume(1f);
+                    AudioManager.instance.PlaySFX("UI", 2);
                 }
             }
         }
@@ -173,6 +181,7 @@ public class UIController : MonoBehaviour
 
     public void NewGame()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
         saveController.ClearSave();
         saveController.SaveData();
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
@@ -180,6 +189,7 @@ public class UIController : MonoBehaviour
 
     public void Continue()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
@@ -254,6 +264,8 @@ public class UIController : MonoBehaviour
 
     public void ResumePlay()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
+        AudioManager.instance.SetMusicVolume(1f);
         Time.timeScale = 1f;
         isPaused = false;
         pauseScreen.SetActive(false);
@@ -261,12 +273,14 @@ public class UIController : MonoBehaviour
 
     public void QuitGame()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
         Debug.Log("Application Quit");
         Application.Quit();
     }
 
     public void DebugRoom()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
         if (roomToDebug!= null)
         {
             StartCoroutine(DebugTransition());

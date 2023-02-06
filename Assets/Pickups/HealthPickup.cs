@@ -44,6 +44,7 @@ public class HealthPickup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            AudioManager.instance.PlaySFX("Pickup", 0);
             other.gameObject.GetComponent<PlayerHealth>().HealPlayer(healAmount);
             Destroy(gameObject);
         }

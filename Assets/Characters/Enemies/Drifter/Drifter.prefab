@@ -143,6 +143,8 @@ MonoBehaviour:
   - {fileID: 869518567620239122, guid: a9187c67d624a4a4cb50e875e22f2714, type: 3}
   - {fileID: 6036322016390086353, guid: 888be7efb69866d42b80117ed0385aec, type: 3}
   dropChance: 100
+  playDeathSound: 1
+  deathSoundIndex: 1
 --- !u!61 &3459932727205156104
 BoxCollider2D:
   m_ObjectHideFlags: 0

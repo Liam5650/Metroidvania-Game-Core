@@ -43,6 +43,7 @@ public class AmmoPickup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            AudioManager.instance.PlaySFX("Pickup", 0);
             other.gameObject.GetComponent<PlayerCombat>().RechargeAmmo(rechargeAmount);
             Destroy(gameObject);
         }

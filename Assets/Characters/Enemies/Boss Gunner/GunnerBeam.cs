@@ -22,7 +22,7 @@ public class GunnerBeam : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(beamDamage);
+            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(beamDamage, gameObject.transform.position);
         }
         Instantiate(hitEffect, transform.position, Quaternion.identity);
         AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);

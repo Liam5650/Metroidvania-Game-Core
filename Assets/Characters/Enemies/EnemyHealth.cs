@@ -14,6 +14,8 @@ public class EnemyHealth : MonoBehaviour
     private Coroutine flashRoutine;
     [SerializeField] List<GameObject> pickups = new List<GameObject>();
     [SerializeField] int dropChance;
+    [SerializeField] bool playDeathSound;
+    [SerializeField] private int deathSoundIndex;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class EnemyHealth : MonoBehaviour
     public void DamageEnemy(float damageAmount)
     {
         health -= damageAmount;
+        AudioManager.instance.PlaySFX("PlayerCombat", 10);
         if (flashRoutine == null)
         {
             flashRoutine = StartCoroutine(flashCoroutine());
@@ -36,6 +39,7 @@ public class EnemyHealth : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
         if (health <= 0)
         {
+            if (playDeathSound == true) AudioManager.instance.PlaySFX("Enemy", deathSoundIndex);
             Instantiate(deathEffect, transform.position, Quaternion.identity);
             DropPickup();
             Destroy(gameObject);

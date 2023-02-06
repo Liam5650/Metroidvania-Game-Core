@@ -10,7 +10,7 @@ public class DamagePlayer : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount);
+            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount, gameObject.transform.position);
         }
     }
 
@@ -18,7 +18,7 @@ public class DamagePlayer : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount);
+            other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(damageAmount, gameObject.transform.position);
         }
     }
 }

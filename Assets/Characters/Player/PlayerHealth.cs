@@ -33,17 +33,20 @@ public class PlayerHealth : MonoBehaviour
         HUD.UpdateHealth(health, maxHealth);       
     }
 
-    public void DamagePlayer(float damageAmount)
+    public void DamagePlayer(float damageAmount, Vector3 hitPosition)
     {
         if (!invincible)
         {
             health -= damageAmount;
             if (health > 0 && flashRoutine == null)
             {
+                AudioManager.instance.PlaySFX("PlayerHealth", 0);
+                gameObject.GetComponent<PlayerMovement>().launchPlayer(hitPosition);
                 flashRoutine = StartCoroutine(flashCoroutine());
             }
             else if (health <= 0)
             {
+                AudioManager.instance.PlaySFX("PlayerHealth", 1);
                 if (deathEffect!= null)
                 {
                     Instantiate(deathEffect, transform.position, Quaternion.identity);
@@ -58,7 +61,6 @@ public class PlayerHealth : MonoBehaviour
     {
         HUD.UpdateHealth(health, maxHealth);
         invincible = true;
-        gameObject.GetComponent<PlayerMovement>().launchPlayer();
         spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.material = defaultMaterial;

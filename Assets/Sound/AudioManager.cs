@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    [SerializeField] private AudioSource[] playerMovement, playerCombat, pickup, enemy, boss;
+    [SerializeField] private AudioSource[] playerMovement, playerCombat, playerHealth, pickup, enemy, boss, userInterface;
     private List<float> playerCombatPitches = new List<float>();
     private List<float> playerMovementPitches = new List<float>();
     [SerializeField] private AudioClip[] musicClips;
@@ -36,9 +36,11 @@ public class AudioManager : MonoBehaviour
     {
         if (source == "PlayerMovement") playerMovement[index].Play();
         else if (source == "PlayerCombat") playerCombat[index].Play();
+        else if (source == "PlayerHealth") playerHealth[index].Play();
         else if (source == "Pickup") pickup[index].Play();
         else if (source == "Enemy") enemy[index].Play();
         else if (source == "Boss") boss[index].Play();
+        else if (source == "UI") userInterface[index].Play();
     }
 
     public void PlayAdjustedSFX(string source, int index, float offset)
