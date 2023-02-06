@@ -28,19 +28,12 @@ public class PlayerCombat : MonoBehaviour
     private bool chargeSFXPlayed;
     private float cooldown;
 
-    void Start()
+    void Awake()
     {
         timeCharged = 0f;
         charging = false;
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
         chargedEffect.transform.parent = shootPoint.transform;
-
-        if (saveController.HasSave())
-        {
-            currMissiles = saveController.playerData.currMissiles;
-            maxMissiles = saveController.playerData.maxMissiles;
-        }
-        HUD.UpdateAmmo(currMissiles, maxMissiles);
         unlocked = GetComponent<Unlocks>();
     }
 
@@ -161,7 +154,8 @@ public class PlayerCombat : MonoBehaviour
         return maxMissiles;
     }
 
-    private void OnDisable()
+
+    public void RefreshState()
     {
         // Revert changes since last save
         if (saveController.HasSave())

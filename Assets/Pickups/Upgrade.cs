@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Upgrade : MonoBehaviour
 {
+    [SerializeField] private int upgradeID;
     [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;
+
+    private void Awake()
+    {
+        if (SaveController.instance.playerData.abilityUpgrades[upgradeID] == 1) Destroy(gameObject);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
+            SaveController.instance.playerData.abilityUpgrades[upgradeID] = 1;
             Unlocks unlocked = other.gameObject.GetComponent<Unlocks>();
             AudioManager.instance.PlaySFX("Pickup", 2);
 

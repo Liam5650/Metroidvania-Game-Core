@@ -11,6 +11,12 @@ public class BossTrigger : MonoBehaviour
     [SerializeField] private GameObject boss;
     [SerializeField] private GameObject upgrade;
     private bool inRoutine;
+    [SerializeField] private int eventID;
+
+    private void Awake()
+    {
+        if (SaveController.instance.playerData.events[eventID] == 1) Destroy(gameObject);
+    }
 
     private void Update()
     {
@@ -28,6 +34,7 @@ public class BossTrigger : MonoBehaviour
         // also check if savedata shows boss hass not been beaten, then spawn
         if (collision.gameObject.tag == "Player")
         {
+            SaveController.instance.playerData.events[eventID] = 1;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             foreach(Barrier barrier in barriers) barrier.Deploy();
             boss.gameObject.SetActive(true);

@@ -7,19 +7,6 @@ public class Unlocks : MonoBehaviour
     [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;
     private SaveController saveController;
 
-    private void Start()
-    {
-        saveController = SaveController.instance;
-        if (saveController.HasSave())
-        {
-            doubleJump = saveController.playerData.doubleJump;
-            ball = saveController.playerData.ball;
-            ballBomb = saveController.playerData.ballBomb;
-            chargeBeam= saveController.playerData.chargeBeam;
-            missile = saveController.playerData.missile;
-        }
-    }
-
     public bool DoubleJump()
     {
         return doubleJump;
@@ -70,9 +57,9 @@ public class Unlocks : MonoBehaviour
         missile = true;
     }
 
-    private void OnDisable()
+    public void RefreshState()
     {
-        // Reset upgrades since last save
+        saveController = SaveController.instance;
         if (saveController.HasSave())
         {
             doubleJump = saveController.playerData.doubleJump;

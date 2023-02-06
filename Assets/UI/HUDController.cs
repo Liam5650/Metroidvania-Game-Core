@@ -17,27 +17,24 @@ public class HUDController : MonoBehaviour
         int filledTanks = (int)health / 100;
 
         // Enable health bars according to what our max health is
-        if (unlockedTanks > 0)
+        for (int i = 0; i < energyTanks.Length; i += 1)
         {
-            for (int i = 0; i < energyTanks.Length; i += 1)
+            if (i < unlockedTanks)
             {
-                if (i < unlockedTanks)
-                {
-                    energyTanks[i].SetActive(true);
+                energyTanks[i].SetActive(true);
 
-                    if (i < filledTanks)
-                    {
-                        energyTanks[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        energyTanks[i].GetComponent<Image>().color = new Color(0.2f, 0.2f, 0.2f, 1f);
-                    }
+                if (i < filledTanks)
+                {
+                    energyTanks[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 }
                 else
                 {
-                    energyTanks[i].SetActive(false);
+                    energyTanks[i].GetComponent<Image>().color = new Color(0.2f, 0.2f, 0.2f, 1f);
                 }
+            }
+            else
+            {
+                energyTanks[i].SetActive(false);
             }
         }
 
@@ -64,7 +61,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    public void RefreshState()
     {
         if (saveController.HasSave())
         {

@@ -141,6 +141,7 @@ public class UIController : MonoBehaviour
 
     public void LoadMenu()
     {
+        AudioManager.instance.PlaySFX("UI", 0);
         StartCoroutine(TransitionToMenu(menuFadeTime, menuFadeHoldTime));
         isPaused = false;
     }
@@ -155,7 +156,7 @@ public class UIController : MonoBehaviour
         // Reference the scene we are moving from to disable later
         string oldScene = SceneManager.GetActiveScene().name;
 
-        // Do required cleanup based on loading into menu
+        // Set up menu
         player.SetActive(false);
         pauseScreen.SetActive(false);
         hud.SetActive(false);
@@ -170,9 +171,7 @@ public class UIController : MonoBehaviour
         yield return SceneManager.UnloadSceneAsync(oldScene);
 
         // Update the camera with the new bounds, wait for delay, then fade out and resume play
-        FindObjectOfType<TrackPlayer>().GetBounds();
-        player.transform.position = saveController.playerData.playerPosition;
-        mapController.LoadMap(saveController.playerData.roomsVisited);
+        player.transform.position = Vector3.zero;
         yield return new WaitForSecondsRealtime(fadeHoldTime);
         AudioManager.instance.PlayMusic(0);
         yield return (StartCoroutine(FadeTransition("out", fadeTime)));
@@ -190,6 +189,7 @@ public class UIController : MonoBehaviour
     public void Continue()
     {
         AudioManager.instance.PlaySFX("UI", 0);
+        saveController.LoadSave();
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
@@ -204,6 +204,10 @@ public class UIController : MonoBehaviour
         // Set up player
         hud.SetActive(true);
         player.SetActive(true);
+        player.GetComponent<PlayerHealth>().RefreshState();
+        player.GetComponent<PlayerCombat>().RefreshState();
+        player.GetComponent<Unlocks>().RefreshState();
+        hud.GetComponent<HUDController>().RefreshState();
         mainMenuScreen.SetActive(false);
 
         // Complete the scene transition
@@ -214,7 +218,7 @@ public class UIController : MonoBehaviour
         // Update the camera with the new bounds, wait for delay, then fade out and resume play
         FindObjectOfType<TrackPlayer>().GetBounds();
         player.transform.position = saveController.playerData.playerPosition;
-        mapController.LoadMap(saveController.playerData.roomsVisited);
+        mapController.RefreshMap(saveController.playerData.roomsVisited);
         yield return new WaitForSecondsRealtime(fadeHoldTime);
         AudioManager.instance.PlayMusic(1);
         yield return (StartCoroutine(FadeTransition("out", fadeTime)));

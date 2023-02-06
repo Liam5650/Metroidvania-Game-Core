@@ -33,11 +33,7 @@ public class MapController : MonoBehaviour
             return;
         }
         instance = this;
-    }
-
-    void Start()
-    {
-        viewingMap= false;
+        viewingMap = false;
     }
 
     void Update()
@@ -100,8 +96,10 @@ public class MapController : MonoBehaviour
         return visitedRooms.ToArray();
     }
 
-    public void LoadMap(Vector3Int[] rooms)
+    public void RefreshMap(Vector3Int[] rooms)
     {
+        roomGrid.ClearAllTiles();
+
         // If there is save data, set the tiles to visited
         if (rooms != null)
         {
@@ -109,11 +107,6 @@ public class MapController : MonoBehaviour
             {
                 roomGrid.SetTile(coord, visitedRoomTile);
             }
-        }
-        // If there is no save data, make sure the tiles have been reset
-        else
-        {
-            roomGrid.ClearAllTiles();
         }
     }
 

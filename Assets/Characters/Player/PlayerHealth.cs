@@ -20,17 +20,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] HUDController HUD;
     [SerializeField] SaveController saveController;
 
-    void Start()
+    void Awake()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
-
-        if (saveController.HasSave())
-        {
-            health = saveController.playerData.currHealth;
-            maxHealth= saveController.playerData.maxHealth;
-        }
-        HUD.UpdateHealth(health, maxHealth);       
     }
 
     public void DamagePlayer(float damageAmount, Vector3 hitPosition)
@@ -104,8 +97,7 @@ public class PlayerHealth : MonoBehaviour
         return maxHealth;
     }
 
-    // Reset some values when we load the menu/respawn
-    private void OnDisable()
+    public void RefreshState()
     {
         spriteRenderer.material = defaultMaterial;
         spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 1);

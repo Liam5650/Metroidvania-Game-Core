@@ -42,8 +42,11 @@ public class SaveController : MonoBehaviour
         public bool doubleJump = false, ball = false, ballBomb = false, chargeBeam = false, missile = false;
         public Vector3Int[] roomsVisited;
 
-        // Implement this ----------------------------------> event list for missile/health upgrade spawns, ability upgrade spawns, and boss triggers
-        public List<int> events = new List<int>();
+        // Event/upgrade reference array. Each index is mapped to a single gameobject, and changed to the value 1 if the gameobject hitbox has been triggered
+        public int[] missileUpgrades = new int[10];
+        public int[] healthUpgrades = new int[5];
+        public int[] abilityUpgrades= new int[10];
+        public int[] events = new int[10];
     }
 
     public void SaveData()
@@ -64,5 +67,11 @@ public class SaveController : MonoBehaviour
             System.IO.File.Delete(Application.dataPath + "/saveFile.json");
         }
         playerData = new PlayerData();
+    }
+
+    public void LoadSave()
+    {
+        json = File.ReadAllText(Application.dataPath + "/saveFile.json");
+        playerData = JsonUtility.FromJson<PlayerData>(json);
     }
 }

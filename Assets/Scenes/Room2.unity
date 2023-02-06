@@ -11252,6 +11252,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 95322057910180998, guid: c145b6e4da8069c47b842c7fa3ca4c1f, type: 3}
+      propertyPath: upgradeID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95322057910180998, guid: c145b6e4da8069c47b842c7fa3ca4c1f, type: 3}
       propertyPath: chargeBeam
       value: 1
       objectReference: {fileID: 0}
