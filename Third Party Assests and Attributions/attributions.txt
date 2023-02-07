@@ -18,3 +18,8 @@ https://opengameart.org/content/5-chiptunes-action
 
 JRPG Pack 1 Exploration by SubspaceAudio on opengameart.org, licensed under CC0
 https://opengameart.org/content/jrpg-pack-1-exploration
+
+----- Fonts -----
+
+Pixel Operator by HarvettFox96 on fontlibrary.org, licensed under CC0
+https://fontlibrary.org/en/font/pixel-operator

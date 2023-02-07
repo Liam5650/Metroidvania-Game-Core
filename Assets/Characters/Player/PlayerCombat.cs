@@ -157,11 +157,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void RefreshState()
     {
-        // Revert changes since last save
-        if (saveController.HasSave())
-        {
-            currMissiles = saveController.playerData.currMissiles;
-            maxMissiles = saveController.playerData.maxMissiles;
-        }
+        currMissiles = saveController.playerData.currMissiles;
+        maxMissiles = saveController.playerData.maxMissiles;
     }
 }

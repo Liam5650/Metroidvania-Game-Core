@@ -270,10 +270,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8005282019074200546, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8005282019074200554, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
       propertyPath: HUD
       value: 

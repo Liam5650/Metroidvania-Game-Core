@@ -60,13 +60,10 @@ public class Unlocks : MonoBehaviour
     public void RefreshState()
     {
         saveController = SaveController.instance;
-        if (saveController.HasSave())
-        {
-            doubleJump = saveController.playerData.doubleJump;
-            ball = saveController.playerData.ball;
-            ballBomb = saveController.playerData.ballBomb;
-            chargeBeam = saveController.playerData.chargeBeam;
-            missile = saveController.playerData.missile;
-        }
+        doubleJump = saveController.playerData.doubleJump;
+        ball = saveController.playerData.ball;
+        ballBomb = saveController.playerData.ballBomb;
+        chargeBeam = saveController.playerData.chargeBeam;
+        missile = saveController.playerData.missile;
     }
 }

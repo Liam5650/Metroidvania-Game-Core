@@ -32,6 +32,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private MapController mapController;
     public static UIController instance;
 
+    [SerializeField] private GameObject ConfirmMenuScreen;
+    [SerializeField] private GameObject ConfirmNewGameScreen;
+
     private void Awake()
     {
         // Set up instance
@@ -45,8 +48,7 @@ public class UIController : MonoBehaviour
         saveController = gameObject.GetComponent<SaveController>();
 
         // Enable continue button if we have save data
-        if (saveController.HasSave()) continueButton.interactable = true;
-        else continueButton.interactable = false;
+        SetContinueButton(saveController.HasSave());
 
         AudioManager.instance.PlayMusic(0);
     }
@@ -72,6 +74,7 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1f;
                     isPaused = false;
                     pauseScreen.SetActive(false);
+                    ConfirmMenuScreen.SetActive(false);
                     AudioManager.instance.SetMusicVolume(1f);
                     AudioManager.instance.PlaySFX("UI", 2);
                 }
@@ -138,6 +141,19 @@ public class UIController : MonoBehaviour
         MarkTransition(false);
 
     }
+    public void OpenConfirmMenuScreen()
+    {
+        AudioManager.instance.PlaySFX("UI", 3);
+        pauseScreen.SetActive(false);
+        ConfirmMenuScreen.SetActive(true);
+    }
+
+    public void CloseConfirmMenuScreen()
+    {
+        AudioManager.instance.PlaySFX("UI", 3);
+        pauseScreen.SetActive(true);
+        ConfirmMenuScreen.SetActive(false);
+    }
 
     public void LoadMenu()
     {
@@ -158,7 +174,7 @@ public class UIController : MonoBehaviour
 
         // Set up menu
         player.SetActive(false);
-        pauseScreen.SetActive(false);
+        ConfirmMenuScreen.SetActive(false);
         hud.SetActive(false);
         mainMenuScreen.SetActive(true);
         GameObject[] shots = GameObject.FindGameObjectsWithTag("Shot");
@@ -177,12 +193,31 @@ public class UIController : MonoBehaviour
         yield return (StartCoroutine(FadeTransition("out", fadeTime)));
         MarkTransition(false);
     }
+    public void OpenNewGameScreen()
+    {
+        if (saveController.HasSave())
+        {
+            AudioManager.instance.PlaySFX("UI", 3);
+            mainMenuScreen.SetActive(false);
+            ConfirmNewGameScreen.SetActive(true);
+        }
+        else
+        {
+            NewGame();
+        }
+    }
+
+    public void CloseNewGameScreen()
+    {
+        AudioManager.instance.PlaySFX("UI", 3);
+        mainMenuScreen.SetActive(true);
+        ConfirmNewGameScreen.SetActive(false);
+    }
 
     public void NewGame()
     {
         AudioManager.instance.PlaySFX("UI", 0);
         saveController.ClearSave();
-        saveController.SaveData();
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
     }
 
@@ -199,7 +234,6 @@ public class UIController : MonoBehaviour
         MarkTransition(true);
         AudioManager.instance.FadeOutMusic(fadeTime);
         yield return (StartCoroutine(FadeTransition("in", fadeTime)));
-        if (saveController.HasSave()) continueButton.interactable = true;
 
         // Set up player
         hud.SetActive(true);
@@ -209,6 +243,7 @@ public class UIController : MonoBehaviour
         player.GetComponent<Unlocks>().RefreshState();
         hud.GetComponent<HUDController>().RefreshState();
         mainMenuScreen.SetActive(false);
+        ConfirmNewGameScreen.SetActive(false);
 
         // Complete the scene transition
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -268,7 +303,7 @@ public class UIController : MonoBehaviour
 
     public void ResumePlay()
     {
-        AudioManager.instance.PlaySFX("UI", 0);
+        AudioManager.instance.PlaySFX("UI", 2);
         AudioManager.instance.SetMusicVolume(1f);
         Time.timeScale = 1f;
         isPaused = false;
@@ -311,5 +346,19 @@ public class UIController : MonoBehaviour
         yield return new WaitForSecondsRealtime(displayTime);
         messageScreen.gameObject.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void SetContinueButton(bool value)
+    {
+        if (value == true)
+        {
+            continueButton.interactable = true;
+            continueButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0f, 0f, 0f, 1f);
+        }
+        else
+        {
+            continueButton.interactable = false;
+            continueButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0f, 0f, 0f, 0.5f);
+        }
     }
 }

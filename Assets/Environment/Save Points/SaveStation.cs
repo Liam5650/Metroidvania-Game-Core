@@ -101,6 +101,7 @@ public class SaveStation : MonoBehaviour
 
     private void SaveGame()
     {
+        AudioManager.instance.PlaySFX("UI", 4);
         SaveController.instance.playerData.playerPosition = player.transform.position;
         SaveController.instance.playerData.roomName = SceneManager.GetActiveScene().name;
         SaveController.instance.playerData.currHealth = player.GetComponent<PlayerHealth>().GetHealth();

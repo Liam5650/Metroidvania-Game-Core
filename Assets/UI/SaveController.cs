@@ -53,6 +53,7 @@ public class SaveController : MonoBehaviour
     { 
         json = JsonUtility.ToJson(playerData);
         File.WriteAllText(Application.dataPath + "/saveFile.json", json);
+        UIController.instance.SetContinueButton(true);
     }
 
     public bool HasSave()
@@ -67,11 +68,19 @@ public class SaveController : MonoBehaviour
             System.IO.File.Delete(Application.dataPath + "/saveFile.json");
         }
         playerData = new PlayerData();
+        UIController.instance.SetContinueButton(false);
     }
 
     public void LoadSave()
     {
-        json = File.ReadAllText(Application.dataPath + "/saveFile.json");
-        playerData = JsonUtility.FromJson<PlayerData>(json);
+        if (HasSave())
+        {
+            json = File.ReadAllText(Application.dataPath + "/saveFile.json");
+            playerData = JsonUtility.FromJson<PlayerData>(json);
+        }
+        else
+        {
+            playerData= new PlayerData();
+        }
     }
 }

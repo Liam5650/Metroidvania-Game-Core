@@ -63,10 +63,7 @@ public class HUDController : MonoBehaviour
 
     public void RefreshState()
     {
-        if (saveController.HasSave())
-        {
-            UpdateHealth(saveController.playerData.currHealth, saveController.playerData.maxHealth);
-            UpdateAmmo(saveController.playerData.currMissiles, saveController.playerData.maxMissiles);
-        }
+        UpdateHealth(saveController.playerData.currHealth, saveController.playerData.maxHealth);
+        UpdateAmmo(saveController.playerData.currMissiles, saveController.playerData.maxMissiles);
     }
 }

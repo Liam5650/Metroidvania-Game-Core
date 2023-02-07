@@ -104,11 +104,7 @@ public class PlayerHealth : MonoBehaviour
         invincible = false;
         flashRoutine = null;
 
-        // Revert changes since last save
-        if (saveController.HasSave())
-        {
-            health = saveController.playerData.currHealth;
-            maxHealth = saveController.playerData.maxHealth;
-        }
+        health = saveController.playerData.currHealth;
+        maxHealth = saveController.playerData.maxHealth;
     }
 }
