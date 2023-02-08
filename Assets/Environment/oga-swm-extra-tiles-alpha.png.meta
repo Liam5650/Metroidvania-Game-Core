@@ -212,7 +212,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -233,7 +233,7 @@ TextureImporter:
         width: 32
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -241,6 +241,27 @@ TextureImporter:
       bones: []
       spriteID: 42258d7c45b26da48a6c285958ce4794
       internalID: -137897843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb block
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4cf8dd09ff8ae44bb04d24c63e2a90f
+      internalID: 1809646937
       vertices: []
       indices: 
       edges: []
@@ -258,6 +279,7 @@ TextureImporter:
     nameFileIdTable:
       save platform: 1595654430
       door base: -1231609738
+      bomb block: 1809646937
       missile: 520758211
       save base: -22154895
       post: -137897843

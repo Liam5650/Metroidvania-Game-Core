@@ -10,6 +10,7 @@ TagManager:
   - Shot
   - CameraBounds
   - Map
+  - Destructible
   layers:
   - Default
   - TransparentFX

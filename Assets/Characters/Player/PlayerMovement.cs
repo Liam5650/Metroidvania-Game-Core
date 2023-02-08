@@ -165,6 +165,10 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         canMove = true;
+        anim.runtimeAnimatorController = standingAnimController;
+        ballCollider.enabled = false;
+        standingCollider.enabled = true;
+        gameObject.transform.localScale = Vector3.one;
     }
 
     // Return player state

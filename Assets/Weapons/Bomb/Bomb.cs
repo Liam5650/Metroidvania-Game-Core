@@ -37,6 +37,10 @@ public class Bomb : MonoBehaviour
             {
                 collider.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
             }
+            else if (collider.gameObject.tag == "Destructible")
+            {
+                Destroy(collider.gameObject);
+            }
         }
     }
 }
