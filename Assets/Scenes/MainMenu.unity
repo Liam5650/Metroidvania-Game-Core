@@ -270,6 +270,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8005282019074200552, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
+      propertyPath: bombImpulseStrength
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8005282019074200554, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
       propertyPath: HUD
       value: 
@@ -330,7 +334,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6955255225685775736, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
 --- !u!1 &1328778117 stripped
 GameObject:

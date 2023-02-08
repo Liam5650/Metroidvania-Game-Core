@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool impactPlayed;
 
+    [SerializeField] private float bombImpulseStrength;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -180,5 +182,10 @@ public class PlayerMovement : MonoBehaviour
     private void PlayFootstepAudio()
     {
         AudioManager.instance.PlayAdjustedSFX("PlayerMovement", 0, 0.1f);
+    }
+
+    public void BombImpulse()
+    {
+        if (standingCollider.enabled == false) rb.AddForce(new Vector2(0, 1) * bombImpulseStrength, ForceMode2D.Impulse);
     }
 }

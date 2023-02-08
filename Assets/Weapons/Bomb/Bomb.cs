@@ -41,6 +41,11 @@ public class Bomb : MonoBehaviour
             {
                 Destroy(collider.gameObject);
             }
+            else if (collider.gameObject.tag == "Player")
+            {
+                PlayerCombat.instance.gameObject.GetComponent<PlayerMovement>().BombImpulse();
+            }
         }
+        PlayerCombat.instance.DecrementBomb();
     }
 }

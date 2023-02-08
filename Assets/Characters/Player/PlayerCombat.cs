@@ -28,8 +28,22 @@ public class PlayerCombat : MonoBehaviour
     private bool chargeSFXPlayed;
     private float cooldown;
 
+    public static PlayerCombat instance;
+
+    private int maxBombs = 3;
+    private int currBombs = 0;
+
     void Awake()
     {
+        // Set up instance
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
         timeCharged = 0f;
         charging = false;
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
@@ -120,10 +134,11 @@ public class PlayerCombat : MonoBehaviour
             charging = false;
             chargedEffect.gameObject.SetActive(false);
 
-            if (Time.timeScale > 0f && Input.GetButtonDown("Fire1") && unlocked.BallBomb())
+            if (Time.timeScale > 0f && Input.GetButtonDown("Fire1") && unlocked.BallBomb() && (currBombs < maxBombs))
             {
                 Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
                 AudioManager.instance.PlaySFX("PlayerCombat", 8);
+                currBombs += 1;
             }
         }
     }
@@ -159,5 +174,10 @@ public class PlayerCombat : MonoBehaviour
     {
         currMissiles = saveController.playerData.currMissiles;
         maxMissiles = saveController.playerData.maxMissiles;
+    }
+
+    public void DecrementBomb()
+    {
+        currBombs--;
     }
 }
