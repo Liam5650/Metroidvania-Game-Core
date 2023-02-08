@@ -39,13 +39,8 @@ public class PlayerHealth : MonoBehaviour
             }
             else if (health <= 0)
             {
-                AudioManager.instance.PlaySFX("PlayerHealth", 1);
-                if (deathEffect!= null)
-                {
-                    Instantiate(deathEffect, transform.position, Quaternion.identity);
-                }
                 HUD.UpdateHealth(0f, maxHealth);
-                gameObject.SetActive(false);
+                StartCoroutine(PlayerDeath());
             }
         }
     }
@@ -106,5 +101,29 @@ public class PlayerHealth : MonoBehaviour
 
         health = saveController.playerData.currHealth;
         maxHealth = saveController.playerData.maxHealth;
+    }
+
+    private IEnumerator PlayerDeath()
+    {
+        // Make the player appear above the ui blackscreen for room transitions
+        SpriteRenderer playerSprite = gameObject.GetComponent<SpriteRenderer>();
+        int sortOrder = playerSprite.sortingOrder;
+        playerSprite.sortingOrder = 10000;
+        AudioManager.instance.PlaySFX("PlayerHealth", 0);
+        UIController.instance.MarkTransition(true);
+        StartCoroutine(UIController.instance.FadeTransition("in", 1f));
+        AudioManager.instance.FadeOutMusic(1f);
+        for (int i = 0; i < 10; i++)
+        {
+            spriteRenderer.material = flashMaterial;
+            yield return new WaitForSecondsRealtime(0.1f);
+            spriteRenderer.material = defaultMaterial;
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        AudioManager.instance.PlaySFX("PlayerHealth", 1);
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        playerSprite.sortingOrder = sortOrder;
+        yield return new WaitForSecondsRealtime(2f);
+        UIController.instance.LoadMenu(false);
     }
 }

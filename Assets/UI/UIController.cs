@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using Unity.VisualScripting;
 
 public class UIController : MonoBehaviour
 {
@@ -155,9 +156,9 @@ public class UIController : MonoBehaviour
         ConfirmMenuScreen.SetActive(false);
     }
 
-    public void LoadMenu()
+    public void LoadMenu(bool playSFX = true)
     {
-        AudioManager.instance.PlaySFX("UI", 0);
+        if (playSFX) AudioManager.instance.PlaySFX("UI", 0);
         StartCoroutine(TransitionToMenu(menuFadeTime, menuFadeHoldTime));
         isPaused = false;
     }
@@ -167,7 +168,7 @@ public class UIController : MonoBehaviour
         // Suspend play and fade in 
         MarkTransition(true);
         AudioManager.instance.FadeOutMusic(fadeTime);
-        yield return (StartCoroutine(FadeTransition("in", fadeTime)));
+        if (fadeScreen.color.a < 1f) yield return (StartCoroutine(FadeTransition("in", fadeTime)));
 
         // Reference the scene we are moving from to disable later
         string oldScene = SceneManager.GetActiveScene().name;
@@ -260,7 +261,7 @@ public class UIController : MonoBehaviour
         MarkTransition(false);
     }
 
-    private IEnumerator FadeTransition(string direction, float fadeTime)
+    public IEnumerator FadeTransition(string direction, float fadeTime)
     {
         float timeWaited = 0f;
         if (direction == "in")
@@ -285,7 +286,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void MarkTransition(bool value)
+    public void MarkTransition(bool value)
     { 
         if (value == true)
         {

@@ -488,7 +488,7 @@ MonoBehaviour:
   flashDuration: 0.1
   invincibileTime: 1
   invincibleFlashDuration: 0.02
-  deathEffect: {fileID: 0}
+  deathEffect: {fileID: 8303712572618678930, guid: b56bd04fae286c94baebc138d58d76d4, type: 3}
   HUD: {fileID: 0}
   saveController: {fileID: 0}
 --- !u!114 &1679318069260030087
