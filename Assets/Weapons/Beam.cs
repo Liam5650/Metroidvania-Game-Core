@@ -13,6 +13,7 @@ public class Beam : MonoBehaviour
 
     public void Fire(float direction)
     {
+        // Set up movement
         rb = gameObject.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(beamVelocity * direction, 0f);
         Destroy(gameObject, beamLifetime);
@@ -20,6 +21,7 @@ public class Beam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Set up collider interactions
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(beamDamage);

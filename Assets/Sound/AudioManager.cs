@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        // Set up instance
         if (instance != null)
         {
             Destroy(this.gameObject);
@@ -22,6 +23,8 @@ public class AudioManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
+
+        // Get reference of initial set pitch values for effects we want to modify the pitch of
         for (int i = 0; i < playerMovement.Length; i++)
         {
             playerMovementPitches.Add(playerMovement[i].pitch);
@@ -34,6 +37,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(string source, int index)
     {
+        // Play audio through the correct source
         if (source == "PlayerMovement") playerMovement[index].Play();
         else if (source == "PlayerCombat") playerCombat[index].Play();
         else if (source == "PlayerHealth") playerHealth[index].Play();
@@ -45,6 +49,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayAdjustedSFX(string source, int index, float offset)
     {
+        // Play the audio with a random offset through the correct source
         float randOffset = Random.Range(offset * -1f, offset);
         if (source == "PlayerMovement")
         {

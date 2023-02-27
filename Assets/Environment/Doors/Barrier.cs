@@ -11,12 +11,14 @@ public class Barrier : MonoBehaviour
 
     private void Start()
     {
+        // Set up whether the post starts in a deployed state or not
         if (barrierDeployed) post.localPosition = new Vector3(0f, -2.375f, 0f);
         deploying = false; retracting = false;
     }
 
     private void Update()
     {
+        // Move the post to the correct position depending on state
         if (deploying)
         {
             float currY = post.localPosition.y;
@@ -38,6 +40,7 @@ public class Barrier : MonoBehaviour
         }
     }
 
+    // Public functions to initiate the deploy or retract processes
     public void Deploy()
     {
         deploying = true;

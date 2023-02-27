@@ -8,7 +8,6 @@ public class AmmoPickup : MonoBehaviour
     [SerializeField] float fadeSpeed;
     [SerializeField] float fadeAmount;
     private SpriteRenderer sprite;
-    private float alpha;
     private bool fading;
 
     void Start()
@@ -18,29 +17,23 @@ public class AmmoPickup : MonoBehaviour
     }
 
     void Update()
-    {
-        alpha = sprite.color.a;
-
+    { 
+        // Set up fading in and out states
         if (fading)
         {
-            sprite.color = new Color(1f, 1f, 1f, alpha - (fadeSpeed * Time.deltaTime));
-            if (alpha < 1f - fadeAmount)
-            {
-                fading = false;
-            }
+            if (sprite.color.a < 1f - fadeAmount) fading = false;
+            else sprite.color = new Color(1f, 1f, 1f, sprite.color.a - (fadeSpeed * Time.deltaTime));
         }
         else
         {
-            sprite.color = new Color(1f, 1f, 1f, alpha + (fadeSpeed * Time.deltaTime));
-            if (alpha > 1f)
-            {
-                fading = true;
-            }
-        }
+            if (sprite.color.a > 1f) fading = true;
+            else sprite.color = new Color(1f, 1f, 1f, sprite.color.a + (fadeSpeed * Time.deltaTime));
+        }   
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Restore ammo and destroy
         if (other.tag == "Player")
         {
             AudioManager.instance.PlaySFX("Pickup", 0);

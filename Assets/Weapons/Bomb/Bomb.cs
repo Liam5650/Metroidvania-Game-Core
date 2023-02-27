@@ -30,6 +30,7 @@ public class Bomb : MonoBehaviour
             Instantiate(explodeEffect, transform.position, Quaternion.identity);
         }
 
+        // Check all overlapped colliders and interact accordingly
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explodeRadius);
         foreach(Collider2D collider in colliders)
         {

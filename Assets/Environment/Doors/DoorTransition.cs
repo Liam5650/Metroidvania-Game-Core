@@ -14,7 +14,7 @@ public class DoorTransition : MonoBehaviour
 
             // Disable the trigger so it cant be hit multiple times, and start the scene switch coroutine
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            FindObjectOfType<UIController>().LoadRoom(roomToLoad);
+            UIController.instance.LoadRoom(roomToLoad);
         }
     }
 }
