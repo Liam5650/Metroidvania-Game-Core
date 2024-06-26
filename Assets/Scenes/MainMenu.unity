@@ -271,8 +271,12 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8005282019074200552, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
+      propertyPath: movementSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005282019074200552, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
       propertyPath: bombImpulseStrength
-      value: 25
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8005282019074200554, guid: 94f72faac1b6f7f42af63df58067ba76, type: 3}
       propertyPath: HUD
