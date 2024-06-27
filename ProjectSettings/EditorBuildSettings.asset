@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BugRoom.unity
     guid: 2cc865a7da893b34187be222c6f2751d
+  - enabled: 1
+    path: Assets/Scenes/BombRoom.unity
+    guid: 8b5fa01c3cb22e8498fa61a138049328
   m_configObjects: {}

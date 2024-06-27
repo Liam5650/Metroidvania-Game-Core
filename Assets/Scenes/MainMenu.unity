@@ -140,6 +140,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1328778117}
     - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
+      propertyPath: roomToDebug
+      value: BombRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3631216979104074645, guid: 4965f3031e5c05748b12edbc4cd62731, type: 3}
       propertyPath: mapController
       value: 
       objectReference: {fileID: 698427329}
