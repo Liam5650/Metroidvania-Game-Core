@@ -66,6 +66,10 @@ public class PlayerMovement : MonoBehaviour
                     AudioManager.instance.PlaySFX("PlayerMovement", 5);
                 }
             }
+
+            // Limit vertical falling speed
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -30f, 1000f));
+
             // Handle standing state movement
             if (standingCollider.enabled == true)
             {
@@ -128,7 +132,8 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 // Handle vertical movement
-                isGrounded = Physics2D.OverlapBox(groundBoxCheck.transform.position, groundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
+                Debug.Log(Physics2D.OverlapBox(ballGroundBoxCheck.transform.position, ballGroundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer));
+                isGrounded = Physics2D.OverlapBox(ballGroundBoxCheck.transform.position, ballGroundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
                 if (isGrounded && !impactPlayed)
                 {
                     AudioManager.instance.PlaySFX("PlayerMovement", 3);

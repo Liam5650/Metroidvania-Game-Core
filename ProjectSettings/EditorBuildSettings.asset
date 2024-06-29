@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SecondaryShaft.unity
     guid: 97522664ebab0d9418a9776b11b395b4
+  - enabled: 1
+    path: Assets/Scenes/DoubleJumpRoom.unity
+    guid: fd44425b304d5004180a3242f076dd4d
   m_configObjects: {}
