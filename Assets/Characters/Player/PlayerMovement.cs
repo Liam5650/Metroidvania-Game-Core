@@ -132,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 // Handle vertical movement
-                Debug.Log(Physics2D.OverlapBox(ballGroundBoxCheck.transform.position, ballGroundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer));
                 isGrounded = Physics2D.OverlapBox(ballGroundBoxCheck.transform.position, ballGroundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
                 if (isGrounded && !impactPlayed)
                 {
@@ -191,6 +190,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void BombImpulse()
     {
-        if (standingCollider.enabled == false) rb.AddForce(new Vector2(0, 1) * bombImpulseStrength, ForceMode2D.Impulse);
+        if (standingCollider.enabled == false)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.AddForce(new Vector2(0, 1) * bombImpulseStrength, ForceMode2D.Impulse);
+        }
     }
 }
