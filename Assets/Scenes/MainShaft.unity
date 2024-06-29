@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8322385137872973094, guid: e2d51cb6d7933ae4192608a639037395, type: 3}
       propertyPath: roomToLoad
-      value: MorphRoom
+      value: SaveRoom2
       objectReference: {fileID: 0}
     - target: {fileID: 8322385137872973097, guid: e2d51cb6d7933ae4192608a639037395, type: 3}
       propertyPath: m_Name
