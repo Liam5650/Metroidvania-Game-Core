@@ -185,8 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   accelRate: 2
-  trackingDistance: 20
-  bobSpeed: 6
+  trackingDistance: 25
+  bobSpeed: 7
   bobStrength: 0.15
 --- !u!50 &1596587619172044031
 Rigidbody2D:
