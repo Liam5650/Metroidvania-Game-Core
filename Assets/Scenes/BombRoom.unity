@@ -188,6 +188,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c145b6e4da8069c47b842c7fa3ca4c1f, type: 3}
+--- !u!1001 &597930608
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 179.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.37021205
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707361, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707373, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: m_Name
+      value: Cave Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707374, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707374, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: ShapeModule.m_Scale.z
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700530011247707374, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 2.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ea8da20dc7efa824fa26fd8795f32df2, type: 3}
 --- !u!1001 &603557016
 PrefabInstance:
   m_ObjectHideFlags: 0
