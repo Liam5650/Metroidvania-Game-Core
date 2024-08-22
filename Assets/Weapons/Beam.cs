@@ -28,6 +28,18 @@ public class Beam : MonoBehaviour
         }
         Instantiate(hitEffect, transform.position, Quaternion.identity);
         AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);
+
+        // Detach the particle system trail effect if the beam has one, so we can destroy after the particles have dissappeared
+        if (transform.childCount > 0)
+        {
+            Transform child = transform.GetChild(0);
+            transform.DetachChildren();
+            var emission = child.GetComponent<ParticleSystem>().emission;
+            emission.rateOverTime = 0f;
+            Destroy(child.gameObject, 3f);
+
+        }
+
         Destroy(gameObject);
     }
 }
