@@ -17,7 +17,7 @@ public class DrifterBehaviour : MonoBehaviour
     {
         startBobTimeOffset = Random.Range(-1.5f, 1.5f);
         bobSpeed -= Random.Range(0f, 1f);
-        bobStrength -= Random.Range(0f, 0.2f);
+        bobStrength -= Random.Range(0f, 0.02f);
         currSpeed = 0f;
         lastOffset = bobStrength * Mathf.Sin((Time.time + startBobTimeOffset) * bobSpeed);
         transform.position = transform.position + new Vector3(0f, lastOffset, 0f);
