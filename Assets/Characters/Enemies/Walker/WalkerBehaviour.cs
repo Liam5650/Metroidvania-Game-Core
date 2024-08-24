@@ -14,6 +14,10 @@ public class WalkerBehaviour : MonoBehaviour
 
     void Start()
     {
+        // Add some randomness
+        moveSpeed += Random.Range(0, 0.1f);
+        waitTime -= Random.Range(0, 0.1f);
+
         // Get all of the child walk point transforms
         foreach (Transform child in transform)
         {
@@ -43,16 +47,16 @@ public class WalkerBehaviour : MonoBehaviour
             // See if we are moving and set anim accordingly. Otherwise, end walk
             if (heading < 0)
             {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1f, transform.localScale.y, transform.localScale.z);
             }
             else if (heading > 0)
             {
-                transform.localScale = Vector3.one;
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
             // Make sure we are at the point and havent been blocked by something or if Time.timescale has been set to 0
             else if (newX == walkPoints[targetIndex].x)
             {
-                transform.localScale = Vector3.one;
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z); ;
                 walking = false;
                 anim.SetBool("isWalking", false);
             }
