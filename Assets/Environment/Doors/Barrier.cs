@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour
 {
-    [SerializeField] private Transform post;
-    [SerializeField] private bool barrierDeployed;
-    [SerializeField] float deploySpeed;
-    private bool deploying, retracting;
+    [SerializeField] private Transform post;        // The position of the post
+    [SerializeField] private bool barrierDeployed;  // Keeps track of whether or not the barrier has been deployed
+    [SerializeField] float deploySpeed;             // The speed at which the barrier moves when triggered
+    private bool deploying, retracting;             // Reference the state the barrier is in if in motion
 
     private void Start()
     {

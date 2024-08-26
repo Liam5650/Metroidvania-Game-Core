@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
-    [SerializeField] float healAmount;
-    [SerializeField] float fadeSpeed;
-    [SerializeField] float fadeAmount;
-    private SpriteRenderer sprite;
-    private bool fading;
+    [SerializeField] float healAmount;      // Amount of health to add
+    [SerializeField] float fadeSpeed;       // Speed at which the pickup effect flashes
+    [SerializeField] float fadeAmount;      // Amount the pickup fades back and forth to create a flashing effect
+    private SpriteRenderer sprite;          // Reference to change the color values of the sprite
+    private bool fading;                    // Indicates if we are fading in or out
 
     void Start()
     {
@@ -19,7 +19,7 @@ public class HealthPickup : MonoBehaviour
 
     void Update()
     {
-        // Set up fading in and out states
+        // Handle actions and transitions of fading in and out states
         if (fading)
         {
             if (sprite.color.a < 1f - fadeAmount) fading = false;
@@ -30,11 +30,14 @@ public class HealthPickup : MonoBehaviour
             if (sprite.color.a > 1f) fading = true;
             else sprite.color = new Color(1f, 1f, 1f, sprite.color.a + (fadeSpeed * Time.deltaTime));
         }
+
+        // Clamp the alpha values to their respective bounds
+        sprite.color = new Color(1f, 1f, 1f, Mathf.Clamp(sprite.color.a, 0.999f - fadeAmount, 1.001f));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Heal player and destroy
+        // Restore health and destroy if player touches pickup
         if (other.tag == "Player")
         {
             AudioManager.instance.PlaySFX("Pickup", 0);

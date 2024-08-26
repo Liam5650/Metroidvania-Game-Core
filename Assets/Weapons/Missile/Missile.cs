@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    [SerializeField] float startVelocity;
-    [SerializeField] float maxVelocity;
-    [SerializeField] float acceleration;
-    [SerializeField] float missileLifetime;
-    [SerializeField] float missileDamage;
-    [SerializeField] GameObject hitEffect;
-    private Rigidbody2D rb;
-    private float currentVelocity;
-    private float fireDirection;
+    [SerializeField] float startVelocity;       // Start velocity of the missile
+    [SerializeField] float maxVelocity;         // Max velocity the missile can reach
+    [SerializeField] float acceleration;        // How fast the missile accelerates
+    [SerializeField] float missileLifetime;     // How long the missile remains active
+    [SerializeField] float missileDamage;       // Damage that the missile inflicts to enemies
+    [SerializeField] GameObject hitEffect;      // Missile explosion particle effect
+    private Rigidbody2D rb;                     // Reference for handling the velocity changes
+    private float currentVelocity;              // Current missile velocity
+    private float fireDirection;                // Used to align fire direction with player
 
     void Update()
     {
+        // Accelerate to max velocity
         if (currentVelocity < maxVelocity)
         {
             currentVelocity += (acceleration * Time.deltaTime);
@@ -30,6 +31,7 @@ public class Missile : MonoBehaviour
 
     public void Fire(float direction)
     {
+        // Orient and fire missile
         fireDirection = direction;
         gameObject.transform.localScale = new Vector3(fireDirection, 1f, 1f);
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -40,6 +42,7 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Handle collisions
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(missileDamage);

@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class DontDestroy : MonoBehaviour
 {
+    /*
+        Used by several assets to keep them persistent through scene changes.
+    */
+
     void Awake()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag(gameObject.tag);

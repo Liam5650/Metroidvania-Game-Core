@@ -5,13 +5,12 @@ using UnityEngine;
 
 public class DoorTransition : MonoBehaviour
 {
-    [SerializeField] string roomToLoad;
+    [SerializeField] string roomToLoad;    // The scene to switch to when the player contacts the area
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-
             // Disable the trigger so it cant be hit multiple times, and start the scene switch coroutine
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             UIController.instance.LoadRoom(roomToLoad);

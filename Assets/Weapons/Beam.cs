@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Beam : MonoBehaviour
 {
-    [SerializeField] float beamVelocity;
-    [SerializeField] float beamLifetime;
-    [SerializeField] float beamDamage;
-    [SerializeField] GameObject hitEffect;
-    private Rigidbody2D rb;
-    [SerializeField] private int hitSFXIndex;
+    [SerializeField] float beamVelocity;        // The velocity of the projectile
+    [SerializeField] float beamLifetime;        // The amount of time the beam remains active
+    [SerializeField] float beamDamage;          // How much damage the beam inflicts
+    [SerializeField] GameObject hitEffect;      // The effect spawned when the beam hits something
+    private Rigidbody2D rb;                     // Used to control the velocity of the beam
+    [SerializeField] private int hitSFXIndex;   // SFX to be played upon hit
 
     public void Fire(float direction)
     {
-        // Set up movement
+        // Set up movement with direction
         rb = gameObject.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(beamVelocity * direction, 0f);
         Destroy(gameObject, beamLifetime);

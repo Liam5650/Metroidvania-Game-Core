@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
-    [SerializeField] float damageAmount;
+    [SerializeField] float damageAmount;    // The amount to damage the player on collision
 
+    // Handle a variety of enemy body or projectile collisions with the player
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Player")

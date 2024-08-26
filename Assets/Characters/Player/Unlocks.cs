@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Unlocks : MonoBehaviour
 {
-    [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;
-    private SaveController saveController;
+    /* 
+        This class is used to manage the abilities that the player can unlock. Various scripts
+        reference this class to check if the player has the ability to perform certain actions,
+        such as the PlayerMovement and PlayerCombat scripts.
+    */
 
+    [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;  // Bools that are used to check for abilities
+    private SaveController saveController;                                  // Reference to the save controller to refresh ability unlocks
+
+    // The following methods are used to access / set bools
     public bool DoubleJump()
     {
         return doubleJump;
@@ -59,6 +66,7 @@ public class Unlocks : MonoBehaviour
 
     public void RefreshState()
     {
+        // Refresh ability unlocks to the state that is stored in the save controller's playerData class
         saveController = SaveController.instance;
         doubleJump = saveController.playerData.doubleJump;
         ball = saveController.playerData.ball;

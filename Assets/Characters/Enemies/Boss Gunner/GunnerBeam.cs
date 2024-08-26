@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class GunnerBeam : MonoBehaviour
 {
-    [SerializeField] float beamVelocity;
-    [SerializeField] float beamLifetime;
-    [SerializeField] float beamDamage;
-    [SerializeField] GameObject hitEffect;
-    private Rigidbody2D rb;
-    [SerializeField] private int hitSFXIndex;
+    [SerializeField] float beamVelocity;        // The velocity of the projectile
+    [SerializeField] float beamLifetime;        // The amount of time the beam remains active
+    [SerializeField] float beamDamage;          // How much damage the beam inflicts
+    [SerializeField] GameObject hitEffect;      // The effect spawned when the beam hits something
+    private Rigidbody2D rb;                     // Used to control the velocity of the beam
+    [SerializeField] private int hitSFXIndex;   // SFX to be played upon hit
 
     public void Fire(float direction)
     {
+        // Set up movement with direction
         rb = gameObject.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(beamVelocity * direction, 0f);
         Destroy(gameObject, beamLifetime);
@@ -20,12 +21,25 @@ public class GunnerBeam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Set up collider interactions
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(beamDamage, gameObject.transform.position);
         }
         Instantiate(hitEffect, transform.position, Quaternion.identity);
         AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);
+
+        // Detach the particle system trail effect if the beam has one, so we can destroy after the particles have dissappeared
+        if (transform.childCount > 0)
+        {
+            Transform child = transform.GetChild(0);
+            transform.DetachChildren();
+            var emission = child.GetComponent<ParticleSystem>().emission;
+            emission.rateOverTime = 0f;
+            Destroy(child.gameObject, 3f);
+
+        }
+
         Destroy(gameObject);
     }
 }

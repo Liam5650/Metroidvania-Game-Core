@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Upgrade : MonoBehaviour
 {
-    [SerializeField] private int upgradeID;
-    [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;
+    [SerializeField] private int upgradeID;    // ID is used to keep track of what upgrades have been collected in the save controller
+    [SerializeField] bool doubleJump, ball, ballBomb, chargeBeam, missile;    // Allows the ability to set what upgrade to unlock
 
     private void Awake()
     {
+        // Destroy the upgrade if it has already been previously collected
         if (SaveController.instance.playerData.abilityUpgrades[upgradeID] == 1) Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Handle unlocking of abilities upon collection
         if (other.tag == "Player")
         {
             SaveController.instance.playerData.abilityUpgrades[upgradeID] = 1;

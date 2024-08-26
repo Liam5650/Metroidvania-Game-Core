@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ParticleController : MonoBehaviour
 {
-    [SerializeField] float advanceStartTime;
-    // Start is called before the first frame update
+    [SerializeField] float advanceStartTime;    // Starts the simulation at an advanced time so particles are already spawned
+
     void Start()
     {
+        // Start the particle system
         ParticleSystem particles = GetComponent<ParticleSystem>();
         particles.Simulate(advanceStartTime);
         particles.Play();

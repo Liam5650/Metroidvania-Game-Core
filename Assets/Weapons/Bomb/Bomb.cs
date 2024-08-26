@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] float detonateTime;
-    [SerializeField] float damage;
-    [SerializeField] float explodeRadius;
-    [SerializeField] GameObject explodeEffect;
+    [SerializeField] float detonateTime;        // Amount of time after placing before detonation
+    [SerializeField] float damage;              // Amount of damage to inflict to enemies
+    [SerializeField] float explodeRadius;       // Radius that the explosion influences
+    [SerializeField] GameObject explodeEffect;  // Particle effect to show the explosion
 
     public void Drop()
-    {
+    {   
+        // Starts the detonation timer
         Destroy(gameObject, detonateTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Detonate early if an enemy hits the bomb
         if (other.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
@@ -24,6 +26,7 @@ public class Bomb : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Initiate explosion process
         AudioManager.instance.PlaySFX("PlayerCombat", 9);
         if (explodeEffect!= null)
         {
@@ -47,6 +50,8 @@ public class Bomb : MonoBehaviour
                 PlayerCombat.instance.gameObject.GetComponent<PlayerMovement>().BombImpulse();
             }
         }
+
+        // Refresh the number of bombs that are active so the player can place more
         PlayerCombat.instance.DecrementBomb();
     }
 }
