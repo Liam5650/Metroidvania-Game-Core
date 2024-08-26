@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class RoomIndicator : MonoBehaviour
 {
-    [SerializeField] float fadeSpeed;
-    [SerializeField] float fadeAmount;
-    private SpriteRenderer sprite;
-    private float alpha;
-    private bool fading;
-    private bool ignorePause;
+    [SerializeField] float fadeSpeed;   // Speed at which the indicator fades in and out
+    [SerializeField] float fadeAmount;  // Amount the indicator fades
+    private SpriteRenderer sprite;      // Reference to alter alpha val of sprite color
+    private float alpha;                // The alpha val of the sprite color
+    private bool fading;                // Keeps track of current state
+    private bool ignorePause;           // Used so that the sprite can continue changing if the game is paused by the map screen rather than pause screen
 
     void Start()
     {
+        // Set up initial values
         sprite = gameObject.GetComponent<SpriteRenderer>();
         fading = true;
         ignorePause= false;
@@ -20,6 +21,7 @@ public class RoomIndicator : MonoBehaviour
 
     void Update()
     {
+        // Get alpha and update according to game pause state
         alpha = sprite.color.a;
 
         if (fading)
@@ -54,8 +56,9 @@ public class RoomIndicator : MonoBehaviour
         }
     }
 
-    public void IgnorePause(bool value )
+    public void IgnorePause(bool value)
     {
+        // Used to make the behavior ignore pausing
         ignorePause = value;
     }
 }

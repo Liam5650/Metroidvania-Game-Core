@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI healthNumber, ammoNumber;
-    [SerializeField] GameObject[] energyTanks;
-    [SerializeField] GameObject[] ammoObjects;
-    [SerializeField] SaveController saveController;
+    [SerializeField] TextMeshProUGUI healthNumber, ammoNumber;  // Reference to the current player health and missile count
+    [SerializeField] GameObject[] energyTanks;                  // References the energy tank objects to set active or inactive
+    [SerializeField] GameObject[] ammoObjects;                  // References the ammo objects to set active or inactive
+    [SerializeField] SaveController saveController;             // Used to access save data
 
     public void UpdateHealth(float health, float maxHealth)
     {
+        // Calculate the amount of tanks unlocked, and amount that are filled from the player data
         int unlockedTanks = (int)maxHealth / 100;
         int filledTanks = (int)health / 100;
 
@@ -44,6 +45,7 @@ public class HUDController : MonoBehaviour
 
     public void UpdateAmmo(int value, int max)
     {
+        // Enable the ammo text and update the value accordingly
         if (max > 0)
         {
             foreach(GameObject ammoObject in ammoObjects) 
@@ -63,6 +65,7 @@ public class HUDController : MonoBehaviour
 
     public void RefreshState()
     {
+        // Used to refresh the HUD text depending on the player data after loading a save, quiting to menu, player death etc.
         UpdateHealth(saveController.playerData.currHealth, saveController.playerData.maxHealth);
         UpdateAmmo(saveController.playerData.currMissiles, saveController.playerData.maxMissiles);
     }

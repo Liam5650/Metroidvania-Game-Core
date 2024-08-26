@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class WalkerBehaviour : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
-    [SerializeField] float waitTime;
-    private float timeWaited;
-    private List<Vector2> walkPoints = new List<Vector2>();
-    private int targetIndex;
-    private bool walking;
-    private Animator anim;
+    [SerializeField] float moveSpeed;       // Speed the enemy moves
+    [SerializeField] float waitTime;        // Amount of time to wait in behavior states
+    private float timeWaited;               // Keep track of time waited in state
+    private List<Vector2> walkPoints = new List<Vector2>();    // The points the enemy changes between walking to
+    private int targetIndex;                // Current index of target walk point
+    private bool walking;                   // Keeps track of walking and idle states
+    private Animator anim;                  // Used for setting animation values
 
     void Start()
     {
@@ -23,6 +23,7 @@ public class WalkerBehaviour : MonoBehaviour
         {
             walkPoints.Add(child.transform.position);
         }
+
         // Make sure there is at least 1 target point, then start walk
         if (walkPoints.Count >= 1)
         {
