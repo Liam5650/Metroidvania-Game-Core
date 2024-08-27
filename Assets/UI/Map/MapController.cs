@@ -9,24 +9,23 @@ using static UnityEngine.UI.Image;
 
 public class MapController : MonoBehaviour
 {
-    [SerializeField] private Tilemap roomGrid;
-    [SerializeField] private Tile visitedRoomTile;
-    [SerializeField] private Vector2 roomSize;
-    [SerializeField] private Transform cameraTransform;
-    private Vector3Int currLocationInGrid;
-    private List<Vector3Int> visitedRooms = new List<Vector3Int>();
-    [SerializeField] private Transform miniMapCamera;
-    [SerializeField] private Transform fullMapCamera;
-    [SerializeField] private Transform roomIndicator;
-
-    private bool viewingMap;
-    [SerializeField] private float mapPanSpeed;
-    [SerializeField] float maxXOffset, maxYOffset;
-
-    public static MapController instance;
+    [SerializeField] private Tilemap roomGrid;                      // The tilemap grid of the rooms that have been visited
+    [SerializeField] private Tile visitedRoomTile;                  // The tile to use to indicate a room has been visited in the grid
+    [SerializeField] private Vector2 roomSize;                      // The dimensions of one room, ie a 1x1 scale of the camera bounds
+    [SerializeField] private Transform cameraTransform;             // Keeps track of the position of the camera to tell what part of the grid we are on
+    private Vector3Int currLocationInGrid;                          // The current location in the grid in single units, ex. x=5, y=8
+    private List<Vector3Int> visitedRooms = new List<Vector3Int>(); // A list of the vector3 ints of the visited rooms for saving
+    [SerializeField] private Transform miniMapCamera;               // The minimap camera
+    [SerializeField] private Transform fullMapCamera;               // The fullscreen map camera
+    [SerializeField] private Transform roomIndicator;               // The flashing indicator on the map / minimap to show the room we are currently in
+    private bool viewingMap;                                        // Used to track if the map screen is open or not
+    [SerializeField] private float mapPanSpeed;                     // Panning speed when navigating the map screen
+    [SerializeField] float maxXOffset, maxYOffset;                  // Max distance we can pan in the map screen
+    public static MapController instance;                           // Used so the save controller can get the list of visited rooms
 
     private void Awake()
     {
+        // Set up instance
         if (instance != null)
         {
             Destroy(this.gameObject);
@@ -38,8 +37,10 @@ public class MapController : MonoBehaviour
 
     void Update()
     {
+        // Handle minimap state 
         if (!viewingMap)
         {
+            // Get our current coordinate in the room grid
             float xLoc = cameraTransform.position.x / roomSize.x;
             if (xLoc < 0)
             {
@@ -59,12 +60,13 @@ public class MapController : MonoBehaviour
             fullMapCamera.localPosition = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, fullMapCamera.localPosition.z);
             roomIndicator.localPosition = new Vector3((int)xLoc + 0.5f, (int)yLoc + 0.5f, roomIndicator.localPosition.z);
 
-            // Set the tile
+            // Set the tile as visited in the tilemap
             if (roomGrid.GetTile(currLocationInGrid) == null)
             {
                 roomGrid.SetTile(currLocationInGrid, visitedRoomTile);
             }
         }
+        // Handle map screen state
         else
         {
             float xNewPos = fullMapCamera.localPosition.x + (mapPanSpeed * Input.GetAxisRaw("Horizontal") * Time.unscaledDeltaTime);
@@ -76,9 +78,9 @@ public class MapController : MonoBehaviour
 
     }
 
-
     public Vector3Int[] SaveMap()
     {
+        // Gets all of the active tiles in the visited room grid and returns a list of the coordinates
         roomGrid.CompressBounds();
         var bounds = roomGrid.cellBounds;
 
@@ -98,9 +100,8 @@ public class MapController : MonoBehaviour
 
     public void RefreshMap(Vector3Int[] rooms)
     {
+        // Refresh the state of the map to reflect the save data
         roomGrid.ClearAllTiles();
-
-        // If there is save data, set the tiles to visited
         if (rooms != null)
         {
             foreach (Vector3Int coord in rooms)
@@ -112,6 +113,7 @@ public class MapController : MonoBehaviour
 
     public void ViewingMap(bool value)
     {
+        // Change state and set up indicator
         viewingMap = value;
         roomIndicator.gameObject.GetComponent<RoomIndicator>().IgnorePause(value);
     }

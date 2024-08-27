@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class BossGunner : MonoBehaviour
 {
-    private EnemyHealth healthComponent;
-    private float initHealth;
-    private SpriteRenderer spriteRenderer;
-    private Transform player;
-    private Animator anim;
-    [SerializeField] private float fadeInSpeed;
-    private bool inState;
-    private float damagePercent;
-    [SerializeField] private float trackSpeed, waitTime, chargeDistance, chargeSpeed;
+    private EnemyHealth healthComponent;        // The boss health controller
+    private float initHealth;                   // Initial boss health
+    private SpriteRenderer spriteRenderer;      // Used to apply damage coloring to boss sprite
+    private Transform player;                   // Used to track the player
+    private Animator anim;                      // Used to set boss animation
+    [SerializeField] private float fadeInSpeed; // Speed at which the boss fades in after triggering the boss event
+    private bool inState;                       // Tracks if the boss is within a behavior state
+    private float damagePercent;                // The percent of health damage the boss has taken
+    [SerializeField] private float trackSpeed, waitTime, chargeDistance, chargeSpeed;   // Various state behavior modifiers
+    [SerializeField] GameObject beam, chargedBeam, chargedEffect;                       // Boss weaponry
+    [SerializeField] Transform shootPoint;      // Where the boss beam shoots from
 
-    [SerializeField] GameObject beam, chargedBeam, chargedEffect;
-    [SerializeField] Transform shootPoint;
 
-
-    // Start is called before the first frame update
     void Start()
     {
+        // Initialize the boss
         healthComponent = GetComponent<EnemyHealth>();
         initHealth = healthComponent.GetHealth();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,14 +28,14 @@ public class BossGunner : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Set damage percent and sprite color to show damage
         damagePercent = healthComponent.GetHealth() / initHealth;
         if (damagePercent < 0f) damagePercent = 0f;
         spriteRenderer.color = new UnityEngine.Color(1f, 1f - (1f-damagePercent), 1f - (1f-damagePercent), spriteRenderer.color.a);
 
-        // Boss states
+        // Choose boss state
         if (!inState)
         {
             int randState = Random.Range(0, 10);
@@ -47,6 +46,7 @@ public class BossGunner : MonoBehaviour
 
     private IEnumerator FadeIn()
     {
+        // Start the boss fight
         inState= true;
         AudioManager.instance.FadeOutMusic(1.5f);
         yield return new WaitForSeconds(2f);
@@ -67,16 +67,17 @@ public class BossGunner : MonoBehaviour
 
     private IEnumerator Shoot()
     {
+        // This state is for when the boss tracks and shoots at the player
         inState= true;
 
+        // Change the speed of the tracking based on damage percent
         float multiplier;
         if (damagePercent >= 0.66f) multiplier = 1f;
         else if (damagePercent < 0.66f && damagePercent >= 0.33f) multiplier = 1.5f;
         else multiplier = 2f;
 
-
+        // Briefly pause and then start tracking
         yield return new WaitForSeconds(waitTime);
-
         float trackTime = 2f;
         float timeTracked = 0f;
 
@@ -90,9 +91,10 @@ public class BossGunner : MonoBehaviour
             yield return null;
         }
 
+        // Briefly pause after tracking
         yield return new WaitForSeconds(waitTime/multiplier);
 
-        // Boss sub states
+        // Shoot at the player. There are different actions based on boss damage percent
         if (damagePercent >= 0.66f)
         {
             AudioManager.instance.PlaySFX("Boss", 0);
@@ -133,14 +135,17 @@ public class BossGunner : MonoBehaviour
             Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<GunnerBeam>().Fire(gameObject.transform.localScale.x * -1f);
         }
 
+        // Briefly pause after shooting, and end state
         yield return new WaitForSeconds(waitTime);
         inState= false;
     }
 
     private IEnumerator Charge()
     {
+        // This state is for when the boss changes sides
         inState= true;
 
+        // Change the speed of the charge based on damage percent
         float multiplier;
         if (damagePercent >= 0.66f) multiplier = 1f;
         else if (damagePercent < 0.66f && damagePercent >= 0.33f) multiplier = 1.5f;
@@ -150,7 +155,7 @@ public class BossGunner : MonoBehaviour
         anim.speed = 3*multiplier;
         yield return new WaitForSeconds(1f/multiplier);
 
-
+        // Change sides
         float offset = chargeDistance * gameObject.transform.localScale.x * -1f; //Flip since the sprite is facing backwards
         float targetX = transform.position.x + offset;
         while (transform.position.x != targetX)
@@ -160,6 +165,8 @@ public class BossGunner : MonoBehaviour
         }
         gameObject.transform.localScale = new Vector3(-1f * gameObject.transform.localScale.x, 1f, 1f);
         anim.speed = 1;
+
+        // Pause after charging and end state
         yield return new WaitForSeconds(waitTime);
         inState= false;
     }

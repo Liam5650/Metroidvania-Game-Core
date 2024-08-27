@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
-    [SerializeField] private AudioSource[] playerMovement, playerCombat, playerHealth, pickup, enemy, boss, userInterface;
-    private List<float> playerCombatPitches = new List<float>();
-    private List<float> playerMovementPitches = new List<float>();
-    [SerializeField] private AudioClip[] musicClips;
-    [SerializeField] private AudioSource musicSource;
-
+    public static AudioManager instance;                            // Set up instance so that other scripts can easily play audio
+    [SerializeField] private AudioSource[] playerMovement, playerCombat, playerHealth, pickup, enemy, boss, userInterface;    // Various audio sources
+    private List<float> playerCombatPitches = new List<float>();    // Used so we can get the initial values so we can apply offsets later
+    private List<float> playerMovementPitches = new List<float>();  // Used so we can get the initial values so we can apply offsets later
+    [SerializeField] private AudioClip[] musicClips;                // Various clips for game music
+    [SerializeField] private AudioSource musicSource;               // Source to play music from
 
     private void Awake()
     {
@@ -24,7 +23,7 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
 
-        // Get reference of initial set pitch values for effects we want to modify the pitch of
+        // Get reference of initial set pitch values for effects we want to modify the pitch of later for variety
         for (int i = 0; i < playerMovement.Length; i++)
         {
             playerMovementPitches.Add(playerMovement[i].pitch);
@@ -38,7 +37,7 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(string source, int index)
     {
         // Play audio through the correct source
-        if (source == "PlayerMovement") playerMovement[index].Play();
+        if      (source == "PlayerMovement") playerMovement[index].Play();
         else if (source == "PlayerCombat") playerCombat[index].Play();
         else if (source == "PlayerHealth") playerHealth[index].Play();
         else if (source == "Pickup") pickup[index].Play();
@@ -65,6 +64,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(int index, float volume = 1f)
     {
+        // Set the game music to be played
         SetMusicVolume(volume);
         musicSource.clip = musicClips[index];
         musicSource.Play();
@@ -72,16 +72,19 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float volume)
     {
+        // Adjust music volume
         musicSource.volume = volume;
     }
 
     public void FadeOutMusic(float fadeTime)
     {
+        // Used to fade music between menu transitions, etc. 
         StartCoroutine(FadeOutMusicCoroutine(fadeTime));
     }
 
     private IEnumerator FadeOutMusicCoroutine(float fadeTime)
     {
+        // Fades the music volume out
         while (musicSource.volume > 0f)
         {
             musicSource.volume -= (Time.unscaledDeltaTime/fadeTime);
@@ -91,11 +94,13 @@ public class AudioManager : MonoBehaviour
 
     public void FadeInMusic(float fadeTime)
     {
+        // Used to fade music between menu transitions, etc. 
         StartCoroutine(FadeInMusicCoroutine(fadeTime));
     }
 
     private IEnumerator FadeInMusicCoroutine(float fadeTime)
     {
+        // Fades the music volume in
         while (musicSource.volume < 1f)
         {
             musicSource.volume += (Time.unscaledDeltaTime / fadeTime);

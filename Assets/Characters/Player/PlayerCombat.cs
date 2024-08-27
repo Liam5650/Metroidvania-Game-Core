@@ -7,31 +7,25 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField] GameObject beam;
-    [SerializeField] GameObject chargedBeam;
-    [SerializeField] GameObject chargedEffect;
-    [SerializeField] Transform shootPoint;
-    [SerializeField] float chargeTime;
-    private float timeCharged;
-    private bool charging;
-
-    [SerializeField] GameObject bomb;
-    [SerializeField] Transform bombDropPoint;
-
-    [SerializeField] GameObject missile;
-    [SerializeField] int maxMissiles, currMissiles;
-    [SerializeField] HUDController HUD;
-    private Unlocks unlocked;
-
-    [SerializeField] SaveController saveController;
-
-    private bool chargeSFXPlayed;
-    private float cooldown;
-
-    public static PlayerCombat instance;
-
-    private int maxBombs = 3;
-    private int currBombs = 0;
+    [SerializeField] GameObject beam;                   // Beam weapon projectile
+    [SerializeField] GameObject chargedBeam;            // Charge beam weapon projectile   
+    [SerializeField] GameObject chargedEffect;          // Charge beam particle effect to show when charged
+    [SerializeField] Transform shootPoint;              // Point to spawn projectiles
+    [SerializeField] float chargeTime;                  // Time needed to hold the shoot button to charge a shot
+    private float timeCharged;                          // Amount of time the shoot button has currently been held
+    private bool charging;                              // Initialize the charging sequence
+    [SerializeField] GameObject bomb;                   // Bomb weapon gameobject
+    [SerializeField] Transform bombDropPoint;           // Position bombs are dropped
+    [SerializeField] GameObject missile;                // Missile weapon projectile
+    [SerializeField] int maxMissiles, currMissiles;     // Reference for current missile inventory state
+    [SerializeField] HUDController HUD;                 // Used to update HUD to reflect current inventory state
+    private Unlocks unlocked;                           // Used to check what abilites are unlocked
+    [SerializeField] SaveController saveController;     // Used to refresh player data to reflect saved data
+    private bool chargeSFXPlayed;                       // Checks if we need to play the charge sfx or if it has already been played
+    private float cooldown;                             // Amount of time after firing a charge shot before player can shoot again
+    public static PlayerCombat instance;                // Used so other scripts can access such as upgrade scripts
+    private int maxBombs = 3;                           // Max amount of bombs the player can have actively placed
+    private int currBombs = 0;                          // Current number of active bombs
 
     void Awake()
     {
@@ -44,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
+        // Set up initial state
         timeCharged = 0f;
         charging = false;
         chargedEffect = Instantiate(chargedEffect, shootPoint.position, Quaternion.identity);
@@ -58,8 +53,10 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Time.timeScale > 0f)
             {
+                // Start incrementing cooldown to see if we can shoot again after charged shot
                 cooldown += Time.deltaTime;
 
+                // Handle reglar shooting and initiating charging
                 if (Input.GetButtonDown("Fire1"))
                 {
                     if (cooldown> 0.2f)
@@ -74,6 +71,7 @@ public class PlayerCombat : MonoBehaviour
                     }
                 }
 
+                // Handle charge shot
                 if (Input.GetButtonUp("Fire1"))
                 {
                     if (timeCharged >= chargeTime)
@@ -87,6 +85,7 @@ public class PlayerCombat : MonoBehaviour
                     chargedEffect.gameObject.SetActive(false);
                 }
 
+                // Handle effects if we are currently charging
                 if (charging)
                 {
                     timeCharged += Time.deltaTime;
@@ -99,6 +98,8 @@ public class PlayerCombat : MonoBehaviour
                         chargedEffect.gameObject.transform.localScale = new Vector3(1f * chargePercent, 1f * chargePercent, 1f);
                     }
                 }
+
+                // Handle firing a missile if we aren't charging
                 else if (Input.GetButtonDown("Fire2") && currMissiles > 0 && unlocked.Missile())
                 {
                     AudioManager.instance.PlaySFX("PlayerCombat", 5);
@@ -107,6 +108,8 @@ public class PlayerCombat : MonoBehaviour
                     HUD.UpdateAmmo(currMissiles, maxMissiles);
                 }
             }
+
+            // Handle if a charge shot is released during scene transitions
             else if (Time.timeScale == 0f && Input.GetButtonUp("Fire1"))
             {
                 if (timeCharged > chargeTime)
@@ -124,7 +127,7 @@ public class PlayerCombat : MonoBehaviour
         // Handle ball state behaviour
         else
         {
-            // Fire off a shot if it is charged
+            // Fire off a shot if it is charged and reset state
             if (timeCharged >= chargeTime)
             {
                 Instantiate(chargedBeam, shootPoint.position, Quaternion.identity).GetComponent<Beam>().Fire(gameObject.transform.localScale.x);
@@ -134,6 +137,7 @@ public class PlayerCombat : MonoBehaviour
             charging = false;
             chargedEffect.gameObject.SetActive(false);
 
+            // Handle dropping bomb
             if (Time.timeScale > 0f && Input.GetButtonDown("Fire1") && unlocked.BallBomb() && (currBombs < maxBombs))
             {
                 Instantiate(bomb, bombDropPoint.position, Quaternion.identity).gameObject.GetComponent<Bomb>().Drop();
@@ -142,8 +146,10 @@ public class PlayerCombat : MonoBehaviour
             }
         }
     }
+
     public void RechargeAmmo(int rechargeAmount)
     {
+        // Refill missile amount and update HUD
         currMissiles += rechargeAmount;
         if (currMissiles > maxMissiles)
         {
@@ -154,6 +160,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void UpgradeMissiles()
     {
+        // Increase max missiles and update HUD
         maxMissiles += 5;
         currMissiles = maxMissiles;
         HUD.UpdateAmmo(currMissiles, maxMissiles);
@@ -161,23 +168,27 @@ public class PlayerCombat : MonoBehaviour
 
     public int GetMissiles()
     { 
+        // Used by save controller for saving player data
         return currMissiles; 
     }
 
     public int GetMaxMissiles()
     {
+        // Used by save controller for saving player data
         return maxMissiles;
     }
 
 
     public void RefreshState()
     {
+        // Refresh values to be consistent with save data
         currMissiles = saveController.playerData.currMissiles;
         maxMissiles = saveController.playerData.maxMissiles;
     }
 
     public void DecrementBomb()
     {
+        // Used when a bomb detonates, so we can place more
         currBombs--;
     }
 }

@@ -6,35 +6,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float movementSpeed;
-    [SerializeField] float jumpForce;
-
-    public GameObject groundBoxCheck;
-    public LayerMask groundLayer;
-
-    private Rigidbody2D rb;
-    private Animator anim;
-    private bool isGrounded;
-
-    private bool canMove;
-    [SerializeField] float hitForce;
-    [SerializeField] float hitstun;
-
-    private bool canDoubleJump;
-
-    [SerializeField] RuntimeAnimatorController ballAnimController;
-    [SerializeField] BoxCollider2D ballCollider, standingCollider;
-    private RuntimeAnimatorController standingAnimController;
-    [SerializeField] GameObject ballGroundBoxCheck, ballCeilingBoxCheck;
-
-    private Unlocks unlocked;
-
-    private bool impactPlayed;
-
-    [SerializeField] private float bombImpulseStrength;
+    [SerializeField] float movementSpeed;           // Player movement speed
+    [SerializeField] float jumpForce;               // Force of which the player jumps with
+    public GameObject groundBoxCheck;               // Used to check if the player is grounded
+    public LayerMask groundLayer;                   // Used to differentiate the ground layer which is standable
+    private Rigidbody2D rb;                         // Used to apply velocity changes
+    private Animator anim;                          // Used to change player animation from movement
+    private bool isGrounded;                        // Reference if we are currently touching the ground
+    private bool canMove;                           // The player movement can be disabled when they have taken damage knockback
+    [SerializeField] float hitForce;                // The amount of knockback the player experiences when taking damage
+    [SerializeField] float hitstun;                 // The amount of hitstun from taking damage
+    private bool canDoubleJump;                     // Reference if the player has the double jump ability
+    [SerializeField] RuntimeAnimatorController ballAnimController;          // The ball-state animation controller
+    [SerializeField] BoxCollider2D ballCollider, standingCollider;          // The player standing and ball colliders
+    private RuntimeAnimatorController standingAnimController;               // The standing-state anim controller
+    [SerializeField] GameObject ballGroundBoxCheck, ballCeilingBoxCheck;    // Checks for jumping in ball mode and exiting ball mode
+    private Unlocks unlocked;                       // The current player unlocked abilities
+    private bool impactPlayed;                      // Reference if we have played a ground impact noise from landing
+    [SerializeField] private float bombImpulseStrength;                     // Amount of force a bomb applies to the player in ball mode
 
     void Start()
     {
+        // Initialize values
         rb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         standingAnimController = anim.runtimeAnimatorController;
@@ -46,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove && Time.timeScale > 0f)
         {
-            // Control standing/ball state
+            // Control transition between standing/ball state
             if (unlocked.Ball())
             {
                 float verticalVector = Input.GetAxisRaw("Vertical");
@@ -151,14 +144,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Use a public getter attached to this script so the coroutine is run on the player object and persists through loads
+    
     public void launchPlayer(Vector3 hitPosition)
     {
+        // Start the launch sequence from taking damage
         StartCoroutine(Launch(hitPosition));
     }
 
     private IEnumerator Launch(Vector3 hitPoition)
     {
+        // Launch the player
         canMove = false;
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(Mathf.Sign(transform.position.x - hitPoition.x), 1)* hitForce, ForceMode2D.Impulse); 
@@ -167,9 +162,9 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
     }
 
-    // Reset some values when we load the menu/respawn
     private void OnDisable()
     {
+        // Reset some values when we load the menu/respawn
         canMove = true;
         anim.runtimeAnimatorController = standingAnimController;
         ballCollider.enabled = false;
@@ -177,19 +172,21 @@ public class PlayerMovement : MonoBehaviour
         gameObject.transform.localScale = Vector3.one;
     }
 
-    // Return player state
     public bool IsStanding()
     {
+        // Return player state for combat controller 
         return standingCollider.enabled;
     }
 
     private void PlayFootstepAudio()
     {
+        // Played by syncing with animation
         AudioManager.instance.PlayAdjustedSFX("PlayerMovement", 0, 0.1f);
     }
 
     public void BombImpulse()
     {
+        // Launch the player if in ball mode
         if (standingCollider.enabled == false)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0f);

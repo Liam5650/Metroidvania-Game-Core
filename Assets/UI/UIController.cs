@@ -11,30 +11,29 @@ using Unity.VisualScripting;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject pauseScreen;
-    [SerializeField] GameObject mainMenuScreen;
-    [SerializeField] GameObject hud;
-    [SerializeField] GameObject player;
-    [SerializeField] Image fadeScreen;
-    [SerializeField] float fadeTime;
-    [SerializeField] float fadeHoldTime;
-    [SerializeField] float roomTransitionDamping;
-    [SerializeField] float menuFadeTime;
-    [SerializeField] float menuFadeHoldTime;
-    [SerializeField] Button continueButton;
-    [SerializeField] string roomToDebug;
-    private bool isPaused;
-    private bool inTransition;
-    [SerializeField] GameObject messageScreen;
-    [SerializeField] TextMeshProUGUI messageText;
-    private SaveController saveController;
-    [SerializeField] private GameObject mapScreen;
-    private bool viewingMap;
-    [SerializeField] private MapController mapController;
-    public static UIController instance;
-
-    [SerializeField] private GameObject ConfirmMenuScreen;
-    [SerializeField] private GameObject ConfirmNewGameScreen;
+    [SerializeField] GameObject pauseScreen;                    // The pause screen UI
+    [SerializeField] GameObject mainMenuScreen;                 // Main menu UI
+    [SerializeField] GameObject hud;                            // HUD UI
+    [SerializeField] GameObject player;                         // The player gameobject to enable/disable, position at start of game, etc.
+    [SerializeField] Image fadeScreen;                          // The blackscreen to fade in between transitions
+    [SerializeField] float fadeTime;                            // Time to fade in/out the blackscreen
+    [SerializeField] float fadeHoldTime;                        // Time to wait when fully faded for transitions to occur
+    [SerializeField] float roomTransitionDamping;               // Speed at which the camera transitions to the new camera bounds
+    [SerializeField] float menuFadeTime;                        // Time for the menu to fade out when loading game
+    [SerializeField] float menuFadeHoldTime;                    // Time the menu stays faded before the game is entered
+    [SerializeField] Button continueButton;                     // Button to hanle continuing a game
+    [SerializeField] string roomToDebug;                        // Room name to teleport player to to debug
+    private bool isPaused;                                      // Reference if the player has paused the game
+    private bool inTransition;                                  // Reference if we are in a scene transition
+    [SerializeField] GameObject messageScreen;                  // Message screen UI
+    [SerializeField] TextMeshProUGUI messageText;               // Text to display on message screen
+    private SaveController saveController;                      // Reference to save controller for checking for or erasing data 
+    [SerializeField] private GameObject mapScreen;              // Map screen UI
+    private bool viewingMap;                                    // Reference if we are viewing the map
+    [SerializeField] private MapController mapController;       // Used to tell the map script we would like to view it
+    public static UIController instance;                        // Instance used for easy access by other scripts
+    [SerializeField] private GameObject ConfirmMenuScreen;      // Confirm menu screen UI
+    [SerializeField] private GameObject ConfirmNewGameScreen;   // Confirm new game screen UI
 
     private void Awake()
     {
@@ -48,15 +47,14 @@ public class UIController : MonoBehaviour
 
         saveController = gameObject.GetComponent<SaveController>();
 
-        // Enable continue button if we have save data
+        // Enable continue button if we have save data, and play main menu music
         SetContinueButton(saveController.HasSave());
-
         AudioManager.instance.PlayMusic(0);
     }
 
     void Update()
     {
-        // Disable input under certain conditions
+        // Disable input under certain conditions such as a scene transition, or handle otherwise if we are on the pause screen or map screen
         if (!inTransition && SceneManager.GetActiveScene().name != "MainMenu" && !messageScreen.activeSelf)
         {
             // Pause Menu input handling
@@ -105,9 +103,9 @@ public class UIController : MonoBehaviour
         }
     }
 
-    // Public getter as UI controller persists through scene loads
     public void LoadRoom (string sceneName)
     {
+        // Start a transition to a new room
         StartCoroutine(RoomTransition(sceneName, fadeTime, fadeHoldTime));
     }
   
@@ -144,6 +142,7 @@ public class UIController : MonoBehaviour
     }
     public void OpenConfirmMenuScreen()
     {
+        // Opens the confirm menu UI
         AudioManager.instance.PlaySFX("UI", 3);
         pauseScreen.SetActive(false);
         ConfirmMenuScreen.SetActive(true);
@@ -151,6 +150,7 @@ public class UIController : MonoBehaviour
 
     public void CloseConfirmMenuScreen()
     {
+        // Closes the confirm menu UI
         AudioManager.instance.PlaySFX("UI", 3);
         pauseScreen.SetActive(true);
         ConfirmMenuScreen.SetActive(false);
@@ -158,6 +158,7 @@ public class UIController : MonoBehaviour
 
     public void LoadMenu(bool playSFX = true)
     {
+        // Load the to the main menu scene
         if (playSFX) AudioManager.instance.PlaySFX("UI", 0);
         StartCoroutine(TransitionToMenu(menuFadeTime, menuFadeHoldTime));
         isPaused = false;
@@ -196,6 +197,7 @@ public class UIController : MonoBehaviour
     }
     public void OpenNewGameScreen()
     {
+        // Open the new game screen if we have save data to confirm if we want to delete, otherwise just start new game
         if (saveController.HasSave())
         {
             AudioManager.instance.PlaySFX("UI", 3);
@@ -210,6 +212,7 @@ public class UIController : MonoBehaviour
 
     public void CloseNewGameScreen()
     {
+        // Close the new game screen UI
         AudioManager.instance.PlaySFX("UI", 3);
         mainMenuScreen.SetActive(true);
         ConfirmNewGameScreen.SetActive(false);
@@ -217,6 +220,7 @@ public class UIController : MonoBehaviour
 
     public void NewGame()
     {
+        // Initializes a new game
         AudioManager.instance.PlaySFX("UI", 0);
         saveController.ClearSave();
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
@@ -224,6 +228,7 @@ public class UIController : MonoBehaviour
 
     public void Continue()
     {
+        // Continues a previously saved game
         AudioManager.instance.PlaySFX("UI", 0);
         saveController.LoadSave();
         StartCoroutine(TransitionFromMenu(saveController.playerData.roomName, menuFadeTime, menuFadeHoldTime));
@@ -263,6 +268,7 @@ public class UIController : MonoBehaviour
 
     public IEnumerator FadeTransition(string direction, float fadeTime)
     {
+        // Use a black screen to make scene transitions more visually consistent
         float timeWaited = 0f;
         if (direction == "in")
         {
@@ -288,6 +294,7 @@ public class UIController : MonoBehaviour
 
     public void MarkTransition(bool value)
     { 
+        // Mark that we are in a scene transition so other input can't be given
         if (value == true)
         {
             inTransition = true;
@@ -304,6 +311,7 @@ public class UIController : MonoBehaviour
 
     public void ResumePlay()
     {
+        // Used to start simulating gameplay again after exiting a pause screen, map etc. 
         AudioManager.instance.PlaySFX("UI", 2);
         AudioManager.instance.SetMusicVolume(1f);
         Time.timeScale = 1f;
@@ -313,6 +321,7 @@ public class UIController : MonoBehaviour
 
     public void QuitGame()
     {
+        // Quit the application
         AudioManager.instance.PlaySFX("UI", 0);
         Debug.Log("Application Quit");
         Application.Quit();
@@ -320,15 +329,18 @@ public class UIController : MonoBehaviour
 
     public void DebugRoom()
     {
+        // Load to the specified debug room
         AudioManager.instance.PlaySFX("UI", 0);
         if (roomToDebug!= null)
         {
+            saveController.LoadSave();
             StartCoroutine(DebugTransition());
         }
     }
 
     private IEnumerator DebugTransition()
     {
+        // Load the debug room and place the player in the middle of the room
         yield return StartCoroutine(TransitionFromMenu(roomToDebug, menuFadeTime, menuFadeHoldTime));
         player.transform.position = new Vector3(hud.transform.position.x, hud.transform.position.y, 0);
     }
@@ -336,11 +348,13 @@ public class UIController : MonoBehaviour
 
     public void DisplayMessage(string message, float displayTime = 2)
     {
+        // Start the message UI display coroutine
         StartCoroutine(DisplayMessageCoroutine(message, displayTime));
     }
 
     private IEnumerator DisplayMessageCoroutine(string message, float displayTime = 2)
     {
+        // Display the message
         Time.timeScale = 0f;
         messageText.text = message;
         messageScreen.gameObject.SetActive(true);
@@ -351,6 +365,7 @@ public class UIController : MonoBehaviour
 
     public void SetContinueButton(bool value)
     {
+        // Enable or disable the continue button in the main meny depending on whether or not we have save data
         if (value == true)
         {
             continueButton.interactable = true;
