@@ -6,9 +6,10 @@ using System.Security.Cryptography;
 
 public class SaveController : MonoBehaviour
 {
-    public PlayerData playerData;           // Class that stores all information needed about the player and game state
-    private string json;                    // The JSON string containing the save data
-    public static SaveController instance;  // Create instance so other scripts can easily access player data
+    public PlayerData playerData;                           // Class that stores all information needed about the player and game state
+    private string json;                                    // The JSON string containing the save data
+    public static SaveController instance;                  // Create instance so other scripts can easily access player data
+    [SerializeField] private bool usePlayerPrefs = true;    // Used to toggle between saving player data as a JSON string in PlayerPrefs, vs as a file
 
     private void Awake()
     {
@@ -24,14 +25,28 @@ public class SaveController : MonoBehaviour
     void Start()
     {
         // Initialize player data
-        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
+        if (!usePlayerPrefs)
         {
-            json = File.ReadAllText(Application.dataPath + "/saveFile.json");
-            playerData = JsonUtility.FromJson<PlayerData>(json);
+            if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
+            {
+                json = File.ReadAllText(Application.dataPath + "/saveFile.json");
+                playerData = JsonUtility.FromJson<PlayerData>(json);
+            }
+            else
+            {
+                playerData = new PlayerData();
+            }
         }
         else
         {
-            playerData = new PlayerData();
+            if (PlayerPrefs.HasKey("Data"))
+            {
+                json = PlayerPrefs.GetString("Data");
+            }
+            else
+            {
+                playerData = new PlayerData();
+            }
         }
     }
 
@@ -58,23 +73,24 @@ public class SaveController : MonoBehaviour
     { 
         // Save the player data to a JSON
         json = JsonUtility.ToJson(playerData);
-        File.WriteAllText(Application.dataPath + "/saveFile.json", json);
+        if (!usePlayerPrefs) File.WriteAllText(Application.dataPath + "/saveFile.json", json);
+        else PlayerPrefs.SetString("Data", json);
         UIController.instance.SetContinueButton(true);
     }
 
     public bool HasSave()
     {
         // Check for save data
-        return System.IO.File.Exists(Application.dataPath + "/saveFile.json");
+        if (!usePlayerPrefs) return System.IO.File.Exists(Application.dataPath + "/saveFile.json");
+        else return PlayerPrefs.HasKey("Data");
     }
 
     public void ClearSave()
     {
         // Delete save data and reinitialize
-        if (System.IO.File.Exists(Application.dataPath + "/saveFile.json"))
-        {
-            System.IO.File.Delete(Application.dataPath + "/saveFile.json");
-        }
+        if (!usePlayerPrefs && System.IO.File.Exists(Application.dataPath + "/saveFile.json")) System.IO.File.Delete(Application.dataPath + "/saveFile.json");
+        else if (PlayerPrefs.HasKey("Data")) PlayerPrefs.DeleteKey("Data");
+
         playerData = new PlayerData();
         UIController.instance.SetContinueButton(false);
     }
@@ -84,7 +100,8 @@ public class SaveController : MonoBehaviour
         // Load the player save data
         if (HasSave())
         {
-            json = File.ReadAllText(Application.dataPath + "/saveFile.json");
+            if (!usePlayerPrefs) json = File.ReadAllText(Application.dataPath + "/saveFile.json");
+            else json = PlayerPrefs.GetString("Data");
             playerData = JsonUtility.FromJson<PlayerData>(json);
         }
         else

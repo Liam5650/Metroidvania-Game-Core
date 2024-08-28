@@ -47,8 +47,16 @@ public class UIController : MonoBehaviour
 
         saveController = gameObject.GetComponent<SaveController>();
 
-        // Enable continue button if we have save data, and play main menu music
+        // Enable continue button if we have save data
         SetContinueButton(saveController.HasSave());
+
+        // Set target framerate
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+    }
+    void Start()
+    {
+        // Play menu music
         AudioManager.instance.PlayMusic(0);
     }
 

@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.IO.IsolatedStorage;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
