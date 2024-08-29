@@ -1,6 +1,6 @@
 # Metroidvania Game Core
 
-![alt text](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/ReadMeImages/DemoImage.jpg)
+![alt text](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/DemoImage.jpg)
 
 Metroidvania Game Core is a comprehensive game framework designed to provide an accessible way to create Metroidvania-style games in Unity. A web demo is [available on itch.io](https://liam5650.itch.io/metroidvania-demo) and highlights many of the framework's key features. 
 
