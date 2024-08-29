@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Handle horizontal component
                 float horizontalVector = Input.GetAxisRaw("Horizontal");
-                rb.velocity = new Vector2(horizontalVector * movementSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(horizontalVector * (movementSpeed + 1f), rb.velocity.y);
                 if (Mathf.Abs(horizontalVector) > 0.01)
                 {
                     anim.SetBool("isRunning", true);
@@ -123,19 +123,23 @@ public class PlayerMovement : MonoBehaviour
 
                 // Handle vertical movement
                 isGrounded = Physics2D.OverlapBox(ballGroundBoxCheck.transform.position, ballGroundBoxCheck.GetComponent<SpriteRenderer>().bounds.size, 0f, groundLayer);
-                if (isGrounded && !impactPlayed)
+                if (isGrounded && rb.velocity.y < 0.01f)
                 {
-                    AudioManager.instance.PlaySFX("PlayerMovement", 3);
-                    impactPlayed = true;
+                    if (!impactPlayed)
+                    {
+                        AudioManager.instance.PlaySFX("PlayerMovement", 3);
+                        impactPlayed = true;
+                    }
+                    canDoubleJump = true;
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        AudioManager.instance.PlaySFX("PlayerMovement", 1);
+                    }
                 }
-                else if (!isGrounded)
+                else
                 {
                     impactPlayed= false;
-                }
-                if (isGrounded && rb.velocity.y < 0.01f && Input.GetButtonDown("Jump"))
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    AudioManager.instance.PlaySFX("PlayerMovement", 1);
                 }
             }
         }
