@@ -24,5 +24,34 @@ To make a room, simply create a new scene and add the "CameraBounds" prefab from
 
 ### CameraBounds
 
-This prefab sets the bounds of the camera for the room. You can think of it as the active play area for the player. The size of the bounds by default is the same 40 x 22.5 units as one cell in the world grid. This allows for easy alignment of the bounds with the grid by adjusting the x and y position of its transform. To create a bigger room, you can simply set a multiple for the prefab's transform x or y scale. Here is an example use and explanation:
+This prefab sets the bounds of the camera for the room. You can think of it as the active play area for the player. The size of the bounds by default is the same 40 x 22.5 units as one cell in the world grid. This allows for easy alignment of the bounds with the grid by adjusting the x and y positions of its transform. To create a bigger room, you can simply set a multiple for the prefab's transform x or y scale. Here is a more detailed explanation:
 
+![CameraBounds1](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/CameraBounds1.jpg)
+
+This is the spawn room of the player. The camera bounds position is bottom-left aligned, so its transform's position is at 0,0 (x,y). The x scale has been increased to two, which gives us 2 x 1 cells of space. 
+
+![CameraBounds2](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/CameraBounds2.jpg)
+
+This is the room immediately to the right of the spawn room. The scale of the camera bounds has been set to 1 x 5 to give more verticality. Since we want the bounds to start two cells to the right and one below the spawn room, we set the x position to 80 (2 x 40), and the y position to -22.5 (-1 * 22.5). Using this placement technique based on the dimensions of one cell makes it easy to ensure proper alignment between rooms. 
+
+### Interactable Grid
+
+The "Interactable Grid" prefab is for placing physical tiles that the player interacts with, and is used for creating ground, walls, platforms, etc. 
+
+![Grid](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/Grid.jpg)
+
+To add tiles, make sure the grid is selected, click on the "Tile Palette" tab, and then you can begin painting. You can click on the dropdown where "Tileset" is specified, and change it to "Objects" for even more tile variety. 
+
+The "Environment" folder also contains a "Background Grid" and a "Detail Grid" that you can add to a room if you wish to do so. These are tilemap grids that do not have any interaction with the player, and are used for detailing. "Interactable Grid" always appears on top of the other two, and "Detail Grid" appears on top of "Background Grid". Make sure you click on the tilemap you would like to edit before adding tiles, otherwise you may unknowingly be adding tiles to the wrong one. The "Effects/Atmospheric" folder within the "Environment" folder contains some premade particle systems you can add as well to increase detail. 
+
+### Room Transitions
+
+### Map UI
+
+### Pickups
+
+### Saving
+
+### Player 
+
+### Enemies
