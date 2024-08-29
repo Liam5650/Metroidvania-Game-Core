@@ -1,6 +1,6 @@
 # Metroidvania Game Core
 
-![alt text](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/ReadMeImages/DemoImage.jpg)
+![DemoImage](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/DemoImage.jpg)
 
 Metroidvania Game Core is a comprehensive game framework designed to provide an accessible way to create Metroidvania-style games in Unity. A web demo is [available on itch.io](https://liam5650.itch.io/metroidvania-demo) and highlights many of the framework's key features. 
 
@@ -14,4 +14,15 @@ Simply click on the green "Code" button at the top-right of the project's main p
 
 ## Usage
 
-Section in progress
+The map is structured so that individual rooms are made up of cells on a grid, as seen here:
+
+![MapStructure](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/MapStructure.jpg)
+
+Each cell measures 40 by 22.5 x/y units, which was chosen to fit a 16:9 aspect ratio that is common on many displays while also allowing for adequate space to add tiles (each tile measures 1x1). When creating rooms, you can right click on the scene titled "World Grid" and select "Open Scene Additive" to help make sure everything is aligned as expected.
+
+To make a room, simply create a new scene and add the "CameraBounds" prefab from the "Camera" folder, and the "Interactable Grid" prefab from the "Environment folder. Some basic information about each prefab:
+
+### CameraBounds
+
+This prefab sets the bounds of the camera for the room. You can think of it as the active play area for the player. The size of the bounds by default is the same 40 x 22.5 units as one cell in the world grid. This allows for easy alignment of the bounds with the grid by adjusting the x and y position of its transform. To create a bigger room, you can simply set a multiple for the prefab's transform x or y scale. Here is an example use and explanation:
+
