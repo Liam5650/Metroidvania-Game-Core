@@ -42,7 +42,7 @@ The "Interactable Grid" prefab is for placing physical tiles that the player int
 
 To add tiles, make sure the grid is selected, click on the "Tile Palette" tab, and then you can begin painting. You can click on the dropdown where "Tileset" is specified, and change it to "Objects" for even more tile variety. 
 
-The "Environment" folder also contains a "Background Grid" and a "Detail Grid" that you can add to a room if you wish to do so. These are tilemap grids that do not have any interaction with the player, and are used for detailing. "Interactable Grid" always appears on top of the other two, and "Detail Grid" appears on top of "Background Grid". Make sure you click on the tilemap you would like to edit before adding tiles, otherwise you may unknowingly be adding tiles to the wrong one. The "Effects/Atmospheric" folder within the "Environment" folder contains some premade particle systems you can add as well to increase detail. 
+The "Environment" folder also contains a "Background Grid" and a "Detail Grid" that you can add to a room if you wish to do so. These are tilemap grids that do not have any interaction with the player, and are used for detailing. "Interactable Grid" always appears on top of the other two, and "Detail Grid" appears on top of "Background Grid". Make sure you click on the tilemap you would like to edit before adding tiles, otherwise you may unknowingly be adding tiles to the wrong one. The "Effects/Atmospheric" folder within the "Environment" folder contains some premade particle systems called "World Particles" and "Cave Particles" you can add as well to further increase room detail. The emission rates of particles and emission shapes can also be easily adjusted to match the size of the room.
 
 ### Room Transitions
 
