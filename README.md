@@ -53,6 +53,8 @@ Transitioning between rooms / scenes is handled using a prefab named "SceneTrans
 
 ![RoomTransition](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/RoomTransition.jpg)
 
+## Sections to be Added:
+
 ### Map UI
 
 ### Pickups
