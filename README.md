@@ -53,13 +53,25 @@ Transitioning between rooms / scenes is handled using a prefab named "SceneTrans
 
 ![RoomTransition](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/RoomTransition.jpg)
 
-## Sections to be Added:
-
 ### Map UI
+
+To edit the world map UI, open the "Map Test" scene and open the "World Map" prefab. The overall structure is as follows:
+
+![WorldMap](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/WorldMap.jpg)
+
+Each cell in the map grid is equivalent to a cell in the world grid, i.e., the 1 x 1 cells map to 40 x 22.5 x/y world coordinates. This allows the map script to easily keep track of the position of the player in the world and color cells on the map to show that they have been visited using the "Room Visited Fill" tilemap. The "Room Default Fill" tilemap can be manually painted in using the "map" tile palette as seen on the right side of the image, and represents the rooms that make up the world. The "Outline Grid" is used to show connections between rooms, walls, etc. The color of any of these tilemaps can also be modified by changing the "Color" field on the tilemap in the inspector. 
 
 ### Pickups
 
+A variety of pickups are included, including "Upgrades" that unlock player abilities, "Missile-Tanks" that increase the player's max missile count, and "E-Tanks" that increase the player's max health by 100 units. These can be placed anywhere in the world, and are triggered upon contact with the player. Each contains an "Upgrade ID" field, which allows the pickup to be uniquely identified by the save controller and ensures that it deactivates upon pickup. The "Upgrade" prefab contains additional toggles on its script that allow you to easily change what upgrade it unlocks. There is also an "Ammo Pickup" and "Health Pickup" prefab, which are dropped upon defeating enemies and restore the player's ammo and health by a small amount that can be set on their respective scripts. 
+
 ### Saving
+
+To allow the player to save the game, place the "Save Station" prefab from the "Environment/Save Points" folder anywhere in the world. The upper platform will begin to depress when the player stands on it, and will trigger a save to be made once it is fully depressed. The save data contains a variety of information in regards to player state, as well as lists that hold the state of various upgrade / event identifiers set using their respective "Upgrade ID" / "Event ID" fields on the objects. It is important to make sure each pickup / event uses a unique integer for its "ID" field, as each integer maps to only a single position in the coressponding array. A value of 0 at an index means that the object has not been collected / triggered, whereas a value of 1 means it has. Here is a closer look at everything that the "PlayerData" class contains:
+
+![SaveData](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/SaveData.jpg)
+
+## Sections to be Added:
 
 ### Player 
 
