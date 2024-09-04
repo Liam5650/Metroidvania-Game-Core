@@ -69,12 +69,14 @@ A variety of pickups are included, including "Upgrades" that unlock player abili
 
 ### Saving
 
-To allow the player to save the game, place the "Save Station" prefab from the "Environment/Save Points" folder anywhere in the world. The upper platform will begin to depress when the player stands on it, and will trigger a save to be made once it is fully depressed. The save data contains a variety of information in regards to player state, as well as lists that hold the state of various upgrade / event identifiers set using their respective "Upgrade ID" / "Event ID" fields on the objects. It is important to make sure each pickup / event uses a unique integer for its "ID" field, as each integer maps to only a single position in the coressponding array. A value of 0 at an index means that the object has not been collected / triggered, whereas a value of 1 means it has. Here is a closer look at everything that the "PlayerData" class contains:
+To allow the player to save the game, place the "Save Station" prefab from the "Environment/Save Points" folder anywhere in the world. The upper platform will begin to depress when the player stands on it, and will trigger a save to be made once it is fully depressed. The save data contains a variety of information in regards to player state, as well as lists that hold the state of various upgrade / event identifiers set using their respective "Upgrade ID" / "Event ID" fields on the objects. It is important to make sure each pickup / event uses a unique integer in a range from 0 to the size of the array for its "ID" field, as each integer maps to only a single position in the coressponding array. A value of 0 at an index means that the object has not been collected / triggered, whereas a value of 1 means it has. Here is a closer look at everything that the "PlayerData" class contains:
 
 ![SaveData](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/SaveData.jpg)
 
-## Sections to be Added:
-
 ### Player 
 
+The "Player" prefab contains four script components with modifiable fields to easily adjust gameplay. The "Player Combat" script handles everything combat-related, such as the player beam / missile / bomb to fire. The "Player Health" script handles things such as tracking player health and allows you to modify the duration of which the player is briefly invincible after taking damage. The "Player Movement" script contains numerous values that can be changed to adjust the gameplay fluidity and feel. Finally, the "Unlocks" script tracks what abilities the player currently has access to. 
+
 ### Enemies
+
+The project includes two basic enemy types in the "Characters/Enemies" folder. The "Drifter" is a flying enemy that slowly tracks and tries to hit the player once within a certain distance. The "Walker" enemy patrols on the ground, and its prefab contains two child transforms that you can move and serve as the waypoints that it moves between. There is also a more advanced enemy type named "Boss Gunner", which alternates between shooting at and charging at the player.
