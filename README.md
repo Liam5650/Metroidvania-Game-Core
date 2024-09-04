@@ -12,7 +12,7 @@ This framework features a variety of essential Metroidvania gameplay mechanics, 
 
 Simply click on the green "Code" button at the top-right of the project's main page, and select "Download ZIP". Unzip the file, open Unity Hub and click "Add", then navigate to and select the project folder. If you are prompted that the project was made using a different version of Unity, you can download editor version 2021.3.14.f1 to ensure compatibility. Later editor versions are likely to work without issue as well, but have not been tested. 
 
-## Usage
+## Basic Usage and Room Components
 
 The map is structured so that individual rooms are made up of cells on a grid, as seen here:
 
@@ -44,7 +44,14 @@ To add tiles, make sure the grid is selected, click on the "Tile Palette" tab, a
 
 The "Environment" folder also contains a "Background Grid" and a "Detail Grid" that you can add to a room if you wish to do so. These are tilemap grids that do not have any interaction with the player, and are used for detailing. "Interactable Grid" always appears on top of the other two, and "Detail Grid" appears on top of "Background Grid". Make sure you click on the tilemap you would like to edit before adding tiles, otherwise you may unknowingly be adding tiles to the wrong one. The "Effects/Atmospheric" folder within the "Environment" folder contains some premade particle systems called "World Particles" and "Cave Particles" you can add as well to further increase room detail. The emission rates of particles and emission shapes can also be easily adjusted to match the size of the room.
 
+
+## Additional Components
+
 ### Room Transitions
+
+Transitioning between rooms / scenes is handled using a prefab named "SceneTransition" that employs a trigger area that loads a new scene when entered by the player. It can be found in the "Environment/Doors" folder. To use it, position it within a room, and enter the name of the room you would like to transition to on its "Door Transition" script in the "Room To Load" field. I recommend adjusting its transform's position to be 1 - 1.25 units beyond the edge of the bounds of the camera, as this makes the transition appear smoother as it occurs as soon as the player is off of the screen. For example, if the camera bounds end at 80 units in the x axis, set the x position of the SceneTransition transform to 81 - 81.25 units. Here is an example image with the trigger area highlighted in white to show placement relative to the bounds of the camera: 
+
+![RoomTransition](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/RoomTransition.jpg)
 
 ### Map UI
 
