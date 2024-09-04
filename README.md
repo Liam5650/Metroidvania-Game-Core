@@ -44,7 +44,6 @@ To add tiles, make sure the grid is selected, click on the "Tile Palette" tab, a
 
 The "Environment" folder also contains a "Background Grid" and a "Detail Grid" that you can add to a room if you wish to do so. These are tilemap grids that do not have any interaction with the player, and are used for detailing. "Interactable Grid" always appears on top of the other two, and "Detail Grid" appears on top of "Background Grid". Make sure you click on the tilemap you would like to edit before adding tiles, otherwise you may unknowingly be adding tiles to the wrong one. The "Effects/Atmospheric" folder within the "Environment" folder contains some premade particle systems called "World Particles" and "Cave Particles" you can add as well to further increase room detail. The emission rates of particles and emission shapes can also be easily adjusted to match the size of the room.
 
-
 ## Additional Components
 
 ### Room Transitions
@@ -72,6 +71,8 @@ A variety of pickups are included, including "Upgrades" that unlock player abili
 To allow the player to save the game, place the "Save Station" prefab from the "Environment/Save Points" folder anywhere in the world. The upper platform will begin to depress when the player stands on it, and will trigger a save to be made once it is fully depressed. The save data contains a variety of information in regards to player state, as well as lists that hold the state of various upgrade / event identifiers set using their respective "Upgrade ID" / "Event ID" fields on the objects. It is important to make sure each pickup / event uses a unique integer in a range from 0 to the size of the array for its "ID" field, as each integer maps to only a single position in the coressponding array. A value of 0 at an index means that the object has not been collected / triggered, whereas a value of 1 means it has. Here is a closer look at everything that the "PlayerData" class contains:
 
 ![SaveData](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/SaveData.jpg)
+
+When starting a new game, the player loads into the room specified by the "roomName" string (by default, this is set to "Room1"), and at the position specified by "playerPosition (by default, x=27, y=9, z=0). Make sure to set these appropriately if your initial room name or player position is different.
 
 ### Player 
 
