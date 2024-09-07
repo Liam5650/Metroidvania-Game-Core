@@ -10,6 +10,7 @@ public class Beam : MonoBehaviour
     [SerializeField] GameObject hitEffect;      // The effect spawned when the beam hits something
     private Rigidbody2D rb;                     // Used to control the velocity of the beam
     [SerializeField] private int hitSFXIndex;   // SFX to be played upon hit
+    private bool hitEffectPlayed = false;       // Make sure the hit effect is only played once if it collides with two objects at the same time
 
     public void Fire(float direction)
     {
@@ -26,8 +27,13 @@ public class Beam : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(beamDamage);
         }
-        Instantiate(hitEffect, transform.position, Quaternion.identity);
-        AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);
+
+        if (!hitEffectPlayed)
+        {
+            Instantiate(hitEffect, transform.position, Quaternion.identity);
+            AudioManager.instance.PlayAdjustedSFX("PlayerCombat", hitSFXIndex, 0.05f);
+            hitEffectPlayed = true;
+        }
 
         // Detach the particle system trail effect if the beam has one, so we can destroy after the particles have dissappeared
         if (transform.childCount > 0)

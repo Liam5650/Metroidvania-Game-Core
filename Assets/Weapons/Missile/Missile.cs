@@ -14,6 +14,7 @@ public class Missile : MonoBehaviour
     private Rigidbody2D rb;                     // Reference for handling the velocity changes
     private float currentVelocity;              // Current missile velocity
     private float fireDirection;                // Used to align fire direction with player
+    private bool hitEffectPlayed;               // Make sure the hit effect is only played once if it collides with two objects at the same time
 
     void Update()
     {
@@ -47,9 +48,10 @@ public class Missile : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(missileDamage);
         }
-        if (hitEffect!= null)
+        if (hitEffect!= null && !hitEffectPlayed)
         {
             Instantiate(hitEffect, transform.position, Quaternion.identity);
+            hitEffectPlayed = true;
         }
         AudioManager.instance.PlayAdjustedSFX("PlayerCombat", 6, 0.05f);
         Destroy(gameObject);
