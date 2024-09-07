@@ -80,4 +80,4 @@ The "Player" prefab contains four script components with modifiable fields to ea
 
 ### Enemies
 
-The project includes two basic enemy types in the "Characters/Enemies" folder. The "Drifter" is a flying enemy that slowly tracks and tries to hit the player once within a certain distance. The "Walker" enemy patrols on the ground, and its prefab contains two child transforms that you can move and serve as the waypoints that it moves between. There is also a more advanced enemy type named "Boss Gunner", which alternates between shooting at and charging at the player.
+The project includes two basic enemy types in the "Characters/Enemies" folder. The "Drifter" is a flying enemy that slowly tracks and tries to hit the player once within a certain distance. The "Walker" enemy patrols on the ground, and its prefab contains two child transforms that you can position and serve as the waypoints that it moves between. There is also a more advanced enemy type named "Boss Gunner", which alternates between shooting at and charging at the player.
