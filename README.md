@@ -72,7 +72,7 @@ To allow the player to save the game, place the "Save Station" prefab from the "
 
 ![SaveData](https://github.com/Liam5650/Metroidvania-Game-Core/blob/main/READMEImages/SaveData.jpg)
 
-When starting a new game, the player loads into the room specified by the "roomName" string (by default, this is set to "Room1"), and at the position specified by "playerPosition (by default, x=27, y=9, z=0). Make sure to set these appropriately if your initial room name or player position is different.
+When starting a new game, the player loads into the room specified by the "roomName" string (by default, this is set to "Room1"), and at the position specified by "playerPosition" (by default, x=27, y=9, z=0). Make sure to set these appropriately if your initial room name or player position is different.
 
 ### Player 
 
